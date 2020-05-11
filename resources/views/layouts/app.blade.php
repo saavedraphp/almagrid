@@ -11,9 +11,14 @@
     <title>AdminLTE 3</title>
 
     <!-- Scripts -->
+ 
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
+
+
+
+
 
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -205,7 +210,8 @@
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Usuarios
-                                        <?php use App\User; $users_count = User::all()->count(); ?>
+                                        <?php use App\User;
+$users_count = User::all()->count();?>
                                         <span class="right badge badge-danger">{{ $users_count ?? '0' }}</span>
                                     </p>
                                 </a>
@@ -278,6 +284,7 @@
             <!-- /.control-sidebar -->
         </div>
     </div>
+    @yield('scripts')
 </body>
 
 </html>

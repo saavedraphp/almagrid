@@ -27,6 +27,12 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
-    el: '#app',
-});
+//comentariado LSL
+
+//const app = new Vue({
+  //  el: '#app',
+//});
+
+require('./estado');
+//require('./ciudad');
+

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+
+@inject('paises','App\Services\Paises')
 <div class="container">
 
 <div class="row">
@@ -33,36 +35,41 @@
     <label for="inputAddress">Direccion</label>
     <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="direccion" value="{{old('direccion')}}">
   </div>
- 
+
 
   <div class="form-row">
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-4" id="div_pais">
       <label for="inputCity">Pais</label>
-      <select id="inputState" class="form-control" name="pais">
-        <option value="0" selected >Choose...</option>
-
-        @foreach ($paises as $key => $value)
-          <option value="{{$value->id}}" @if(old('pais')==$value->id) selected @endif>{{$value->pais_nombre}}</option>  
+      <select v-model="selected_pais" id="pais" data-old="{{old('cbo_pais')}}"
+       v-on:change="loadEstados()"   name="cbo_pais"  class="form-control">
+        @foreach ($paises->get() as $index => $pais)
+          <option value="{{$index}}" >{{$pais}}</option>
         @endforeach
-        
       </select>
+
 
     </div>
 
 
     <div class="form-group col-md-4">
       <label for="inputCity">Estado</label>
-       <select id="inputState" class="form-control" name="estado_id">
-        <option selected>Choose...</option>
-        <option>...</option>
+
+       <select v-model="selected_estado" id="estado" data-old="{{old('cbo_estado')}}"  
+       v-on:change="cargarCiudades()" name="cbo_estado" class="form-control" >
+        <option value="">Selecione un Estado</option>
+
+        <option v-for="(estado, index) in estados" v-bind:value="index">@{{estado}}</option>
         </select>
+
     </div>
 
     <div class="form-group col-md-4">
       <label for="inputState">Ciudad</label>
-      <select id="inputState" class="form-control" name="ciudad_id">
-        <option selected>Choose...</option>
-        <option>...</option>
+      <select v-model="selected_ciudad" id="ciudad" data-old="{{old('cbo_ciudad')}}"  
+       name="cbo_ciudad" class="form-control" >
+
+       <option value="">Selecione un Ciudad</option>
+        <option v-for="(ciudad, index) in ciudades" v-bind:value="index">@{{ciudad}}</option>
       </select>
     </div>
   </div>
@@ -94,4 +101,8 @@
 </div>
 </div>
 </div>
+@endsection
+@section('scripts')
+
+
 @endsection
