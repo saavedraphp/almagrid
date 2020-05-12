@@ -2,6 +2,7 @@
 
 @section('content')
 
+@inject('estados','App\Services\Estados')
 @inject('paises','App\Services\Paises')
 <div class="container">
 
@@ -41,9 +42,9 @@
     <div class="form-group col-md-4" id="div_pais">
       <label for="inputCity">Pais</label>
       <select v-model="selected_pais" id="pais" data-old="{{old('cbo_pais')}}"
-       v-on:change="loadEstados()"   name="cbo_pais"  class="form-control">
-        @foreach ($paises->get() as $index => $pais)
-          <option value="{{$index}}" >{{$pais}}</option>
+      @change="loadStates" name="cbo_pais"  class="form-control">
+        @foreach ($paises->get() as $index => $value)
+          <option value="{{$index}}" >{{$value}}</option>
         @endforeach
       </select>
 
@@ -55,21 +56,21 @@
       <label for="inputCity">Estado</label>
 
        <select v-model="selected_estado" id="estado" data-old="{{old('cbo_estado')}}"  
-       v-on:change="cargarCiudades()" name="cbo_estado" class="form-control" >
-        <option value="">Selecione un Estado</option>
-
-        <option v-for="(estado, index) in estados" v-bind:value="index">@{{estado}}</option>
+        name="cbo_estado" class="form-control" >
+        <option value="">Selecciona una carrera</option>
+        <option v-for="(state, index) in states" v-bind:value="index">
+        @{{state}}
         </select>
 
     </div>
 
     <div class="form-group col-md-4">
       <label for="inputState">Ciudad</label>
-      <select v-model="selected_ciudad" id="ciudad" data-old="{{old('cbo_ciudad')}}"  
+      <select  id="ciudad" data-old="{{old('cbo_ciudad')}}"  
        name="cbo_ciudad" class="form-control" >
 
        <option value="">Selecione un Ciudad</option>
-        <option v-for="(ciudad, index) in ciudades" v-bind:value="index">@{{ciudad}}</option>
+       
       </select>
     </div>
   </div>

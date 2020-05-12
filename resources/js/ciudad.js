@@ -8,23 +8,23 @@ const app = new Vue({
 
     mounted(){
 
-        //document.getElementById('ciudad').disabled = true;
+        document.getElementById('ciudad').disabled = true;
         this.selected_estado = document.getElementById('estado').getAttribute('data-old');
         
       
         if(this.selected_estado !='')
         {
-            this.cargarCiudades();
+            this.loadcity();
         }
         
-        this.selected_ciudad2 = document.getElementById('ciudad').getAttribute('data-old');
+        this.selected_ciudad = document.getElementById('ciudad').getAttribute('data-old');
         
     },
 
-     method: {
-        cargarCiudades() {
+     methods: {
+        loadcity() {
 
-            this.selected_ciudad2 ='';
+            this.selected_ciudad ='';
             document.getElementById('ciudad').disabled =true;
 
             if (this.selected_estado !="") {

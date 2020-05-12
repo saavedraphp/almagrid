@@ -22,10 +22,10 @@ class UsuarioController extends Controller
     public function getEstadosByPais(Request $request)
     {
         if ($request->ajax()) {
-            $estados     = Estado::where('estado_pais_id', $request->pais_id)->get();
+            $estados     = Estado::where('pais_id', $request->pais_id)->get();
             $estadoArray = array();
             foreach ($estados as $estado) {
-                $estadoArray[$estado->id] = $estado->estado_nombre;
+                $estadoArray[$estado->id] = $estado->nombre;
             }
 
             return response()->json($estadoArray);

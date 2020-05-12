@@ -49801,7 +49801,9 @@ Vue.component('example-component', __webpack_require__(/*! ./components/ExampleC
 //  el: '#app',
 //});
 
-__webpack_require__(/*! ./estado */ "./resources/js/estado.js"); //require('./ciudad');
+__webpack_require__(/*! ./ciudad */ "./resources/js/ciudad.js");
+
+__webpack_require__(/*! ./estado */ "./resources/js/estado.js");
 
 /***/ }),
 
@@ -49847,6 +49849,60 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/ciudad.js":
+/*!********************************!*\
+  !*** ./resources/js/ciudad.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    selected_estado: '',
+    selected_ciudad: '',
+    ciudades: []
+  },
+
+  /*
+      mounted(){
+  
+          document.getElementById('ciudad').disabled = true;
+          this.selected_estado = document.getElementById('estado').getAttribute('data-old');
+          
+        
+          if(this.selected_estado !='')
+          {
+              this.loadcity();
+          }
+          
+          this.selected_ciudad = document.getElementById('ciudad').getAttribute('data-old');
+          
+      },
+  */
+  methods: {
+    loadcity: function loadcity() {
+      var _this = this;
+
+      this.selected_ciudad = '';
+      document.getElementById('ciudad').disabled = true;
+
+      if (this.selected_estado != "") {
+        axios.get("http://127.0.0.1:80/ciudades/estado", {
+          params: {
+            estado_id: this.selected_estado
+          }
+        }).then(function (response) {
+          _this.ciudades = response.data;
+          document.getElementById('ciudad').disabled = false;
+        });
+      }
+    }
+  }
+});
 
 /***/ }),
 
@@ -49931,20 +49987,20 @@ var app = new Vue({
   data: {
     selected_pais: '',
     selected_estado: '',
-    estados: []
+    states: []
   },
   mounted: function mounted() {
-    //document.getElementById('estado').disabled = true;
+    document.getElementById('estado').disabled = true;
     this.selected_pais = document.getElementById('pais').getAttribute('data-old');
 
     if (this.selected_pais != '') {
-      this.loadEstados();
+      this.loadStates();
     }
 
     this.selected_estado = document.getElementById('estado').getAttribute('data-old');
   },
   methods: {
-    loadEstados: function loadEstados() {
+    loadStates: function loadStates() {
       var _this = this;
 
       this.selected_estado = '';
@@ -49956,7 +50012,7 @@ var app = new Vue({
             pais_id: this.selected_pais
           }
         }).then(function (response) {
-          _this.estados = response.data;
+          _this.states = response.data;
           document.getElementById('estado').disabled = false;
         });
       }
