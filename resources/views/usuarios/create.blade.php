@@ -56,8 +56,8 @@
       <label for="inputCity">Estado</label>
 
        <select v-model="selected_estado" id="estado" data-old="{{old('cbo_estado')}}"  
-        name="cbo_estado" class="form-control" >
-        <option value="">Selecciona una carrera</option>
+       @change="loadcity" name="cbo_estado" class="form-control" >
+        <option value="">Selecciona una Estado</option>
         <option v-for="(state, index) in states" v-bind:value="index">
         @{{state}}
         </select>
@@ -66,11 +66,12 @@
 
     <div class="form-group col-md-4">
       <label for="inputState">Ciudad</label>
-      <select  id="ciudad" data-old="{{old('cbo_ciudad')}}"  
+      <select  v-model="selected_city"  id="ciudad" data-old="{{old('cbo_ciudad')}}"  
        name="cbo_ciudad" class="form-control" >
 
        <option value="">Selecione un Ciudad</option>
-       
+       <option  v-for="(city, index) in cities" v-bind:value="index">
+         @{{city}} </option>
       </select>
     </div>
   </div>
