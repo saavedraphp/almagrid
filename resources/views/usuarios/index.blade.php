@@ -3,7 +3,10 @@
 @section('content')
 
 <div class="container">
-<h2>Lista de Usuarios <a href="usuarios/create"> <button type="button" class="btn btn-success float-right">Adicionar</button></a>
+<h2>Lista de Usuarios 
+  <a href="usuarios/create"> <button type="button" class="btn btn-success float-right">Adicionar</button></a>
+  <a href="{{ route('users.pdf')}}"> <button type="button" class="btn btn-success float-right">Exportar PDF</button></a>
+
 </h2>
 
 @if($search)
@@ -13,7 +16,7 @@
 </h6>
 @endif
 
-<table class="table table-hover">
+<table class="table table-hover" >
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -23,13 +26,14 @@
       <th scope="col">Opciones</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="userList">
   	@foreach($usuarios as $usuario)
-    <tr>
+
+    <tr v-for>
       <th scope="row"> {{ $usuario->usua_id }} </th>
       <td>{{$usuario->usua_nombre}}</td>
       <td>{{$usuario->usua_email}}</td>
-      <td>{{$usuario->usuas_f_nacimiento}}</td>
+      <td>{{$usuario->usua_f_nacimiento->toFormattedDateString()}}</td>
       <td>
 
 
@@ -55,4 +59,8 @@
   <div class="mx-auto">{{$usuarios->links()}}</div>
 </div>
 </div>
+
+@endsection
+@section('scripts')
+<script src="{{ asset('js/user-list.js') }}" ></script>
 @endsection

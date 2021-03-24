@@ -27,10 +27,15 @@ class UsuarioFormRequest extends FormRequest
             'nombre' =>'required',
             'email' =>'required|email',
             'direccion' =>'required|min:3|max:100',
-            'pais' => 'required|integer|not_in:0'];
+            'cbo_pais' => 'required|integer|not_in:0',
+            'cbo_estado' => 'required|integer|not_in:0',
+            'cbo_ciudad' => 'required|integer|not_in:0',
+            'zip' =>'required|min:3|max:5'];
+
     }
  
 }
 
+//,'fechaNacimiento' => 'required|date|date_format:m/d/Y'
 //    'usua_email' =>'required|email:255|unique:usuarios'
             //

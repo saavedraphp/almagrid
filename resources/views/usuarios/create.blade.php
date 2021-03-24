@@ -2,8 +2,9 @@
 
 @section('content')
 
-@inject('estados','App\Services\Estados')
-@inject('paises','App\Services\Paises')
+
+@inject('paises','App\Services\Paises');
+
 <div class="container">
 
 <div class="row">
@@ -34,7 +35,7 @@
 
   <div class="form-group">
     <label for="inputAddress">Direccion</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" name="direccion" value="{{old('direccion')}}">
+    <input type="text" class="form-control" id="inputAddress" placeholder="Direccion" name="direccion" value="{{old('direccion')}}">
   </div>
 
 
@@ -58,14 +59,14 @@
        <select v-model="selected_estado" id="estado" data-old="{{old('cbo_estado')}}"  
        @change="loadcity" name="cbo_estado" class="form-control" >
         <option value="">Selecciona una Estado</option>
-        <option v-for="(state, index) in states" v-bind:value="index">
-        @{{state}}
+        <option v-for="(state, index) in states" v-bind:value="index">@{{state}}</option>
         </select>
 
     </div>
 
     <div class="form-group col-md-4">
       <label for="inputState">Ciudad</label>
+     
       <select  v-model="selected_city"  id="ciudad" data-old="{{old('cbo_ciudad')}}"  
        name="cbo_ciudad" class="form-control" >
 
@@ -105,6 +106,5 @@
 </div>
 @endsection
 @section('scripts')
-
-
+<script src="{{ asset('js/estado.js') }}" ></script>
 @endsection

@@ -12,12 +12,9 @@
 
     <!-- Scripts -->
  
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-
-
-
 
 
     <!-- Font Awesome Icons -->
@@ -30,6 +27,8 @@
     <!-- Styles -->
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    
+    
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -161,7 +160,7 @@
                 <a href="{{ url('/') }}" class="brand-link">
                     <img src="{{ asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                         style="opacity: .8">
-                    <span class="brand-text font-weight-light">System Team</span>
+                    <span class="brand-text font-weight-light">Sistema de Almacen</span>
                 </a>
 
                 <!-- Sidebar -->
@@ -198,54 +197,56 @@
                             data-accordion="false">
 
                             <li class="nav-item">
-                                <a href="/" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
+                                <a href="/admin" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-home"></i>
                                     <p>Inicio</p>
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="/usuarios"
-                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                <a href="/admin/empresas"
+                                    class="{{ Request::path() === 'empresas' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
-                                        Usuarios
-                                        <?php use App\User;
-$users_count = User::all()->count();?>
-                                        <span class="right badge badge-danger">{{ $users_count ?? '0' }}</span>
+                                        Empresas
+                                        <?php use App\Empresa;
+$empresa_count = Empresa::all()->count();?>
+                                        <span class="right badge badge-danger">{{ $empresa_count ?? '0' }}</span>
                                     </p>
                                 </a>
                             </li>
 
-                            <li class="nav-item has-treeview">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon far fa-sticky-note"></i>
-                                    <p>Notas<i class="fas fa-angle-left right"></i></p>
+
+                            <li class="nav-item">
+                                <a href="/admin/productos"
+                                    class="{{ Request::path() === 'productos' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Productos
+                                        <?php use App\Producto;
+$producto_count = Producto::all()->count();?>
+                                        <span class="right badge badge-danger">{{ $producto_count ?? '0' }}</span>
+                                    </p>
                                 </a>
-                                <ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a href="notas/todas"
-                                            class="{{ Request::path() === 'notas/todas' ? 'nav-link active' : 'nav-link' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Todas</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="notas/favoritas"
-                                            class="{{ Request::path() === 'notas/favoritas' ? 'nav-link active' : 'nav-link' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Favoritas</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="notas/archivadas"
-                                            class="{{ Request::path() === 'notas/archivadas' ? 'nav-link active' : 'nav-link' }}">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>Archivadas</p>
-                                        </a>
-                                    </li>
-                                </ul>
                             </li>
+                            
+
+ 
+
+                            <li class="nav-item">
+                                <a href="/admin/actas"
+                                    class="{{ Request::path() === 'productos' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>
+                                        Actas
+                                        <?php use App\Acta;
+$count = Acta::all()->count();?>
+                                        <span class="right badge badge-danger">{{ $count ?? '0' }}</span>
+                                    </p>
+                                </a>
+                            </li>
+
+
 
                         </ul>
                     </nav>
@@ -271,7 +272,7 @@ $users_count = User::all()->count();?>
             <!-- /.content-wrapper -->
             <footer class="main-footer">
                 <!-- NO QUITAR -->
-                <strong>Tutoriales YouTube
+                <strong>Desarrollado por AdeconPeru
                     <div class="float-right d-none d-sm-inline-block">
                         <b>Version</b> 1.0
                     </div>

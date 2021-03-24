@@ -1,0 +1,68 @@
+@extends('layouts.app')
+
+@section('content')
+
+<div class="container">
+<h2>Lista de Productos 
+  <a href="productos/create"> <button type="button" class="btn btn-success float-right">Adicionar</button></a>
+  
+
+</h2>
+
+@if($search)
+<h6><div class="alert alert-primary" role="alert">
+  Resultado de la busqueda '{{$search}}'
+  </div>
+</h6>
+@endif
+
+<table class="table table-hover" >
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Producto</th>
+      <th scope="col">Total</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Empresa</th>
+    </tr>
+  </thead>
+  <tbody id="userList">
+  	@foreach($productos as $producto)
+
+    <tr v-for>
+      <th scope="row"> {{ $producto->prod_id }} </th>
+      <td>{{$producto->prod_nombre}}</td>
+      <td>{{$producto->prod_stock}}</td>
+      <td>{{number_format($producto->prod_precio,2)}}</td>
+      <td>{{$producto->empr_nombre}}</td>
+
+      <td>
+
+
+        <form action="{{route('productos.destroy',$producto->prod_id)}}" method="POST">
+          @method('DELETE')
+          @csrf
+
+
+
+         <a href="{{route('productos.edit',$producto->prod_id)}}"> <button type="button" class="btn btn-danger">Editar</button></a>
+
+         <button type="submit" class="btn btn-primary" 
+         onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$producto->prod_id}}');">Eliminar</button>
+
+        </form>
+
+      </td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="mx-auto">{{$productos->links()}}</div>
+</div>
+</div>
+ @endsection
+@section('scripts')
+
+@endsection
