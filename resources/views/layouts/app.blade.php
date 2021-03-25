@@ -178,7 +178,7 @@
                                 {{ Auth::user()->name }}
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();">
-                                    Cerrar Sesión
+                                    <spand style="color:#959e97">Cerrar Sesión</spand>
                                 </a>
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -206,7 +206,8 @@
                             <li class="nav-item">
                                 <a href="/admin/empresas"
                                     class="{{ Request::path() === 'empresas' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
+
+                                    <i class="nav-icon fas fa-university"></i>
                                     <p>
                                         Empresas
                                         <?php use App\Empresa;
@@ -220,7 +221,8 @@ $empresa_count = Empresa::all()->count();?>
                             <li class="nav-item">
                                 <a href="/admin/productos"
                                     class="{{ Request::path() === 'productos' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
+                                    
+                                    <i class="nav-icon fas fa-cubes"></i>
                                     <p>
                                         Productos
                                         <?php use App\Producto;
@@ -236,7 +238,8 @@ $producto_count = Producto::all()->count();?>
                             <li class="nav-item">
                                 <a href="/admin/actas"
                                     class="{{ Request::path() === 'productos' ? 'nav-link active' : 'nav-link' }}">
-                                    <i class="nav-icon fas fa-users"></i>
+                                    
+                                    <i class="nav-icon fas fa-plus-circle"></i>
                                     <p>
                                         Actas
                                         <?php use App\Acta;

@@ -23,7 +23,7 @@ class CreateUsuariosTable extends Migration
             $table->integer('ciudad_id');  
             $table->timestamps();
             $table->softDeletes();  
-            $table->foreign('pais_id')->references('id')->on('pais');
+            //$table->foreign('pais_id')->references('id')->on('pais');
             
             
         });
