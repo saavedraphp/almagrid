@@ -15,6 +15,5 @@ class Cors
             ->header('Access-Control-Allow-Origin', "*")
             ->header('Access-Control-Allow-Method', "GET")
             ->header('Access-Control-Allow-Headers', "Accept,Autorization,Content-Type")
-
-    }
+        }
 }

@@ -28,7 +28,10 @@ class ProductosController extends Controller
             $productos = DB::table('productos  as p')
             ->join('empresas as e','p.empr_id','=','e.empr_id')
             ->select('p.prod_nombre', 'p.prod_id',  'p.prod_nombre', 'p.prod_stock','p.prod_precio', 'e.empr_nombre',
-            'p.created_at')->where('prod_nombre', 'LIKE', '%' . $query . '%')->orderBy('p.created_at', 'asc')->paginate(10);
+            'p.created_at','p.deleted_at')->where('prod_nombre', 'LIKE', '%' . $query . '%')
+            ->whereNull('p.deleted_at')
+            ->orderBy('p.created_at', 'asc')
+            ->paginate(10);
 
 
 
@@ -65,13 +68,15 @@ class ProductosController extends Controller
         
         $producto->save();
 
-        return redirect('admin/productos');
+        //return redirect('admin/productos');
+        return redirect('admin/productos')->with('message','La operacion se realizo con Exito')->with('operacion','1');
     }
     
     
     public function edit($id)
     {
         return view('productos.edit', ['producto' => Producto::findOrFail($id)]);
+        
     }
     
 
@@ -93,14 +98,16 @@ class ProductosController extends Controller
         
         $producto->update();
 
-        return redirect('admin/productos');
+        //return redirect('admin/productos');
+        return redirect('admin/productos')->with('message','La operacion se realizo con Exito')->with('operacion','1');
     }
 
 
     public function destroy($id)
     {
         Producto::destroy($id);
-        return redirect('admin/productos');
+        return redirect('admin/productos')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        //return redirect('admin/actas')->with('message','Datos cargados correctamente')->with('operacion','1');
 
     }
 

@@ -254,10 +254,11 @@ class ActaController extends Controller
 
     public function show($id)
     {
-       $acta = Acta::findOrFail($id);
-       $detalles = Kardex::where('acta_id', $id)->get();
-       //dd($detalles);
+       $acta = DB::table('actas as a')
+       ->join('servicios as s', 's.serv_id', '=', 'a.serv_id')
+       ->where('a.acta_id', '=',$id)->first();
        
+      // dd($acta);
        
        $detalles = DB::table('productos  as p')
        ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
@@ -266,10 +267,36 @@ class ActaController extends Controller
        ->where('k.acta_id', '=',$id )
        ->orderBy('p.created_at', 'asc')->get();
 
+       
 
 
+        switch ($acta->serv_codigo) {
+            case 'ALMACE':
+                $array_titulos = [
+                    'CABECERA'=>'Adicionar Productos',
+                    'TAB'   =>'Registro de Productos'
+                ];
+                
+                break;
+            
+            case 'DESPAC':
+                $array_titulos = [
+                    'CABECERA'=>'Registro de Despacho',
+                    'TAB'   =>'Despacho de Productos'
+                ];
 
-        return view('actas.show',  ['acta' => $acta, 'detalles'=> $detalles]);    
+                break;
+                                
+            default:
+                # code...
+                break;
+        }
+
+
+       // dd($array_titulos);
+
+
+        return view('actas.show',  ['acta' => $acta, 'detalles'=> $detalles, 'array_titulos' =>$array_titulos]);    
     }
 
 

@@ -24,8 +24,7 @@ const app = new Vue({
 
      methods: {
         cargarEmpresa() {
-            alert('asdsad');
-
+            
             if (this.selected_empresa !="") {
                 axios.get(`http://127.0.0.1:80/estados/pais`, {params: {pais_id: this.selected_pais} }).then((response) => {
                // axios.get(`http://demo.modifiedpayments.com/estados/pais`, {params: {pais_id: this.selected_pais} }).then((response) => {

@@ -203,6 +203,25 @@
                                 </a>
                             </li>
 
+
+                            <li class="nav-item">
+                                <a href="/admin/actas"
+                                    class="{{ Request::path() === 'productos' ? 'nav-link active' : 'nav-link' }}">
+                                    
+                                    <i class="nav-icon fas fa-plus-circle"></i>
+                                    <p>
+                                        Actas
+                                        <?php use App\Acta;
+$count = Acta::all()->count();?>
+                                        <span class="right badge badge-danger">{{ $count ?? '0' }}</span>
+                                    </p>
+                                </a>
+                            </li>
+
+
+
+
+
                             <li class="nav-item">
                                 <a href="/admin/empresas"
                                     class="{{ Request::path() === 'empresas' ? 'nav-link active' : 'nav-link' }}">
@@ -235,19 +254,6 @@ $producto_count = Producto::all()->count();?>
 
  
 
-                            <li class="nav-item">
-                                <a href="/admin/actas"
-                                    class="{{ Request::path() === 'productos' ? 'nav-link active' : 'nav-link' }}">
-                                    
-                                    <i class="nav-icon fas fa-plus-circle"></i>
-                                    <p>
-                                        Actas
-                                        <?php use App\Acta;
-$count = Acta::all()->count();?>
-                                        <span class="right badge badge-danger">{{ $count ?? '0' }}</span>
-                                    </p>
-                                </a>
-                            </li>
 
 
 

@@ -6,12 +6,15 @@
 @inject('servicios','App\Services\Servicios') 
 @inject('presentaciones','App\Services\Presentaciones')
 
+ 
+
+<h2>{{$array_titulos['CABECERA']}}</h2>
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a href="#home" class="nav-link active" data-toggle="tab">Acta</a>
     </li>
     <li class="nav-item">
-        <a href="#profile" class="nav-link" data-toggle="tab">Registro de Productos</a>
+        <a href="#profile" class="nav-link" data-toggle="tab">{{$array_titulos['TAB']}}</a>
     </li>
  
 </ul>
