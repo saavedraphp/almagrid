@@ -28,6 +28,8 @@ class CreateProductosTable extends Migration
             $table->string('prod_serie',45);
             $table->string('prod_lote',45);
             $table->longText('prod_comentario');
+            $table->smallInteger('prod_stock');
+            
             
             $table->char('prod_estado',10);
             $table->timestamp('prod_fecha_vencimiento', 0);

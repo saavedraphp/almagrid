@@ -8,6 +8,11 @@ Auth::routes();
 
  
 
+Route::get('/register', 'Auth\RegisterController@register')->name('register');
+Route::post('/register', 'Auth\RegisterController@create');
+
+ 
+
 Route::get('/admin', 'HomeController@index')->name('home');
 
 //MODULO DE EMPRESA
@@ -72,3 +77,4 @@ Route::get('admin/tasks',function(){
     Route::get('admin/ejemplos',function(){
         return view('pruebas.lista');
         });
+    

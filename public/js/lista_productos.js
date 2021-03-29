@@ -69,7 +69,8 @@ const app = new Vue({
 
         modificarStock: function(producto){
           
-            if(parseInt(producto.valor)>0)
+
+            if(parseInt(producto.valor)>=0)
             { 
                 //RESTA DESPACHO
                 if(document.getElementById('operacion_id').value ==0){
@@ -90,6 +91,7 @@ const app = new Vue({
             
                 //ADICIONAR SUMA
                 if(document.getElementById('operacion_id').value ==1){
+                    
                     producto.total = parseInt(producto.prod_stock) + parseInt(producto.valor);
                 }
                     

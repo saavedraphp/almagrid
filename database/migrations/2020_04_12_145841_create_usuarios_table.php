@@ -17,10 +17,12 @@ class CreateUsuariosTable extends Migration
             $table->Increments('usua_id');
             $table->string('usua_nombre');
             $table->string('usua_email');
-            $table->dateTime('usua_f_nacimiento', null);  
-            $table->integer('pais_id');  
-            $table->integer('estado_id');  
-            $table->integer('ciudad_id');  
+            $table->dateTime('usua_f_nacimiento', null)->nullable();  
+            $table->integer('pais_id')->nullable();  
+            $table->integer('estado_id')->nullable();  
+            $table->integer('ciudad_id')->nullable();  
+            $table->string('usua_direccion')->nullable();
+            $table->string('usua_code_zip')->nullable();
             $table->timestamps();
             $table->softDeletes();  
             //$table->foreign('pais_id')->references('id')->on('pais');

@@ -19,7 +19,7 @@
 </ul>
 
 
-<form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/actas" @submit="checkForm">
+<form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/actas/store-despacho" @submit="checkForm">
 
 <p v-if="errors.length">
     <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
@@ -156,7 +156,10 @@
                 <td>@{{producto.prod_lote}}</td>
                 <td>@{{producto.prod_stock}}</td>
                 <td>
-                    <input v-model="producto.valor"  v-on:keydown.enter.prevent="modificarStock(producto)"  type="text" class="form-control"    
+                    <input v-model="producto.valor"  
+                    v-on:blur="modificarStock(producto)" 
+                    v-on:keydown.enter.prevent="modificarStock(producto)"  
+                    type="number" class="form-control"    
                      size="3" placeholder="Cantidad"  name="cantidad[]" value="0" maxlength="5"   >                
                 </td>
 

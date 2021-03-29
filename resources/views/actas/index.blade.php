@@ -2,16 +2,15 @@
 
 @section('content')
 
+
+
 <div class="container">
+
 <h2>Lista de Actas
 <a href="actas/create-despacho"> <button type="button" class="btn btn-danger float-right">Add Despacho</button></a>
   <a href="actas/create"> <button type="button" class="btn btn-success float-right mr-3">Add Recepcion</button></a>  
 
  </h2>
-
-
-
-
 
 
 @if($search)
@@ -38,8 +37,72 @@
 
 @endif
 
+<form action="" method="GET">
+<div class="form-outline">
+  <div class="form-row">
+    
+    <div class="form-group col-md-5" >
+      <div class="input-group input-group-sm">
+          <input class="form-control form-control-navbar" type="search" placeholder="Nro Documento" aria-label="Search" name="nro_documento">
+          <div class="input-group-append">
+              <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+              </button>
+          </div>
+      </div>
 
+    </div>
+    
+    <div class="form-group col-md-1">
+    </div>
 
+    <div class="form-group col-md-6">
+          <div class="form-check form-check-inline">
+          
+        <input
+          class="form-check-input"
+          type="radio"
+          name="rbo_lista"
+          id="inlineRadio1"
+          value="DESPAC" 
+          onchange="this.form.submit()" 
+          @if($busqueda =='DESPAC') checked @endif 
+        />
+        <label class="form-check-label" for="inlineRadio1">Despacho</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="rbo_lista"
+          id="inlineRadio2"
+          value="ALMACE"
+          onchange="this.form.submit()" 
+          @if($busqueda =='ALMACE') checked @endif 
+
+        />
+        <label class="form-check-label" for="inlineRadio2">Almacenamiento</label>
+      </div>
+
+      <div class="form-check form-check-inline">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="rbo_lista"
+          id="inlineRadio3"
+          value="ALL"
+          onchange="this.form.submit()" 
+          @if($busqueda =='ALL') checked @endif 
+        />
+        <label class="form-check-label" for="inlineRadio2">Todos</label>
+      </div>
+      
+    </div>
+
+  </div>
+</div>
+</form>
 
 <table class="table table-hover" >
   <thead>

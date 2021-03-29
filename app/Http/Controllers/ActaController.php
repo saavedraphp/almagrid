@@ -35,12 +35,12 @@ class ActaController extends Controller
     {
 
  
-
+        $busqueda ="";
         if ($request) {
             
-            DB::enableQueryLog();
+           
             $query    = trim($request->get('search'));
-            //$actas = Acta::where('acta_numero_ingr_sali', 'LIKE', '%' . $query . '%')->orderBy('acta_numero_ingr_sali', 'asc')->paginate(10);
+
             
             if(strlen($query)>0)
             {
@@ -48,17 +48,76 @@ class ActaController extends Controller
                 ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
                 ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                 ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                'acta_numero_ingr_sali', 'a.serv_id', 
-                'a.created_at')->where('acta_numero_ingr_sali', 'LIKE', '%' . $query . '%')->orderBy('a.created_at', 'asc')->paginate(10);
+                'a.acta_numero_ingr_sali', 'a.serv_id', 
+                'a.created_at')->where('empr_nombre', 'LIKE', '%' . $query . '%')->orderBy('a.created_at', 'asc')->paginate(10);
+                $busqueda = 'nombre';
             }
             else
             {
+                
                 $actas = DB::table('actas  as a')
                 ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
                 ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
+                ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
                 ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
                 'acta_numero_ingr_sali', 'a.serv_id', 
                 'a.created_at')->orderBy('a.created_at', 'asc')->paginate(10);
+
+                switch ($request->get('rbo_lista')) {
+                    case 'DESPAC':
+                        $actas = DB::table('actas  as a')
+                        ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
+                        ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
+                        ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
+                        ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
+                        'acta_numero_ingr_sali', 'a.serv_id', 
+                        'a.created_at')
+                        ->where('s.serv_codigo', '=', 'DESPAC')
+                        ->orderBy('a.created_at', 'asc')->paginate(10);
+                        $busqueda = 'DESPAC';
+                        
+                        break;
+
+                        case 'ALMACE':
+                            $actas = DB::table('actas  as a')
+                            ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
+                            ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
+                            ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
+                            ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
+                            'acta_numero_ingr_sali', 'a.serv_id', 
+                            'a.created_at')
+                            ->where('s.serv_codigo', '=', 'ALMACE')
+                            ->orderBy('a.created_at', 'asc')->paginate(10);
+                            $busqueda = 'ALMACE';
+                            
+                        break;                        
+                    
+                        case 'ALL':
+                            $actas = DB::table('actas  as a')
+                            ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
+                            ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
+                            ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
+                            ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
+                            'acta_numero_ingr_sali', 'a.serv_id', 
+                            'a.created_at')->orderBy('a.created_at', 'asc')->paginate(10);
+                            $busqueda = 'ALL';
+                        break;
+                        
+                }
+
+                if(strlen(trim($request->get('nro_documento')))>0)
+                {
+                    $actas = DB::table('actas  as a')
+                    ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
+                    ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
+                    ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
+                    ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
+                    'acta_numero_ingr_sali', 'a.serv_id', 
+                    'a.created_at')->orderBy('a.created_at', 'asc')->paginate(10);
+                    $busqueda = 'nro_documento';
+                    $query = $request->get('nro_documento');
+                }
+                
 
             }
             //echo $actas;  
@@ -66,7 +125,7 @@ class ActaController extends Controller
 
             //dd($actas->toSql());
             //dd($actas);
-            return view('actas.index', ['actas' => $actas, 'search' => $query]);
+            return view('actas.index', ['actas' => $actas, 'search' => $query,'busqueda' =>$busqueda]);
 
         }
     }
@@ -113,11 +172,12 @@ class ActaController extends Controller
     public function store(Request $request)
     {
 
+        // Start transaction
+        
+
 
         try {
 
-
-            
         $acta = new Acta();
         $acta->empr_id =                  $request->get('cbo_empresa');
         $acta->serv_id =                  1;  // ALMACENAMIENTO  $request->get('tipo_servicio');
@@ -159,6 +219,7 @@ class ActaController extends Controller
 
                 }
                 Kardex::insert($answers);
+                
         }
 
  
@@ -166,6 +227,7 @@ class ActaController extends Controller
         return redirect('admin/actas')->with('message','Datos cargados correctamente')->with('operacion','1');
 
         } catch (Exception $e) {
+            
             report($e);
             return redirect('admin/actas')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
             return false;
@@ -229,7 +291,7 @@ class ActaController extends Controller
                     }
 
                 }
-                Kardex::insert($answers);
+            Kardex::insert($answers);
         }
 
  
