@@ -55,16 +55,14 @@
       <td>
 
 
-        <form action="{{route('productos.destroy',$producto->prod_id)}}" method="POST">
+        <form action="{{route('productos.destroy',$producto->prod_id)}}" method="POST" id="frm_destroy{{$producto->prod_id}}">
           @method('DELETE')
           @csrf
 
 
 
-         <a href="{{route('productos.edit',$producto->prod_id)}}"> <button type="button" class="btn btn-danger">Editar</button></a>
-
-         <button type="submit" class="btn btn-primary" 
-         onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$producto->prod_id}}');">Eliminar</button>
+         <a href="{{route('productos.edit',$producto->prod_id)}}"> <i class="far fa-edit" ></i></a> |
+         <a href="javascript:document.getElementById('frm_destroy{{$producto->prod_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$producto->prod_id}}');"><i class="fas fa-trash-alt"></i></a>
 
         </form>
 

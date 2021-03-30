@@ -66,7 +66,7 @@
           id="inlineRadio1"
           value="DESPAC" 
           onchange="this.form.submit()" 
-          @if($busqueda =='DESPAC') checked @endif 
+          
         />
         <label class="form-check-label" for="inlineRadio1">Despacho</label>
       </div>
@@ -79,7 +79,7 @@
           id="inlineRadio2"
           value="ALMACE"
           onchange="this.form.submit()" 
-          @if($busqueda =='ALMACE') checked @endif 
+          
 
         />
         <label class="form-check-label" for="inlineRadio2">Almacenamiento</label>
@@ -93,7 +93,7 @@
           id="inlineRadio3"
           value="ALL"
           onchange="this.form.submit()" 
-          @if($busqueda =='ALL') checked @endif 
+          
         />
         <label class="form-check-label" for="inlineRadio2">Todos</label>
       </div>
@@ -121,7 +121,7 @@
     <tr v-for>
       <th scope="row"> {{ $acta->acta_id }} </th>
       <td>{{$acta->empr_nombre}}</td>
-      <td>{{($acta->serv_id =='1'?'Almacenamiento':'Despacho' )}}</td>
+      <td>{{$acta->serv_nombre}}</td>
       <td>{{$acta->acta_numero_ingr_sali}}</td>
       <td>{{number_format($acta->acta_costo,2)}}</td>
       <td>{{ date('M d Y', strtotime($acta->created_at)) }}</td>
@@ -129,16 +129,16 @@
       <td>
 
 
-        <form action="{{route('actas.destroy',$acta->acta_id)}}" method="POST">
+        <form action="{{route('actas.destroy',$acta->acta_id)}}" method="POST" id="frm_destroy{{$acta->acta_id}}">
           @method('DELETE')
           @csrf
 
-
-
-         <a href="{{route('actas.show',$acta->acta_id)}}"> <button type="button" class="btn btn-success">Ver</button></a>
-         <a href="{{ route('reporteRecepcion.pdf',$acta->acta_id)}}"> <button type="button" class="btn btn-success float-right">Imprimir Acta</button></a>
-
+ 
+         <a href="{{route('actas.show',$acta->acta_id)}}"><i class="far fa-eye"></i></a> |
+         <a href="{{ route('reporteRecepcion.pdf',$acta->acta_id)}}"><i class="far fa-file-pdf"></i></a> |
+         <a href="javascript:document.getElementById('frm_destroy{{$acta->acta_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$acta->acta_id}}');"><i class="fas fa-trash-alt"></i></a>
          
+     
         </form>
 
       </td>

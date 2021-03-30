@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Acta;
 use App\Kardex;
+use App\Producto;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -49,7 +50,10 @@ class ActaController extends Controller
                 ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                 ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
                 'a.acta_numero_ingr_sali', 'a.serv_id', 
-                'a.created_at')->where('empr_nombre', 'LIKE', '%' . $query . '%')->orderBy('a.created_at', 'asc')->paginate(10);
+                's.serv_nombre',
+                'a.created_at')->where('empr_nombre', 'LIKE', '%' . $query . '%')
+                ->whereNull('a.deleted_at')
+                ->orderBy('a.created_at', 'asc')->paginate(10);
                 $busqueda = 'nombre';
             }
             else
@@ -60,8 +64,11 @@ class ActaController extends Controller
                 ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                 ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
                 ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                'acta_numero_ingr_sali', 'a.serv_id', 
-                'a.created_at')->orderBy('a.created_at', 'asc')->paginate(10);
+                'acta_numero_ingr_sali', 'a.serv_id',
+                's.serv_nombre', 
+                'a.created_at')
+                ->whereNull('a.deleted_at')
+                ->orderBy('a.created_at', 'asc')->paginate(10);
 
                 switch ($request->get('rbo_lista')) {
                     case 'DESPAC':
@@ -70,11 +77,14 @@ class ActaController extends Controller
                         ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                         ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
                         ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                        'acta_numero_ingr_sali', 'a.serv_id', 
+                        'acta_numero_ingr_sali', 'a.serv_id',
+                        's.serv_nombre', 
                         'a.created_at')
                         ->where('s.serv_codigo', '=', 'DESPAC')
+                        ->whereNull('a.deleted_at')
                         ->orderBy('a.created_at', 'asc')->paginate(10);
                         $busqueda = 'DESPAC';
+                        $query = 'Despacho';
                         
                         break;
 
@@ -85,11 +95,13 @@ class ActaController extends Controller
                             ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
                             ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
                             'acta_numero_ingr_sali', 'a.serv_id', 
+                            's.serv_nombre',
                             'a.created_at')
                             ->where('s.serv_codigo', '=', 'ALMACE')
+                            ->whereNull('a.deleted_at')
                             ->orderBy('a.created_at', 'asc')->paginate(10);
                             $busqueda = 'ALMACE';
-                            
+                            $query = 'Almacenamiento';
                         break;                        
                     
                         case 'ALL':
@@ -99,21 +111,30 @@ class ActaController extends Controller
                             ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
                             ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
                             'acta_numero_ingr_sali', 'a.serv_id', 
-                            'a.created_at')->orderBy('a.created_at', 'asc')->paginate(10);
+                            's.serv_nombre',
+                            'a.created_at')
+                            ->whereNull('a.deleted_at')
+                            ->orderBy('a.created_at', 'asc')->paginate(10);
                             $busqueda = 'ALL';
+                            $query = 'Todos';
                         break;
                         
                 }
+                $nro_documento = trim($request->get('nro_documento'));
 
-                if(strlen(trim($request->get('nro_documento')))>0)
+                if(strlen($nro_documento)>0)
                 {
                     $actas = DB::table('actas  as a')
                     ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
                     ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                     ->leftJoin('servicios as s','s.serv_id','=','a.serv_id')
                     ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                    'acta_numero_ingr_sali', 'a.serv_id', 
-                    'a.created_at')->orderBy('a.created_at', 'asc')->paginate(10);
+                    'acta_numero_ingr_sali', 'a.serv_id',
+                    's.serv_nombre',
+                    'a.created_at')
+                    ->whereNull('a.deleted_at')
+                    ->orderBy('a.created_at', 'asc')
+                    ->where('acta_numero_ingr_sali','=',$nro_documento)->paginate(10);
                     $busqueda = 'nro_documento';
                     $query = $request->get('nro_documento');
                 }
@@ -280,7 +301,7 @@ class ActaController extends Controller
                      $answers[] = [
                      'acta_id' => $acta->acta_id,
                      'prod_id' => $value,
-                     'kard_cantidad' => $cantidad[$key],
+                     'kard_cantidad' => -$cantidad[$key],
                      'created_at' => date('Y-m-d H:i:s')    
 
                      ];
@@ -414,34 +435,31 @@ class ActaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $kardexs = Kardex::where('acta_id','=', $id)->get();
+
+       // dd($kardexs);
+
+        foreach ($kardexs as $kardex) {
+            
+           $producto = Producto::find($kardex->prod_id);
+           $producto->prod_stock =$producto->prod_stock -  $kardex->kard_cantidad;
+            
+            $producto->update();
+            
+            //eliminar los registro karex
+            $kardex->destroy($kardex->kard_id);
+        }
+
+        Acta::destroy($id);
+        return redirect('admin/actas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        
+
     }
 
 
     
 
-    public function reporteRecepcionPdf($id)
-    {
-
-        $acta = Acta::findOrFail(5)->get();
-        echo 'enrto';
-        //return redirect('admin/actas');
-        /*
-        
-        $detalles = DB::table('productos  as p')
-        ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
-        ->select('p.prod_id','p.pres_id', 'p.prod_nombre',  'p.prod_lote','p.prod_stock', 'p.prod_fecha_vencimiento',
-        'k.kard_cantidad', 'p.prod_stock as total')
-        ->where('k.acta_id', '=',$id )
-        ->orderBy('p.created_at', 'asc')->get();
  
-         //return view('actas.show',  ['acta' => $acta, 'detalles'=> $detalles]);  
- 
-        $pdf = PDF::loadView('pdf.recepcion',compact('acta','detalles'));
-
-        return $pdf->download('reporte_recepcion.pdf');
-        */
-    }
 
 
 
@@ -456,24 +474,27 @@ class ActaController extends Controller
 
         $acta = DB::table('actas  as a')
         ->join('empresas as e', 'a.empr_id', '=', 'e.empr_id')
-        ->join('tipo_documentos as t', 't.tipo_docu_id', '=', 'a.tipo_docu_id')
-        ->select('a.acta_id','a.created_at','e.empr_nombre','t.tipo_docu_nombre','a.acta_numero_ingr_sali')
+        ->leftJoin('tipo_documentos as t', 't.tipo_docu_id', '=', 'a.tipo_docu_id')
+        ->leftJoin('servicios as s', 's.serv_id', '=', 'a.serv_id')
+        ->select('a.acta_id','a.created_at','e.empr_nombre','t.tipo_docu_nombre','a.acta_numero_ingr_sali',
+        's.serv_nombre')
         ->where('a.acta_id', '=',$id )->get();
         
  
         $detalles = DB::table('productos  as p')
         ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
-        ->leftJoin('presentaciones as pp', 'pp.pres_id', '=', 'p.pres_id')
+        ->leftJoin('presentaciones as pp', 'pp.pres_id', '=', 'p.pres_id')        
         ->select('pp.pres_nombre', 'p.prod_id','p.pres_id', 'p.prod_nombre',  'p.prod_lote','prod_serie','prod_codigo','p.prod_stock', 'p.prod_fecha_vencimiento',
         'k.kard_cantidad', 'p.prod_stock as total')
         ->where('k.acta_id', '=',$id )
         ->orderBy('p.created_at', 'asc')->get();
  
- 
+        
+
         $pdf = PDF::loadView('pdf.recepcion',['acta'=>$acta,'detalles'=>$detalles]);
         
 
-        return $pdf->download('user-list.pdf');
+        return $pdf->download('Acta - '.$id.'.pdf');
       
     }
 

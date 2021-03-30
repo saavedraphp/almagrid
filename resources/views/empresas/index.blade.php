@@ -57,16 +57,15 @@
       <td>
 
 
-        <form action="{{route('empresas.destroy',$empresa->empr_id)}}" method="POST">
+        <form action="{{route('empresas.destroy',$empresa->empr_id)}}" method="POST" id="frm_destroy{{$empresa->empr_id}}"> 
           @method('DELETE')
           @csrf
 
 
 
-         <a href="{{route('empresas.edit',$empresa->empr_id)}}"> <button type="button" class="btn btn-danger">Editar</button></a>
-
-         <button type="submit" class="btn btn-primary" 
-         onclick="return confirm('Estas Seguro de Borrar el Registro Id: {{$empresa->empr_id}}');">Eliminar</button>
+         <a href="{{route('empresas.edit',$empresa->empr_id)}}"> <i class="far fa-edit" ></i></a> |
+ 
+         <a href="javascript:document.getElementById('frm_destroy{{$empresa->empr_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$empresa->empr_id}}');"><i class="fas fa-trash-alt"></i></a>
 
         </form>
 

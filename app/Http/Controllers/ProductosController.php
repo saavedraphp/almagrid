@@ -107,7 +107,7 @@ class ProductosController extends Controller
     {
         Producto::destroy($id);
         return redirect('admin/productos')->with('message','La operacion se realizo con Exito')->with('operacion','1');
-        //return redirect('admin/actas')->with('message','Datos cargados correctamente')->with('operacion','1');
+        
 
     }
 

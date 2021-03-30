@@ -144,7 +144,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Producto</th>
                 <th scope="col">Lote</th>
-                <th scope="col">Stock</th>
+
                 <th scope="col">Cantidad</th>
                </tr>
             </thead>
@@ -157,8 +157,8 @@
                 </th>
                 <td>{{$item->prod_nombre}}</td>
                 <td>{{$item->prod_lote}}</td>
-                <td>{{$item->prod_stock}}</td>
-                <td>{{$item->kard_cantidad}}</td>
+
+                <td align="center"> {{abs($item->kard_cantidad)}}</td>
               </tr>
             @endforeach  
             

@@ -54,7 +54,7 @@ body
       <tbody>
         <tr>
           <td width="27%" class="tituloBoldLeft">SISTEMA DE ALMACEN</td>
-          <td width="50%"><p class="tituloBoldLeft">ACTA DE RECEPCION NRO. {{$acta[0]->acta_id}}</p></td>
+          <td width="50%"><p class="tituloBoldLeft">ACTA DE {{strtoupper($acta[0]->serv_nombre)}} NRO: {{$acta[0]->acta_id}}</p></td>
           <td width="23%"><table width="200" border="0">
             <tbody>
               <tr>
@@ -124,22 +124,22 @@ $col4 = "40%";
  
           </tr>
 
- 
+          <?php $x=1?>
           @foreach($detalles as $detalle)
-         <?php $x=1?>
+         
          
          
          
       
             
             <tr>
-              <td align="center">{{$x}}</td>
+              <td align="center">{{$x++}}</td>
               <td width="{{$col4}}">{{$detalle->prod_id}} - {{$detalle->prod_nombre}}</td>
               <td width="{{$col2}}" align="center">{{$detalle->pres_nombre}}<</td>
               <td width="{{$col1}}" align="center">{{$detalle->prod_lote}}</td>
               <td width="{{$col1}}" align="center">{{$detalle->prod_serie}}</td>
               <td width="{{$col1}}" align="center">{{$detalle->prod_codigo}}</td>
-              <td width="{{$col1}}" align="center">{{$detalle->kard_cantidad}}</td>
+              <td width="{{$col1}}" align="center">{{abs($detalle->kard_cantidad)}}</td>
     
    
             </tr>
