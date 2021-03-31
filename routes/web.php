@@ -77,4 +77,6 @@ Route::get('admin/tasks',function(){
     Route::get('admin/ejemplos',function(){
         return view('pruebas.lista');
         });
-    
+
+        
+Route::get('rollback','PruebaController@index');
