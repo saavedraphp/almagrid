@@ -195,9 +195,12 @@ class ActaController extends Controller
 
         // Start transaction
         
+       
 
 
         try {
+
+        DB::beginTransaction();
 
         $acta = new Acta();
         $acta->empr_id =                  $request->get('cbo_empresa');
@@ -244,11 +247,11 @@ class ActaController extends Controller
         }
 
  
-        
+        DB::commit();
         return redirect('admin/actas')->with('message','Datos cargados correctamente')->with('operacion','1');
 
         } catch (Exception $e) {
-            
+         DB::rollBack();    
             report($e);
             return redirect('admin/actas')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
             return false;
@@ -266,11 +269,11 @@ class ActaController extends Controller
 
     public function store_despacho(Request $request)
     {
-
+        
 
         try {
 
-
+        DB::beginTransaction();
             
         $acta = new Acta();
         $acta->empr_id =                  $request->get('cbo_empresa');
@@ -315,14 +318,16 @@ class ActaController extends Controller
             Kardex::insert($answers);
         }
 
- 
-        
+        DB::commit();
+
         return redirect('admin/actas')->with('message','Datos cargados correctamente')->with('operacion','1');
 
         } catch (Exception $e) {
+            DB::rollBack();    
+            
             report($e);
             return redirect('admin/actas')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
-            return false;
+            
         }        
             
  

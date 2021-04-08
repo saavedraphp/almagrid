@@ -252,7 +252,36 @@ $producto_count = Producto::all()->count();?>
                             </li>
                             
 
+                            <li class="nav-item">
+                                <a href="/admin/racks"
+                                    class="{{ Request::path() === 'racks' ? 'nav-link active' : 'nav-link' }}">
+                                    
+                                    <i class="nav-icon fas fa-cubes"></i>
+                                    <p>
+                                    Racks
+                                        <?php use App\Rack;
+$rack_count = Rack::all()->count();?>
+                                        <span class="right badge badge-danger">{{ $rack_count ?? '0' }}</span>
+                                    </p>
+                                </a>
+                            </li>
  
+
+
+
+                            <li class="nav-item">
+                                <a href="/admin/casillas"
+                                    class="{{ Request::path() === 'casillas' ? 'nav-link active' : 'nav-link' }}">
+                                    
+                                    <i class="nav-icon fas fa-cubes"></i>
+                                    <p>
+                                    Casillas
+                                        <?php use App\RackCasillas;
+$casillas_count = RackCasillas::all()->count();?>
+                                        <span class="right badge badge-danger">{{ $casillas_count ?? '0' }}</span>
+                                    </p>
+                                </a>
+                            </li>
 
 
 

@@ -58,8 +58,8 @@ const app = new Vue({
         obtenerProductos() {
             var url = "create";
           
-                axios.get(`http://localhost:8080/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
-                //axios.get(`http://sistema.almagri.com/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
+                //axios.get(`http://localhost:8080/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
+                axios.get(`http://sistema.almagri.com/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
                 this.data = response.data;
 
                 });
@@ -75,7 +75,7 @@ const app = new Vue({
                 //RESTA DESPACHO
                 if(document.getElementById('operacion_id').value ==0){
                 
-                    if(producto.valor > producto.prod_stock )
+                    if(parseInt(producto.valor) > parseInt(producto.prod_stock) )
                     {
                         alert('El valor ingresado excede la cantidad del Stock');
                         this.errors.push('Tiene que ingresar una cantidad menor al Stock.');

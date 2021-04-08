@@ -34,6 +34,8 @@ Route::resource('admin/actas', 'ActaController');
 Route::resource('admin/empresas', 'EmpresaController');
 
 Route::resource('admin/productos', 'ProductosController');
+Route::resource('admin/racks', 'RackController');
+Route::resource('admin/casillas', 'RackCasillaController');
 
 Route::get('usuario/kardex/', 'KardexController@index');
 

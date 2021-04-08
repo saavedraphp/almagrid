@@ -21,6 +21,7 @@ class ProductosController extends Controller
 
     public function index(Request $request)
     {
+        DB::enableQueryLog();
         if ($request) {
             $query    = trim($request->get('search'));
             //$productos = Producto::where('prod_nombre', 'LIKE', '%' . $query . '%')->orderBy('prod_nombre', 'asc')->paginate(10);
@@ -32,7 +33,8 @@ class ProductosController extends Controller
             ->whereNull('p.deleted_at')
             ->orderBy('p.created_at', 'asc')
             ->paginate(10);
-
+        
+           // dd(DB::getQueryLog());
 
 
 
