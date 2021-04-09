@@ -31,7 +31,7 @@
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Ruc</label>
-      <input type="text" class="form-control" name="ruc" id="inputPassword4" placeholder="Ruc" value="{{$empresa->empr_ruc}}">
+      <input type="number" maxlength="10" class="form-control" name="ruc" id="inputPassword4" placeholder="Ruc" value="{{$empresa->empr_ruc}}">
     </div>
   </div>
 
@@ -50,11 +50,11 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Telefono</label>
-      <input type="text" class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" value="{{$empresa->empr_telefono}}">
+      <input  type="number" maxlength="9"  class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" value="{{$empresa->empr_telefono}}">
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Celular</label>
-      <input type="text" class="form-control" name="celular" id="inputPassword4" placeholder="Celular" value="{{$empresa->empr_celular}}">
+      <input type="number" maxlength="9" class="form-control" name="celular" id="inputPassword4" placeholder="Celular" value="{{$empresa->empr_celular}}">
     </div>
   </div>
 

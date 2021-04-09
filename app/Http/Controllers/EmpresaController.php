@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Empresa;
+use App\User;
+use App\Role;
+use Auth;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
 
 use Illuminate\Http\Request;
@@ -54,17 +58,42 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        $empresa                 = new Empresa();
-        $empresa->empr_nombre    = $request->get('nombre');
-        $empresa->empr_ruc     = $request->get('ruc');
-        $empresa->empr_direccion     = $request->get('direccion');
-        $empresa->empr_telefono = $request->get('telefono');
-        $empresa->empr_celular        = $request->get('celular');
-        $empresa->empr_correo        = $request->get('correo');
+        try {
+            DB::beginTransaction();
 
-        $empresa->save();
+            $data = $request->all();
+            $user =  User::create([
+                'name' => $request->get('nombre'),
+                'email' => strtolower($request->get('correo')),
+                'password' => Hash::make('123456'),
+            ]);
+    
+            $user->roles()->attach(Role::where('name', 'user')->first());
+            $id = $user->id;
 
-        return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+
+            $empresa                 = new Empresa();
+            $empresa->empr_nombre    = $request->get('nombre');
+            $empresa->user_id        = $id;
+            $empresa->empr_ruc       = $request->get('ruc');
+            $empresa->empr_direccion     = $request->get('direccion');
+            $empresa->empr_telefono = $request->get('telefono');
+            $empresa->empr_celular        = $request->get('celular');
+            $empresa->empr_correo        = strtolower($request->get('correo'));
+    
+            $empresa->save();
+    
+
+    
+            DB::commit();
+            return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        
+        
+        } catch (Exception $e) {
+            DB::rollBack(); 
+            return redirect('admin/empresas')->with('message','Ocurrio un error Inesperado'.$th)->with('operacion','0');
+        }
+       
         
     }
 
@@ -128,5 +157,14 @@ class EmpresaController extends Controller
         return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
 
     }
+
+
+    public function images($id)
+    {
+        return view('empresas.images', ['empresa' => Empresa::findOrFail($id)]);
+    }
+    
+    
+
     
 }

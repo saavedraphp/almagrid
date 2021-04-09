@@ -21,7 +21,7 @@ class RackController extends Controller
             $query    = trim($request->get('search'));
 
 
-              $data = DB::where('rack_nombre', 'LIKE', '%' . $query . '%')->orderBy('rack_nombre', 'asc')->paginate(10);
+              $data = Rack::where('rack_nombre', 'LIKE', '%' . $query . '%')->orderBy('rack_nombre', 'asc')->paginate(10);
            // dd(DB::getQueryLog());
             return view('racks.index', ['filas' => $data, 'search' => $query]);
 

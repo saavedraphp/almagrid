@@ -32,6 +32,8 @@ Route::resource('admin/actas', 'ActaController');
 
 
 Route::resource('admin/empresas', 'EmpresaController');
+Route::get('/admin/empresas/images/{id}', 'EmpresaController@images')->name('imagesHead');
+
 
 Route::resource('admin/productos', 'ProductosController');
 Route::resource('admin/racks', 'RackController');

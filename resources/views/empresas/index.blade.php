@@ -62,7 +62,8 @@
           @csrf
 
 
-
+        
+        <a href="{{route('imagesHead',$empresa->empr_id)}}"> <i class="far fa-images" ></i></a> |
          <a href="{{route('empresas.edit',$empresa->empr_id)}}"> <i class="far fa-edit" ></i></a> |
  
          <a href="javascript:document.getElementById('frm_destroy{{$empresa->empr_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$empresa->empr_id}}');"><i class="fas fa-trash-alt"></i></a>

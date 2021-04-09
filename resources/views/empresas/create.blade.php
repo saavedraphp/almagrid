@@ -37,7 +37,7 @@
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Ruc</label>
-      <input type="text" class="form-control" name="ruc" id="inputPassword4" placeholder="Ruc" value="{{old('ruc')}}">
+      <input type="number"   onKeyPress="if(this.value.length==11) return false;"   class="form-control" name="ruc" id="inputPassword4" placeholder="Ruc" value="{{old('ruc')}}">
     </div>
   </div>
 
@@ -57,13 +57,13 @@
 
     <div class="form-group col-md-6">
       <label for="inputPassword4">Celular</label>
-      <input type="text" class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{old('celular')}}">
+      <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==9) return false;" class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{old('celular')}}">
     </div>
 
 
     <div class="form-group col-md-6">
       <label for="inputEmail4">Telefono</label>
-      <input type="text" class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" value="{{old('telefono')}}">
+      <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==9) return false;" class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" value="{{old('telefono')}}">
     </div>
 
   </div>

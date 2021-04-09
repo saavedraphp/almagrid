@@ -254,7 +254,7 @@ class ActaController extends Controller
          DB::rollBack();    
             report($e);
             return redirect('admin/actas')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
-            return false;
+
         }        
             
  
