@@ -6,22 +6,28 @@
 
 <div class="container">
 
-<div class="row">
-<div class="col-md-8">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-      <h4>Por Favor corriga los siguientes errores   </h4>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-   @endif
 
-   <form action="{{route('empresas.update',$empresa->empr_id)}}" method="POST" enctype="multipart/form-data">
+@if(Session::get('operacion')=='1')
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{Session::get('message')}}
+</div>
+@endif
+
+@if(Session::get('operacion')=='0')
+  <div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{Session::get('message')}}
+  </div>
+
+@endif
+
+
+
+<form action="{{route('upload_mages',$empresa->empr_id)}}" method="POST" enctype="multipart/form-data">
 
 @csrf
+
 
 
   <div class="form-row">
@@ -41,7 +47,7 @@
             </div>
 
             <div class="custom-file">
-                <input type="file" class="custom-file-input" id="img_cabecera">
+                <input type="file" class="custom-file-input" id="img_cabecera" name="img">
                 <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
             </div>
         
@@ -50,8 +56,8 @@
 
 
   <div class="form-group">
-
-    <img src="..." class="img-fluid" alt="Responsive image">
+  
+    <img src="/img/cabecera_reporte/@if(empty($empresa->empr_ruta_img_reporte))defauld_1090_163.jpg @else{{$empresa->empr_ruta_img_reporte}} @endif" class="img-fluid" alt="Responsive image">
 
   </div>
 

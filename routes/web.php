@@ -33,6 +33,7 @@ Route::resource('admin/actas', 'ActaController');
 
 Route::resource('admin/empresas', 'EmpresaController');
 Route::get('/admin/empresas/images/{id}', 'EmpresaController@images')->name('imagesHead');
+Route::post('/admin/empresas/images/{id}', 'EmpresaController@upload_mages')->name('upload_mages');
 
 
 Route::resource('admin/productos', 'ProductosController');

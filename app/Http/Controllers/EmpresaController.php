@@ -6,7 +6,7 @@ use App\Empresa;
 use App\User;
 use App\Role;
 use Auth;
-
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Carbon;
@@ -161,10 +161,36 @@ class EmpresaController extends Controller
 
     public function images($id)
     {
+
         return view('empresas.images', ['empresa' => Empresa::findOrFail($id)]);
     }
     
     
+    public function upload_mages(Request $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $imagen = $request->file('img');
+            $nombre = $id.'-'.time().'.'.$imagen->getClientOriginalExtension();
+            $destino = public_path('img\cabecera_reporte');
+            $request->img->move($destino, $nombre);
+            
+            $empresa = Empresa::findOrFail($id);
+
+            $empresa->empr_ruta_img_reporte = $nombre;
+            $empresa->save();
+
+            
+            DB::commit();
+            return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        
+        
+        } catch (Exception $e) {
+            DB::rollBack(); 
+            return view('empresas.images', ['empresa' => Empresa::findOrFail($id)])->with('message','Ocurrio un error inesperado')->with('operacion','0');
+        }
+    }    
 
     
 }
