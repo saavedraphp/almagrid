@@ -88,9 +88,12 @@ class RackCasillaController extends Controller
      * @param  \App\RackCasillas  $rackCasillas
      * @return \Illuminate\Http\Response
      */
-    public function edit(RackCasillas $rackCasillas)
+    public function edit($id)
     {
-        //
+
+        $filas = Rack::whereNull('deleted_at')->orderBy('rack_nombre', 'asc')->get();
+
+        return view('racks_casillas.edit', ['casillas' => RackCasillas::findOrFail($id),'filas' =>$filas]);
     }
 
     /**
@@ -100,9 +103,25 @@ class RackCasillaController extends Controller
      * @param  \App\RackCasillas  $rackCasillas
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, RackCasillas $rackCasillas)
+    public function update(Request $request, $id)
     {
-        //
+        try
+        {
+            $casillas                 = RackCasillas::findOrFail($id);
+            $casillas->rc_nombre    =  strtoupper($request->get('nombre'));
+            $casillas->rack_id     = $request->get('cbo_rack_id');
+            
+            $casillas->update();
+
+            return redirect('admin/casillas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+
+        } catch (Exception $e) {
+            
+            report($e);
+            return redirect('admin/casillas')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
+            
+        } 
+        
     }
 
     /**
