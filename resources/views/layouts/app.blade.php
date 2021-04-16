@@ -20,6 +20,10 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 
+    
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
@@ -31,11 +35,13 @@
     
 </head>
 
+
 <body class="hold-transition sidebar-mini layout-fixed">
     <div id="app">
         <div class="wrapper">
 
             <!-- Navbar -->
+            
             <nav class="main-header navbar navbar-expand navbar-white navbar-light">
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
@@ -158,17 +164,19 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4 ">
                 <!-- Brand Logo -->
                 <a href="{{ url('/') }}" class="brand-link">
-                    <img src="{{ asset('dist/img/almagrilogo.png')}}" alt="Almagri"  width="220">
-                    
+                    <img src="../../dist/img/almagrilogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" >
+                    <span class="brand-text font-weight-light">SYS-Almacen</span>
                 </a>
-
                 <!-- Sidebar -->
                 <div class="sidebar">
                     <!-- Sidebar user panel (optional) -->
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="{{ asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
-                        </div>
+                        <a href="#" class="search-results-gallery-icon flex flex-column items-center justify-center color-inherit w-100 pa2 br2 br--top no-underline hover-bg-blue4 hover-white">
+                            <i class="fas fa-user-alt" style="font-size: 48px;"></i>
+                        </a>                    
+                    </div>
+                    
                         <div class="info">
                             <a href="#" class="d-block">
                                 @guest
@@ -192,9 +200,7 @@
 
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
-                            data-accordion="false">
-
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-item">
                                 <a href="/admin" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-home"></i>
@@ -250,38 +256,54 @@ $producto_count = Producto::all()->count();?>
                                 </a>
                             </li>
                             
+ 
 
-                            <li class="nav-item">
-                                <a href="/admin/racks"
-                                    class="{{ Request::path() === 'racks' ? 'nav-link active' : 'nav-link' }}">
-                                    
-                                    <i class="nav-icon fas fa-cubes"></i>
-                                    <p>
-                                    Racks
-                                        <?php use App\Rack;
-$rack_count = Rack::all()->count();?>
-                                        <span class="right badge badge-danger">{{ $rack_count ?? '0' }}</span>
-                                    </p>
-                                </a>
-                            </li>
  
 
 
 
-                            <li class="nav-item">
-                                <a href="/admin/casillas"
-                                    class="{{ Request::path() === 'casillas' ? 'nav-link active' : 'nav-link' }}">
-                                    
-                                    <i class="nav-icon fas fa-cubes"></i>
-                                    <p>
-                                    Casillas
-                                        <?php use App\RackCasillas;
-$casillas_count = RackCasillas::all()->count();?>
-                                        <span class="right badge badge-danger">{{ $casillas_count ?? '0' }}</span>
-                                    </p>
+                            <li class="{{ (Request::path() == 'admin/racks' or Request::path() == 'admin/casillas')  ? 'nav-item menu-open' : 'nav-item' }}" >
+                                <a href="/admin/casillas" class="nav-link" >
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    Almacen
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
                                 </a>
+                                <ul class="nav nav-treeview">
+                                
+                                <li class="nav-item">
+                                    <a href="/admin/racks" class="{{ Request::path() === 'admin/racks' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <?php use App\Rack;
+                                    $rack_count = Rack::all()->count();?>
+                                    <p>Racks </p>
+                                    <span class="right badge badge-danger">{{ $rack_count ?? '0' }}</span>
+                                    </a>
+                                </li>
+
+
+
+                                <li class="nav-item">
+                                    <a href="/admin/casillas" class="{{ Request::path() === 'admin/casillas' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <?php use App\RackCasillas;
+                                    $casillas_count = RackCasillas::all()->count();?>
+                                    <p>Casillas </p>
+                                    <span class="right badge badge-danger">{{ $casillas_count ?? '0' }}</span>
+                                    </a>
+                                </li>
+
+
+                                </ul>
                             </li>
 
+
+
+                            
+
+
+                            
 
 
 
@@ -310,7 +332,7 @@ $casillas_count = RackCasillas::all()->count();?>
             <footer class="main-footer">
                 <!-- NO QUITAR -->
                 <strong>Desarrollado por AdeconPeru
-                    <div class="float-right d-none d-sm-inline-block">
+                        <div class="float-right d-none d-sm-    -block">
                         <b>Version</b> 1.0
                     </div>
             </footer>
@@ -323,6 +345,11 @@ $casillas_count = RackCasillas::all()->count();?>
         </div>
     </div>
     @yield('scripts')
-</body>
+<!-- jQuery -->
+ 
+<!-- overlayScrollbars -->
+<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+ 
 
+</body>
 </html>
