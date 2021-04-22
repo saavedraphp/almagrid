@@ -34,6 +34,10 @@ Route::resource('admin/actas', 'ActaController');
 Route::resource('admin/empresas', 'EmpresaController');
 Route::get('/admin/empresas/images/{id}', 'EmpresaController@images')->name('imagesHead');
 Route::post('/admin/empresas/images/{id}', 'EmpresaController@upload_mages')->name('upload_mages');
+Route::get('/admin/empresas/deleteImages/{id}', 'EmpresaController@eliminar_imagen')->name('dropImages');
+
+Route::get('/admin/empresas/casillas/{id}', 'CasillasEmpresaController@asignar_casillas')->name('casillas_add');
+
 
 
 Route::resource('admin/productos', 'ProductosController');
@@ -53,9 +57,10 @@ Route::get('usuario/kardex/', 'KardexController@index');
 
 
 
-
+Route::get('racks/obtenerCasillas/', 'RackCasillaController@obenerCasillasIdRack');
 
 Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
+
 Route::get('ciudades/estado/', 'UsuarioController@getCiudadesByEstado');
 
 

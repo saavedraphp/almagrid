@@ -35,17 +35,11 @@
 
 
 <form action="{{route('upload_mages',$empresa->empr_id)}}" method="POST" 
-id="frm_formulario" enctype="multipart/form-data" >
+id="frm_formulario"  >
 
 @csrf
 
-<p v-if="errors.length">
-    <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
-    <ul>
-      <li v-for="error in errors">@{{error}}</li>
-    </ul>
-  </p>
-
+ 
 
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -55,32 +49,49 @@ id="frm_formulario" enctype="multipart/form-data" >
   </div>
 
 
-  <div class="form-group">
-        <label for="inputAddress">Imagen</label>
-        <div class="input-group mb-3">
+ 
 
-            <div class="input-group-prepend">
-                <span class="input-group-text">Upload</span>
-            </div>
 
-            <div class="custom-file">
-                <input type="file" class="custom-file-input" id="img_cabecera"    ref="imagen" name="img">
-                <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-            </div>
-        
-        </div>
+  <div class="form-row">
+  
+  <div class="form-group col-md-4">
+      <ul class="list-group" id="racks_id">
+        <li class="list-group-item active" aria-current="true">Racks</li>
+        @foreach($racks as $rack)
+        <li class="list-group-item"   @click="obtenerCasillas({{$rack->rack_id}})" >{{$rack->rack_nombre}} <a href="" >Add +</a></li>
+        @endforeach
+   
+       </ul>
   </div>
 
 
-  <div class="form-group">
-  
-    <img src="/img/cabecera_reporte/@if(empty($empresa->empr_ruta_img_reporte))defauld_1090_163.jpg @else{{$empresa->empr_ruta_img_reporte}} @endif" class="img-fluid" alt="Responsive image">
+  <div class="form-group col-md-4">
+      <ul class="list-group" id="casillas_id">
+          <li class="list-group-item active" aria-current="true">Celdas</li>
+          <li class="list-group-item"  v-for="option in data" v-bind:value="option.value"  >@{{ option.rc_nombre }} - <a href="" >Add +</a></li>
+      </ul>
+    
+  </div>
+
+
+
+  <div class="form-group col-md-4">
+    <button type="button" class="list-group-item list-group-item-action active">
+      Cedas Asignadas
+    </button>
+    <button type="button" class="list-group-item list-group-item-action">A - 101</button>
+    <button type="button" class="list-group-item list-group-item-action">A - 102</button>
+    <button type="button" class="list-group-item list-group-item-action">B - 101</button>
+    
+  </div>
+
+
 
   </div>
 
  
 
-  <button type="submit" class="btn btn-primary">Subir Imagen</button>
+  <button type="submit" class="btn btn-primary">Grabar Cambios</button>
 
   @if(!empty($empresa->empr_ruta_img_reporte))
     <a href="{{route('dropImages',$empresa->empr_id)}}" 
@@ -93,5 +104,6 @@ id="frm_formulario" enctype="multipart/form-data" >
 </div>
 @endsection
 @section('scripts')
-<script src="{{asset('js/empresa_imagen.js') }}" ></script>
+<script src="{{asset('js/casillasEmpresa.js') }}" ></script>
+
 @endsection

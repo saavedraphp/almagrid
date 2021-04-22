@@ -171,6 +171,17 @@ class EmpresaController extends Controller
         try {
             DB::beginTransaction();
 
+            $request->validate([
+                'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+
+            ],
+            [
+                'img.max'=> 'El archivo no puede ser mayor 1MB',
+                'img.required'=> 'tiene que eleguir una imagen por favor',
+                
+               ]);
+
+              //  dd($request);
             $imagen = $request->file('img');
             $nombre = $id.'-'.time().'.'.$imagen->getClientOriginalExtension();
             $destino = public_path('img\cabecera_reporte');
@@ -182,7 +193,37 @@ class EmpresaController extends Controller
             $empresa->save();
 
             
-            DB::commit();
+            //DB::commit();
+            return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        
+        
+        } catch (ValidationException $exception) {
+            DB::rollBack(); 
+            
+            return view('empresas.images', ['empresa' => Empresa::findOrFail($id),'errors' => $exception->errors()])->with('message','Ocurrio un error inesperado')->with('operacion','0');
+        }
+    }    
+
+
+    public function eliminar_imagen($id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $empresa = Empresa::findOrFail($id);
+            $ruta = public_path().'/img/cabecera_reporte/'.$empresa->empr_ruta_img_reporte;
+            
+            if(@getimagesize($ruta))
+            {
+                unlink($ruta);
+
+                //dd($ruta);
+    
+                $empresa->empr_ruta_img_reporte="";
+                $empresa->save();
+                DB::commit();
+            }
+
             return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
         
         
@@ -191,6 +232,7 @@ class EmpresaController extends Controller
             return view('empresas.images', ['empresa' => Empresa::findOrFail($id)])->with('message','Ocurrio un error inesperado')->with('operacion','0');
         }
     }    
+
 
     
 }

@@ -22,7 +22,7 @@
 
     
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="../../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -164,7 +164,7 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4 ">
                 <!-- Brand Logo -->
                 <a href="{{ url('/') }}" class="brand-link">
-                    <img src="../../dist/img/almagrilogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" >
+                    <img src="{{ asset('dist/img/almagrilogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" >
                     <span class="brand-text font-weight-light">SYS-Almacen</span>
                 </a>
                 <!-- Sidebar -->
@@ -348,7 +348,7 @@ $producto_count = Producto::all()->count();?>
 <!-- jQuery -->
  
 <!-- overlayScrollbars -->
-<script src="../../plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
  
 
 </body>
