@@ -58,8 +58,8 @@ const app = new Vue({
         obtenerProductos() {
             var url = "create";
           
-                axios.get(`http://laravel/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
-                //axios.get(`http://sistema.almagri.com/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
+                //axios.get(`http://laravel/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
+                axios.get(`http://sistema.almagri.com/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
                 this.data = response.data;
 
                 });

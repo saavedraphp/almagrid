@@ -11,8 +11,8 @@ const app = new Vue({
          //alert(id+2)
         var url = "create";
       
-            axios.get(`http://laravel/racks/obtenerCasillas`, {params: {rack_id: id} }).then((response) => {
-            //axios.get(`http://sistema.almagri.com/productos/empresa`, {params: {empresa_id: this.selected_empresa} }).then((response) => {
+            //axios.get(`http://laravel/racks/obtenerCasillas`, {params: {rack_id: id} }).then((response) => {
+            axios.get(`http://sistema.almagri.com/racks/obtenerCasillas`,{params: {rack_id: id} }).then((response) => {
             this.data = response.data;
 
             });

@@ -54,21 +54,19 @@ id="frm_formulario"  >
 
   <div class="form-row">
   
+
   <div class="form-group col-md-4">
-      <ul class="list-group" id="racks_id">
-        <li class="list-group-item active" aria-current="true">Racks</li>
-        @foreach($racks as $rack)
-        <li class="list-group-item"   @click="obtenerCasillas({{$rack->rack_id}})" >{{$rack->rack_nombre}} <a href="" >Add +</a></li>
-        @endforeach
-   
-       </ul>
+      <button type="button" class="list-group-item list-group-item-action active"> Racks </button>
+      @foreach($racks as $rack)
+      <button type="button" class="list-group-item list-group-item-action" @click="obtenerCasillas({{$rack->rack_id}})" >{{$rack->rack_nombre}}</button>
+      @endforeach
   </div>
 
 
   <div class="form-group col-md-4">
       <ul class="list-group" id="casillas_id">
           <li class="list-group-item active" aria-current="true">Celdas</li>
-          <li class="list-group-item"  v-for="option in data" v-bind:value="option.value"  >@{{ option.rc_nombre }} - <a href="" >Add +</a></li>
+          <li class="list-group-item"  v-for="option in data" v-bind:value="option.value"  >@{{ option.rc_nombre }} - <a href="" ><i class="fas fa-plus-circle" style="font-size: 12px;"></i></a></li>
       </ul>
     
   </div>
@@ -79,9 +77,9 @@ id="frm_formulario"  >
     <button type="button" class="list-group-item list-group-item-action active">
       Cedas Asignadas
     </button>
-    <button type="button" class="list-group-item list-group-item-action">A - 101</button>
-    <button type="button" class="list-group-item list-group-item-action">A - 102</button>
-    <button type="button" class="list-group-item list-group-item-action">B - 101</button>
+    <button type="button" class="list-group-item list-group-item-action">A - 101 <a href="" ><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></button>
+    <button type="button" class="list-group-item list-group-item-action">A - 102 <a href="" ><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></button>
+    <button type="button" class="list-group-item list-group-item-action">B - 101 <a href="" ><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></button>
     
   </div>
 
