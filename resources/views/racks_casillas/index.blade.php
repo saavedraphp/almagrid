@@ -64,8 +64,8 @@
           @method('DELETE')
           @csrf
           
-          <a href="{{route('casillas.edit',$fila->rc_id)}}"> <i class="far fa-edit" ></i></a> |
-          <a href="javascript:document.getElementById('frm_destroy{{$fila->rc_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->rc_id}}');"><i class="fas fa-trash-alt"></i></a>
+          <a href="{{route('casillas.edit',$fila->rc_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
+          <a href="javascript:document.getElementById('frm_destroy{{$fila->rc_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->rc_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
          
      
         </form>

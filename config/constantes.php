@@ -1,6 +1,6 @@
 <?php
 return [
-    "titulo_sistema" => "Sistema de Almacen",
+    "TITULO" => "Sistema de Almacen",
     "iva" => 16,
     "anidado" => [
       "clave" => "valor",

@@ -66,7 +66,8 @@ id="frm_formulario"  >
   <div class="form-group col-md-4">
       <ul class="list-group" id="casillas_id">
           <li class="list-group-item active" aria-current="true">Celdas</li>
-          <li class="list-group-item"  v-for="option in data" v-bind:value="option.value"  >@{{ option.rc_nombre }} - <a href="" ><i class="fas fa-plus-circle" style="font-size: 12px;"></i></a></li>
+          <li class="list-group-item"  v-for="option in casillas_rack" v-bind:value="option.value"  >@{{ option.rc_nombre }} - 
+          <a href="#"  @click="asignarCasilla(option)"><i class="fas fa-plus-circle" style="font-size: 12px;"></i></a></li>
       </ul>
     
   </div>
@@ -74,12 +75,11 @@ id="frm_formulario"  >
 
 
   <div class="form-group col-md-4">
-    <button type="button" class="list-group-item list-group-item-action active">
-      Cedas Asignadas
-    </button>
-    <button type="button" class="list-group-item list-group-item-action">A - 101 <a href="" ><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></button>
-    <button type="button" class="list-group-item list-group-item-action">A - 102 <a href="" ><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></button>
-    <button type="button" class="list-group-item list-group-item-action">B - 101 <a href="" ><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></button>
+  <ul class="list-group" id="casillas_id">
+          <li class="list-group-item active" aria-current="true">Celdas</li>
+          <li class="list-group-item"  v-for="(option, index) in casillas_empresa" v-bind:value="option.value"  >@{{ option.rc_nombre }} - 
+          <a href="#"  @click="quitarCasilla(index)"><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></li>
+      </ul>
     
   </div>
 

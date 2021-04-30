@@ -62,11 +62,11 @@
           @csrf
 
 
-        <a href="{{route('casillas_add',$empresa->empr_id)}}"> <i class="far fa-images" ></i></a> |
-        <a href="{{route('imagesHead',$empresa->empr_id)}}"> <i class="far fa-images" ></i></a> |
-         <a href="{{route('empresas.edit',$empresa->empr_id)}}"> <i class="far fa-edit" ></i></a> |
+        <a href="{{route('casillas_add',$empresa->empr_id)}}" title="{{MiConstantes::ASIGNAR_CASILLAS}}"> <i class="fas fa-border-none"></i></a> |
+        <a href="{{route('imagesHead',$empresa->empr_id)}}" title="{{MiConstantes::IMG_REPORTE}}"> <i class="far fa-images" ></i></a> |
+         <a href="{{route('empresas.edit',$empresa->empr_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
          
-         <a href="javascript:document.getElementById('frm_destroy{{$empresa->empr_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$empresa->empr_id}}');"><i class="fas fa-trash-alt"></i></a>
+         <a title="{{MiConstantes::ELIMINAR}}" href="javascript:document.getElementById('frm_destroy{{$empresa->empr_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$empresa->empr_id}}');"><i class="fas fa-trash-alt"></i></a>
 
         </form>
 
