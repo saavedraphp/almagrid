@@ -102,6 +102,11 @@ id="frm_formulario"  >
 </div>
 @endsection
 @section('scripts')
+
+<script>
+  const url = '{{ env('MY_URL') }}';
+</script>
+
 <script src="{{asset('js/casillasEmpresa.js') }}" ></script>
 
 @endsection

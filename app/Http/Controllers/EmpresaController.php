@@ -61,7 +61,7 @@ class EmpresaController extends Controller
         try {
             DB::beginTransaction();
 
-            $data = $request->all();
+
             $user =  User::create([
                 'name' => $request->get('nombre'),
                 'email' => strtolower($request->get('correo')),
@@ -76,10 +76,10 @@ class EmpresaController extends Controller
             $empresa->empr_nombre    = $request->get('nombre');
             $empresa->user_id        = $id;
             $empresa->empr_ruc       = $request->get('ruc');
-            $empresa->empr_direccion     = $request->get('direccion');
-            $empresa->empr_telefono = $request->get('telefono');
-            $empresa->empr_celular        = $request->get('celular');
-            $empresa->empr_correo        = strtolower($request->get('correo'));
+            $empresa->empr_direccion = $request->get('direccion');
+            $empresa->empr_telefono  = $request->get('telefono');
+            $empresa->empr_celular   = $request->get('celular');
+            $empresa->empr_correo    = strtolower($request->get('correo'));
     
             $empresa->save();
     

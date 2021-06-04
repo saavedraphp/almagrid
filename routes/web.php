@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-//use Illuminate\Routing\Route;
+
 
 Auth::routes();
 
@@ -53,10 +53,6 @@ Route::get('usuario/kardex/', 'KardexController@index');
 
 
 
-
-
-
-
 Route::get('racks/obtenerCasillas/', 'RackCasillaController@obenerCasillasIdRack');
 
 Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
@@ -73,8 +69,6 @@ route::get('user-list-pdf','UsuarioController@exportarPdf')->name('users.pdf');
 
 
 
-
-
 Route::resource('admin/tasks', 'admin\TaskController',['except' => 'show', 'create', 'edit']);
 
 Route::get('admin/tasks',function(){
@@ -84,9 +78,9 @@ Route::get('admin/tasks',function(){
 
 
 
-    Route::get('admin/ejemplos',function(){
-        return view('pruebas.lista');
-        });
+Route::get('admin/ejemplos',function(){
+    return view('pruebas.lista');
+    });
 
         
 Route::get('rollback','PruebaController@index');

@@ -10,11 +10,8 @@ const app = new Vue({
   },
   methods: {
      obtenerCasillas(rack_id) {
-         
-        var url = "create";
-      
-            axios.get(`http://laravel/racks/obtenerCasillas`, {params: {rack_id: rack_id} }).then((response) => {
-           // axios.get(`http://sistema.almagri.com/racks/obtenerCasillas`,{params: {rack_id: rack_id} }).then((response) => {
+ 
+            axios.get(url+`/racks/obtenerCasillas`, {params: {rack_id: rack_id} }).then((response) => {
             this.casillas_rack = response.data;
 
             });
@@ -22,6 +19,8 @@ const app = new Vue({
    
     },
 
+
+ 
 
     asignarCasilla (item) {
       this.casillas_empresa.push({'rc_id': item.rc_id, 'rc_nombre': item.rc_nombre })

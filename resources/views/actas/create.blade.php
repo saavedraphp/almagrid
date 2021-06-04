@@ -184,22 +184,12 @@
 
 @endsection
 @section('scripts')
+
 <script>
-function grabarActa()
-{
-
-  document.frm_actas.action = '/admin/actas';
-  document.frm_actas.submit();
-
-
-}
-
-function mensaje(obj)
-{
-
-  alert(obj)
-}
+  const url = '{{ env('MY_URL') }}';
+  
 </script>
+
 <script src="{{ asset('js/lista_productos.js') }}" ></script>
  
 @endsection

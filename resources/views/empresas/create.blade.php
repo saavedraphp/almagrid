@@ -49,7 +49,9 @@
 
   <div class="form-group">
     <label for="inputAddress">Email</label>
-    <input type="text" class="form-control" v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" value="{{old('correo')}}">
+    <input   type="text" class="form-control"   v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
+    value="{{old('correo')}}"  @blur="existeEmail" >
+    <span    v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
   </div>
 
 
@@ -79,5 +81,9 @@
 </div>
 @endsection
 @section('scripts')
+<script>
+  const url = '{{ env('MY_URL') }}';
+  
+</script>
 <script src="{{asset('js/frm_empresa.js') }}" ></script>
 @endsection
