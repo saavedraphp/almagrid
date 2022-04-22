@@ -44,8 +44,8 @@
       <input type="text" class="form-control" v-model="producto" name="producto" id="producto" placeholder="Nombre" value="{{old('producto')}}">
     </div>
     <div class="form-group col-md-6">
-      <label for="inputPassword4">Codigo</label>
-      <input type="text" class="form-control" v-model="codigo_producto" name="codigo_producto" id="codigo_producto" placeholder="Codigo" value="{{old('prod_codigo')}}">
+      <label for="inputPassword4">P. Inventario</label>
+      <input type="text" class="form-control" v-model="codigo_producto" name="codigo_producto" id="codigo_producto" placeholder="SKU" value="{{old('prod_codigo')}}">
     </div>
   </div>
 
@@ -64,8 +64,7 @@
       {{$guion  =""}};
         @foreach ($presentaciones->get() as $index => $value)
         
-          <option value="{{$index}}" >{{$value}}</option>
-            
+          <option value={{$index}}  @if($index =='5') selected @endif>{{$value}}</option>
         @endforeach
       </select>
  
@@ -73,7 +72,7 @@
 
 
     <div class="form-group col-md-6">
-        <label for="inputAddress">Peso KG</label>
+        <label for="inputAddress">Peso neto KG</label>
         <input type="number" class="form-control" id="inputAddress" placeholder="Peso" name="peso" value="{{old('peso')}}">
     </div>
     
@@ -101,11 +100,26 @@
   </div>
 
 
+  <div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="inputAddress">Lote</label>
+        <input type="number" class="form-control" id="inputAddress" placeholder="Lote" name="peso" value="{{old('peso')}}">
+ 
+   </div>
+
+
+    <div class="form-group col-md-6">
+        <label for="inputAddress">Fecha Vencimiento</label>
+        <input type="number" class="form-control" id="inputAddress" placeholder="YYYY-MM-DD" name="peso" value="{{old('peso')}}">
+    </div>
+    
+  </div>
+
 
 
     <div class="form-group">
-      <label for="inputEmail4">Comentario</label>
-      <textarea class="form-control" id="comentario_id" name="comentario" rows="3" placeholder="Comentario"></textarea>
+      <label for="inputEmail4">Descripción</label>
+      <textarea class="form-control" id="comentario_id" name="comentario" rows="3" placeholder="Descripción"></textarea>
     </div>
  
 

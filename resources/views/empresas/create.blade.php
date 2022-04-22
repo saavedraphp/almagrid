@@ -76,8 +76,7 @@
     <label for="inputAddress">Contacto</label>
     <input   type="text" class="form-control"   v-model="contacto"  id="contacto" placeholder="Contacto" name="contacto" 
     value="{{old('contacto')}}"  >
-    <span  v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
-  </div>
+   </div>
 
 
   <button type="submit" class="btn btn-primary">Registrar</button>

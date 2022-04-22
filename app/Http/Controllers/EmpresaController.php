@@ -142,7 +142,7 @@ class EmpresaController extends Controller
 
         $empresa->update();
 
-        return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
         
 
     }
@@ -156,7 +156,7 @@ class EmpresaController extends Controller
     public function destroy($id)
     {
         Empresa::destroy($id);
-        return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
 
     }
 
@@ -196,7 +196,7 @@ class EmpresaController extends Controller
 
             
             //DB::commit();
-            return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+            return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
         
         
         } catch (ValidationException $exception) {
@@ -226,7 +226,7 @@ class EmpresaController extends Controller
                 DB::commit();
             }
 
-            return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+            return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
         
         
         } catch (Exception $e) {

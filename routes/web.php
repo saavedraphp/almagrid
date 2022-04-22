@@ -24,7 +24,7 @@ Route::post('admin/actas/store-despacho', 'ActaController@store_despacho');
 
 Route::resource('admin/actas', 'ActaController');
 
-Route::resource('admin/clientes', 'ClienteController');
+//Route::resource('admin/clientes', 'ClienteController');
 
 
 
