@@ -3,12 +3,12 @@
 @section('content')
 
 
-
-<div class="container">
+ 
+ 
 
 <h2>Lista de Actas
 <a href="actas/create-despacho"> <button type="button" class="btn btn-danger float-right">Add Despacho</button></a>
-  <a href="actas/create"> <button type="button" class="btn btn-success float-right mr-3">Add Recepcion</button></a>  
+<a href="actas/create"> <button type="button" class="btn btn-success float-right mr-3">{{MiConstantes::NUEVO}}</button></a>  
 
  </h2>
 

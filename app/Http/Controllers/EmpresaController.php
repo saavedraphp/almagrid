@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Empresa;
 use App\User;
-use App\Role;
+use App\Roles;
 use Auth;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -68,7 +68,7 @@ class EmpresaController extends Controller
                 'password' => Hash::make('123456'),
             ]);
     
-            $user->roles()->attach(Role::where('name', 'user')->first());
+            $user->assignRole('Empresa');
             $id = $user->id;
 
 
@@ -79,19 +79,20 @@ class EmpresaController extends Controller
             $empresa->empr_direccion = $request->get('direccion');
             $empresa->empr_telefono  = $request->get('telefono');
             $empresa->empr_celular   = $request->get('celular');
+            $empresa->empr_contacto  = $request->get('contacto');
             $empresa->empr_correo    = strtolower($request->get('correo'));
-    
+            
             $empresa->save();
     
 
     
             DB::commit();
-            return redirect('admin/empresas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+            return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
         
         
         } catch (Exception $e) {
             DB::rollBack(); 
-            return redirect('admin/empresas')->with('message','Ocurrio un error Inesperado'.$th)->with('operacion','0');
+            return redirect('admin/clientes')->with('message','Ocurrio un error Inesperado'.$e)->with('operacion','0');
         }
        
         
@@ -137,6 +138,7 @@ class EmpresaController extends Controller
         $empresa->empr_telefono = $request->get('telefono');
         $empresa->empr_celular        = $request->get('celular');
         $empresa->empr_correo        = $request->get('correo');
+        $empresa->empr_contacto  = $request->get('contacto');       
 
         $empresa->update();
 

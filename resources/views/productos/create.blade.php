@@ -34,6 +34,10 @@
     </ul>
   </p>
 
+  <h2>[Nuevo]  </h2>
+
+
+
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="producto">Producto *</label>
@@ -41,62 +45,27 @@
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Codigo</label>
-      <input type="text" class="form-control" name="codigo_producto" id="inputPassword4" placeholder="Codigo" value="{{old('codigo_producto')}}">
+      <input type="text" class="form-control" v-model="codigo_producto" name="codigo_producto" id="codigo_producto" placeholder="Codigo" value="{{old('prod_codigo')}}">
     </div>
   </div>
 
 
-  <div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="inputAddress">Sku</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="sku" name="sku" value="{{old('sku')}}">
-
-    </div>
-
-    <div class="form-group col-md-6">
-        <label for="inputAddress">Ean</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="Ean" name="ean" value="{{old('ean')}}">
-    </div>
-  </div>
-
-
-
-
-
-
-
-
-  <div class="form-row">
-
-
-  <div class="form-group col-md-6">
-      <label for="inputPassword4">Lote</label>
-      <input type="text" class="form-control" name="lote" id="inputPassword4" placeholder="Lote" value="{{old('lote')}}">
-    </div>
-
-
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Serie</label>
-      <input type="text" class="form-control" name="serie" id="inputPassword4" placeholder="Serie" value="{{old('serie')}}">
-    </div>
-
-    
-  </div>
+  
 
 
 
 
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="cbo_presentacion">Presentacion</label>
+      <label for="cbo_presentacion">Unidad de Medida</label>
 
       <select class="form-control" aria-label="Default select example" name="cbo_presentacion" id="cbo_presentacion_id"
       v-model="cbo_presentacion_id">
       {{$guion  =""}};
         @foreach ($presentaciones->get() as $index => $value)
         
-          <option value="{{$index}}" >{{$index.$guion.$value}}</option>
-            {{$guion  =" - "}};
+          <option value="{{$index}}" >{{$value}}</option>
+            
         @endforeach
       </select>
  
@@ -104,8 +73,8 @@
 
 
     <div class="form-group col-md-6">
-        <label for="inputAddress">Precio</label>
-        <input type="number" class="form-control" id="inputAddress" placeholder="Precio" name="precio" value="{{old('precio')}}">
+        <label for="inputAddress">Peso KG</label>
+        <input type="number" class="form-control" id="inputAddress" placeholder="Peso" name="peso" value="{{old('peso')}}">
     </div>
     
   </div>

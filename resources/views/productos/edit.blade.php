@@ -29,6 +29,7 @@
       <li v-for="error in errors">@{{error}}</li>
     </ul>
   </p>
+  <h2>[Editar]  </h2>
 
   <div class="form-row">
     <div class="form-group col-md-6">
@@ -37,62 +38,22 @@
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Codigo</label>
-      <input type="text" class="form-control" name="codigo_producto" id="inputPassword4" placeholder="Codigo" value="{{$producto->prod_codigo}}">
-    </div>
-  </div>
-
-
-  <div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="inputAddress">Sku</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="sku" name="sku" value="{{$producto->prod_sku}}">
-
-    </div>
-
-    <div class="form-group col-md-6">
-        <label for="inputAddress">Ean</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="Ean" name="ean" value="{{$producto->prod_ean}}">
+      <input type="text" class="form-control"  v-model="codigo_producto" name="codigo_producto" id="codigo_producto" placeholder="Codigo" value="{{$producto->prod_codigo}}">
     </div>
   </div>
 
 
 
-
-
-
-
-
-  <div class="form-row">
-  <div class="form-group col-md-6">
-      <label for="inputPassword4">Lote</label>
-      <input type="text" class="form-control" name="lote" id="inputPassword4" placeholder="Lote" value="{{$producto->prod_lote}}">
-    </div>
-
-
-
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">Serie</label>
-      <input type="text" class="form-control" name="serie" id="inputPassword4" placeholder="Serie" value="{{$producto->prod_serie}}">
-    </div>
-
-    
-  </div>
-
-
-
-
-
-
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="cbo_presentacion_id">Presentacion</label>
+      <label for="cbo_presentacion_id">Unidad de Medida</label>
 
       <select class="form-control" aria-label="Default select example" name="cbo_presentacion" id="cbo_presentacion_id"
        v-model="cbo_presentacion_id">
       {{$guion  =""}};
         @foreach ($presentaciones->get() as $index => $value)
         
-          <option value={{$index}}  @if($producto->pres_id ==$index) selected @endif>{{$index.$guion.$value}}</option>
+          <option value={{$index}}  @if($producto->unidad_id ==$index) selected @endif>{{$index.$guion.$value}}</option>
             {{@$guion  =" - "}}
         @endforeach
       </select>
@@ -101,8 +62,8 @@
 
 
     <div class="form-group col-md-6">
-    <label for="inputAddress">Precio</label>
-        <input type="number" class="form-control" id="inputAddress" placeholder="Precio" name="precio" value="{{$producto->prod_precio}}">    </div>
+    <label for="inputAddress">Peso</label>
+        <input type="number" class="form-control" id="inputAddress" placeholder="peso" name="peso" value="{{$producto->prod_peso}}">    </div>
 
     
   </div>

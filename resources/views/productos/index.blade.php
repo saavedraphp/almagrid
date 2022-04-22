@@ -4,7 +4,7 @@
 
 <div class="container">
 <h2>Lista de Productos 
-  <a href="productos/create"> <button type="button" class="btn btn-success float-right">Adicionar</button></a>
+  <a href="productos/create"> <button type="button" class="btn btn-success float-right">{{MiConstantes::NUEVO}}</button></a>
   
 
 </h2>
@@ -32,13 +32,35 @@
 
 @endif
 
+<form action="" method="GET" class="card-header" >
+<div class="form-outline">
+  <div class="form-row">
+    
+    <div class="form-group col-md-5" >
+      <div class="input-group input-group-sm">
+          <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search" name="search">
+          <div class="input-group-append">
+              <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+              </button>
+          </div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+ 
+</form>
+<br>
+
 <table class="table table-hover" >
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col">Codigo</th>
       <th scope="col">Producto</th>
       <th scope="col">Total</th>
-      <th scope="col">Precio</th>
+      <th scope="col">Medida</th>
       <th scope="col">Empresa</th>
     </tr>
   </thead>
@@ -46,10 +68,10 @@
   	@foreach($productos as $producto)
 
     <tr v-for>
-      <th scope="row"> {{ $producto->prod_id }} </th>
+      <th > {{ $producto->prod_codigo }} </th>
       <td>{{$producto->prod_nombre}}</td>
       <td>{{$producto->prod_stock}}</td>
-      <td>{{number_format($producto->prod_precio,2)}}</td>
+      <td>{{$producto->unid_nombre}}</td>
       <td>{{$producto->empr_nombre}}</td>
 
       <td>

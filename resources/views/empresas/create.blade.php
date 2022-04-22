@@ -19,7 +19,7 @@
     </div>
    @endif
 
-<form action="/admin/empresas" method="POST"  id="frm_formulario" @submit="checkForm">
+<form action="/admin/clientes" method="POST"  id="frm_formulario" @submit="checkForm">
 @csrf
 
 <p v-if="errors.length">
@@ -32,12 +32,13 @@
 
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="inputEmail4">Empresa</label>
+      <label for="inputEmail4">Nombre / Empresa</label>
       <input type="text" class="form-control" v-model="nombre_id" name="nombre" id="nombre_id" placeholder="Nombre" value="{{old('nombre')}}">
     </div>
     <div class="form-group col-md-6">
-      <label for="inputPassword4">Ruc</label>
-      <input type="number"   onKeyPress="if(this.value.length==11) return false;"   class="form-control" name="ruc" id="inputPassword4" placeholder="Ruc" value="{{old('ruc')}}">
+      <label for="inputPassword4">DNI / RUC</label>
+      <input type="number"   onKeyPress="if(this.value.length==11) return false;"   class="form-control" name="ruc" 
+      id="ruc_id" v-model="ruc_id"  placeholder="Ruc" value="{{old('ruc')}}">
     </div>
   </div>
 
@@ -48,7 +49,7 @@
   </div>
 
   <div class="form-group">
-    <label for="inputAddress">Email</label>
+    <label for="inputAddress">Correo</label>
     <input   type="text" class="form-control"   v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
     value="{{old('correo')}}"  @blur="existeEmail" >
     <span    v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
@@ -70,7 +71,14 @@
 
   </div>
 
- 
+ <hr>
+  <div class="form-group">
+    <label for="inputAddress">Contacto</label>
+    <input   type="text" class="form-control"   v-model="contacto"  id="contacto" placeholder="Contacto" name="contacto" 
+    value="{{old('contacto')}}"  >
+    <span  v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
+  </div>
+
 
   <button type="submit" class="btn btn-primary">Registrar</button>
   <button type="reset" class="btn btn-danger">Cancelar</button>

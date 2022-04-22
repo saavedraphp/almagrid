@@ -26,9 +26,10 @@ class ProductosController extends Controller
             $query    = trim($request->get('search'));
             //$productos = Producto::where('prod_nombre', 'LIKE', '%' . $query . '%')->orderBy('prod_nombre', 'asc')->paginate(10);
 
-            $productos = DB::table('productos  as p')
+            $productos = DB::table('productos_x_empresa  as p')
             ->join('empresas as e','p.empr_id','=','e.empr_id')
-            ->select('p.prod_nombre', 'p.prod_id',  'p.prod_nombre', 'p.prod_stock','p.prod_precio', 'e.empr_nombre',
+            ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
+            ->select('p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre', 'p.prod_stock','p.prod_precio', 'e.empr_nombre',
             'p.created_at','p.deleted_at')->where('prod_nombre', 'LIKE', '%' . $query . '%')
             ->whereNull('p.deleted_at')
             ->orderBy('p.created_at', 'asc')
@@ -57,17 +58,26 @@ class ProductosController extends Controller
     {
         $producto                   = new Producto();
         
-        $producto->empr_id          = $request->get('cbo_empresa');
         $producto->prod_nombre      = $request->get('producto');
         $producto->prod_codigo      = $request->get('codigo_producto');
+        $producto->unidad_id        = $request->get('cbo_presentacion');
+        $producto->prod_peso        = (float)$request->get('peso');
+
+        $producto->empr_id          = $request->get('cbo_empresa');
+
+
+        $producto->prod_comentario  = $request->get('comentario');
+
+        /*
+
         $producto->prod_sku         = $request->get('sku');
         $producto->prod_ean         = $request->get('ean');
-        $producto->pres_id          = $request->get('cbo_presentacion');
+        
         $producto->prod_lote         = $request->get('lote');
         $producto->prod_serie       = $request->get('serie');
         $producto->prod_precio  =   (float)$request->get('precio');
-        $producto->prod_comentario  = $request->get('comentario');
         
+        */
         $producto->save();
 
         //return redirect('admin/productos');
@@ -90,13 +100,19 @@ class ProductosController extends Controller
         $producto->empr_id          = $request->get('cbo_empresa');
         $producto->prod_nombre      = $request->get('producto');
         $producto->prod_codigo      = $request->get('codigo_producto');
+        $producto->unidad_id        = $request->get('cbo_presentacion');
+        $producto->prod_peso        = (float)$request->get('peso');
+        $producto->empr_id          = $request->get('cbo_empresa');
+        $producto->prod_comentario  = $request->get('comentario');
+
+        /*
         $producto->prod_sku         = $request->get('sku');
         $producto->prod_ean         = $request->get('ean');
         $producto->pres_id          = $request->get('cbo_presentacion');
         $producto->prod_serie       = $request->get('serie');
         $producto->prod_lote         = $request->get('lote');
         $producto->prod_precio  =   $request->get('precio');
-        $producto->prod_comentario  = $request->get('comentario');
+        */
         
         $producto->update();
 
@@ -120,9 +136,9 @@ class ProductosController extends Controller
     public function ObtenerProductosEmpresa(Request $request)
     {
                         
-        $productos = DB::table('productos  as p')
+        $productos = DB::table('productos_x_empresa  as p')
         
-        ->select('p.prod_id','p.pres_id', 'p.prod_nombre',  'p.prod_lote','p.prod_stock', 'p.prod_fecha_vencimiento',
+        ->select('p.prod_id','p.unidad_id', 'p.prod_nombre',  'p.prod_lote','p.prod_stock', 'p.prod_fecha_vencimiento',
         'p.prod_stock as total')
         ->where('p.empr_id', '=',$request->empresa_id )
         ->orderBy('p.created_at', 'asc')->get();

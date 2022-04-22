@@ -134,7 +134,7 @@ class ActaController extends Controller
                     'a.created_at')
                     ->whereNull('a.deleted_at')
                     ->orderBy('a.created_at', 'asc')
-                    ->where('acta_numero_ingr_sali','=',$nro_documento)->paginate(10);
+                    ->where('acta_numero_ingr_sali','=',$nro_documento);
                     $busqueda = 'nro_documento';
                     $query = $request->get('nro_documento');
                 }

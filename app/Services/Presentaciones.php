@@ -8,10 +8,10 @@ class Presentaciones
 {
     public function get()
     {
-        $resultados        = Presentacion::get();
-        $array[''] = 'Seleccione una Presentacion';
+        $resultados        = Presentacion::orderby('unid_orden')->get();
+        $array[''] = 'Seleccione la Unidad';
         foreach ($resultados as $data) {
-            $array[$data->pres_id] = $data->pres_nombre;
+            $array[$data->id] = $data->unid_nombre;
         }
         return $array;
     }

@@ -9,6 +9,6 @@ class Presentacion extends Model
 {
     use SoftDeletes;
        
-    protected $table = "presentaciones";
-    protected $primaryKey = 'pres_id';
+    protected $table = "unidad_medida";
+    protected $primaryKey = 'id';
 }

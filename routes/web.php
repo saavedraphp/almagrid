@@ -1,8 +1,5 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-
-
 
 Auth::routes();
 
@@ -13,14 +10,13 @@ Route::post('/register', 'Auth\RegisterController@create');
 
  
 
-Route::get('/admin', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index');
 
 //MODULO DE EMPRESA
 Route::get('/usuario', 'HomeController@login_empresa')->name('homex');
 
 
-//Route::get('/usuarios', 'UsuarioController@index');
-//Route::resource('usuarios', 'UsuarioController');
+
 
 
 Route::get('admin/actas/create-despacho', 'ActaController@create_despacho');
@@ -28,10 +24,11 @@ Route::post('admin/actas/store-despacho', 'ActaController@store_despacho');
 
 Route::resource('admin/actas', 'ActaController');
 
+Route::resource('admin/clientes', 'ClienteController');
 
 
 
-Route::resource('admin/empresas', 'EmpresaController');
+Route::resource('admin/clientes', 'EmpresaController');
 Route::get('/admin/empresas/images/{id}', 'EmpresaController@images')->name('imagesHead');
 Route::post('/admin/empresas/images/{id}', 'EmpresaController@upload_mages')->name('upload_mages');
 Route::get('/admin/empresas/deleteImages/{id}', 'EmpresaController@eliminar_imagen')->name('dropImages');

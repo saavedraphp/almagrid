@@ -3,8 +3,8 @@
 @section('content')
 
 <div class="container">
-<h2>Lista de Empresas 
-  <a href="empresas/create"> <button type="button" class="btn btn-success float-right">Adicionar</button></a>
+<h2>Lista de Clientes 
+  <a href="clientes/create"> <button type="button" class="btn btn-success float-right">Adicionar</button></a>
   
 
 </h2>
@@ -37,7 +37,7 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Empresa</th>
+      <th scope="col">Clientes</th>
       <th scope="col">Ruc</th>      
       <th scope="col">Email</th>
       <th scope="col">Telefono</th>
@@ -57,14 +57,14 @@
       <td>
 
 
-        <form action="{{route('empresas.destroy',$empresa->empr_id)}}" method="POST" id="frm_destroy{{$empresa->empr_id}}"> 
+        <form action="{{route('clientes.destroy',$empresa->empr_id)}}" method="POST" id="frm_destroy{{$empresa->empr_id}}"> 
           @method('DELETE')
           @csrf
 
 
         <a href="{{route('casillas_add',$empresa->empr_id)}}" title="{{MiConstantes::ASIGNAR_CASILLAS}}"> <i class="fas fa-border-none"></i></a> |
         <a href="{{route('imagesHead',$empresa->empr_id)}}" title="{{MiConstantes::IMG_REPORTE}}"> <i class="far fa-images" ></i></a> |
-         <a href="{{route('empresas.edit',$empresa->empr_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
+         <a href="{{route('clientes.edit',$empresa->empr_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
          
          <a title="{{MiConstantes::ELIMINAR}}" href="javascript:document.getElementById('frm_destroy{{$empresa->empr_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$empresa->empr_id}}');"><i class="fas fa-trash-alt"></i></a>
 

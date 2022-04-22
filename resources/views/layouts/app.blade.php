@@ -29,9 +29,11 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <!-- Styles -->
+    
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    
+
+
     
 </head>
 
@@ -53,10 +55,10 @@
                 <!-- SEARCH FORM -->
                 <form class="form-inline ml-3">
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                        <input  class="form-control form-control-navbar" type="hidden" placeholder="Search"
                             aria-label="Search" name="search">
                         <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
+                            <button class="btn btn-navbar" type="submit" style="visibility: hidden;">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -202,7 +204,7 @@
                     <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li class="nav-item">
-                                <a href="/admin" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
+                                <a href="/" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-home"></i>
                                     <p>Inicio</p>
                                 </a>
@@ -215,7 +217,7 @@
                                     
                                     <i class="nav-icon fas fa-plus-circle"></i>
                                     <p>
-                                        Actas
+                                        Recepcion
                                         <?php use App\Acta;
 $count = Acta::all()->count();?>
                                         <span class="right badge badge-danger">{{ $count ?? '0' }}</span>
@@ -226,22 +228,27 @@ $count = Acta::all()->count();?>
 
 
 
-
                             <li class="nav-item">
-                                <a href="/admin/empresas"
-                                    class="{{ Request::path() === 'empresas' ? 'nav-link active' : 'nav-link' }}">
+                                <a href="/admin/clientes"
+                                    class="{{ Request::path() === 'clientes' ? 'nav-link active' : 'nav-link' }}">
 
                                     <i class="nav-icon fas fa-university"></i>
                                     <p>
-                                        Empresas
+                                        Clientes
                                         <?php use App\Empresa;
 $empresa_count = Empresa::all()->count();?>
                                         <span class="right badge badge-danger">{{ $empresa_count ?? '0' }}</span>
                                     </p>
                                 </a>
                             </li>
+                            
+                            <?php use App\Producto;
+$producto_count = Producto::all()->count();?>
 
+ 
 
+                            @can('admin.productos.index')
+                            
                             <li class="nav-item">
                                 <a href="/admin/productos"
                                     class="{{ Request::path() === 'productos' ? 'nav-link active' : 'nav-link' }}">
@@ -249,15 +256,14 @@ $empresa_count = Empresa::all()->count();?>
                                     <i class="nav-icon fas fa-cubes"></i>
                                     <p>
                                         Productos
-                                        <?php use App\Producto;
-$producto_count = Producto::all()->count();?>
+
                                         <span class="right badge badge-danger">{{ $producto_count ?? '0' }}</span>
                                     </p>
                                 </a>
                             </li>
                             
- 
-
+                            @endcan
+                            
  
 
 

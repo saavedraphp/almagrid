@@ -3,8 +3,10 @@ const app2 = new Vue({
     data: {
       errors: [],
       nombre_id: document.getElementById("nombre_id").value,
+      ruc_id: document.getElementById("ruc_id").value,
       correo_id: document.getElementById("correo_id").value,
       celular_id:  document.getElementById("celular_id").value,
+      contacto:  document.getElementById("contacto").value,
       msg:[],
       encontroEmail: false,
     },
@@ -15,9 +17,14 @@ const app2 = new Vue({
         this.errors = [];
   
         if (!this.nombre_id) {
-          this.errors.push('El Nombre es obligatorio.');
+          this.errors.push('El Nombre / Ruc es obligatorio.');
         }
 
+        
+        if (!this.ruc_id) {
+          this.errors.push('El DNI / RUC es obligatorio.');
+        }        
+  
         
 
         if (!this.correo_id) {
@@ -51,7 +58,7 @@ const app2 = new Vue({
       existeEmail() {
  
          this.msg['email']="El correo existe en nuestra base de datos";
-         this.encontroEmail = true;
+         this.encontroEmail = false;
       //  axios.get(url+`/existeEmail`, {params: {email: email} }).then((response) => {
       //  if(response.data==1)
       //  {
