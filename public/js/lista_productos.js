@@ -3,8 +3,17 @@ const app = new Vue({
 
     data: {
         empresa_id: '',
+        producto:document.getElementById("producto_id").value,
+        v_cantidad:document.getElementById("cantidad_id").value,
         total_productos:0,
+        
+        f_vencimiento:document.getElementById("f_vencimiento").value,
+        lote:document.getElementById("lote").value,
+
         data: [],
+        productos_acta:[],
+
+
 
         errors: [],
         selected_empresa: document.getElementById("empresa_id").value,
@@ -16,8 +25,65 @@ const app = new Vue({
 
     methods: {
 
-        checkForm: function (e) {
+        removeItem: function(element){
+            this.productos_acta.splice(this.productos_acta.indexOf(element), 1);
+            console.log(element);
+        },
+
+
  
+
+        add_producto:function(){
+
+            //console.log('valor de producto '+this.producto);
+            
+            if(this.producto=="")
+            {
+              alert("Seleccione un producto");
+              this.$refs.r_producto.focus();
+              return;
+    
+            }
+
+            //console.log('valor cantidad '+this.v_cantidad);
+
+            if(this.v_cantidad =="" || this.v_cantidad <= 0)
+            {
+              alert("Ingrese un valor valido");
+              this.v_cantidad = "";
+              this.$refs.r_cantidad.focus();
+              return;
+    
+            }
+
+    
+            if(this.v_cantidad>0){
+
+             this.productos_acta.push({prod_id:this.producto.prod_id, prod_nombre:this.producto.prod_nombre,
+             prod_lote:this.lote, cantidad:this.v_cantidad, total:this.producto.prod_stock+this.cantidad});
+             this.$refs.r_producto.focus();
+             
+             this.v_cantidad="";
+             console.log(this.productos_acta);
+               /*
+              this.calcularTotal();
+              */
+   
+            }
+    
+         
+    
+         //Vue.set(this.lista, this.new_item, {id:this.temp.id ,name:this.temp.name,numcode:this.temp.numcode, cantidad: this.temp.numcode})
+    
+         
+    
+         
+    
+       },
+
+        checkForm: function (e) {
+            console.log('valor de lista => '+this.productos_acta.length);
+
             this.errors = [];
       
             if (!this.selected_empresa) {
@@ -36,8 +102,7 @@ const app = new Vue({
                 
           
 
-            //verificar_cambios();
-
+ 
             if(this.verificar_cambios()==false)
             {
                 this.errors.push('Por favor tiene que eleguir algún producto');
@@ -46,11 +111,14 @@ const app = new Vue({
             
             
             if (!this.errors.length) {
+                document.frm_formulario.submit();
                 return true;
+                
+
             }
 
-     
-            e.preventDefault();
+            //e.preventDefault();
+
           },      
 
 
@@ -117,16 +185,7 @@ const app = new Vue({
                 
             }
             return  false;
-/*
-
-            for(x in this.data)
-            {
-                alert(this.data[x]['valor']);
-
-                if(this.data[x]['valor'] >0)
-                return  true;
-            }
-  */          
+   
    
 
             
@@ -136,7 +195,10 @@ const app = new Vue({
 
         
         
-    }// end method
+    },
+    
+
+    // end method
 
 
 });

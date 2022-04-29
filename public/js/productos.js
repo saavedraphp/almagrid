@@ -3,7 +3,7 @@ const app2 = new Vue({
     data: {
       errors: [],
       producto: document.getElementById("producto").value,
-      codigo_producto: document.getElementById("codigo_producto").value,
+      sku: document.getElementById("sku_id").value,
       empresa_id: document.getElementById("empresa_id").value,
       cbo_presentacion_id:  document.getElementById("cbo_presentacion_id").value
     },
@@ -14,19 +14,19 @@ const app2 = new Vue({
         this.errors = [];
   
         if (!this.producto) {
-          this.errors.push('El nombre es requerido.');
+          this.errors.push('Ingrese el nombre del Producto.');
         }
 
-        if (!this.codigo_producto) {
-          this.errors.push('El codigo es requerido.');
-      }    
+        /*if (!this.sku) {
+          this.errors.push('El SKU es requerido.');
+        } */   
 
         if ( (!this.empresa_id)){
-          this.errors.push('La Empresa es requerido.');
+          this.errors.push('Selecione la Empresa.');
         }
 
         if (!this.cbo_presentacion_id) {
-            this.errors.push('La Unidad de medida es requerido.');
+            this.errors.push('Seleccione la Unidad de medida.');
         }        
   
          

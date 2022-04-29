@@ -6,6 +6,8 @@
 @inject('servicios','App\Services\Servicios') 
 @inject('presentaciones','App\Services\Presentaciones')
 
+<h2>Adicionar Productos </h2>
+
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a href="#home" class="nav-link active" data-toggle="tab">Acta</a>
@@ -16,7 +18,15 @@
  
 </ul>
 
-<form  method="POST" name="frm_actas">
+<form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/actas" @submit="checkForm">
+
+<p v-if="errors.length">
+    <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
+    <ul>
+      <li v-for="error in errors">@{{error}}</li>
+    </ul>
+  </p>
+
 <div class="tab-content col-md-10" id="crud">
 
 
@@ -43,7 +53,7 @@
  
     <div class="form-group">
       <label for="inputEmail4">Sub Cliente</label>
-      <input type="text" class="form-control" name="sub_cliente" id="acta_sub_cliente_id" placeholder="Sub Cliente"
+      <input type="text" class="form-control"  v-model="acta_sub_cliente_id" name="sub_cliente" id="acta_sub_cliente_id" placeholder="Sub Cliente"
        value="{{old('acta_sub_cliente')}}" >
     </div>
  
@@ -54,7 +64,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
           <label for="inputAddress">Tipo de Documento</label>
-          <select  id="tipo_documento_id" data-old="{{old('cbo_empresa')}}"
+          <select  v-model="tipo_documento_id" id="tipo_documento_id" data-old="{{old('cbo_empresa')}}"
           name="tipo_documento"  class="form-control">
           {{$guion  =""}};
             @foreach ($documentos->get() as $index => $value)
@@ -75,20 +85,7 @@
 
 
 
-    <div class="form-group">
-        <label for="inputEmail4">Tipo de Servicio</label>
-        <select  id="tipo_servicio_id" data-old="{{old('cbo_empresa')}}"
-          name="tipo_servicio"  class="form-control">
-
-          {{$guion  =""}};
-            @foreach ($servicios->get() as $index => $value)
-            
-              <option value="{{$index}}" >{{$index.$guion.$value}}</option>
-                {{$guion  =" - "}};
-            @endforeach
-            </select>    
-    </div>
-
+ 
 
     
     <div class="form-row">
@@ -112,7 +109,7 @@
     
 
 
-    <button type="button" onclick="grabarActa()" class="btn btn-primary">Registrar</button>
+    <button type="submit"   class="btn btn-primary">Registrar</button>
     <button type="reset" class="btn btn-danger">Cancelar</button>
     
 
@@ -153,7 +150,7 @@
                 <td>@{{producto.prod_lote}}</td>
                 <td>@{{producto.prod_stock}}</td>
                 <td>
-                    <input v-model="producto.valor"  @keyup.enter="modificarStock(producto)"  type="text" class="form-control"     size="3" placeholder="Cantidad"  
+                    <input v-model="producto.valor" v-on:blur="modificarStock(producto)" v-on:keydown.enter.prevent="modificarStock(producto)"  type="number" class="form-control"     size="3" placeholder="Cantidad"    
                           name="cantidad[]" value="0" maxlength="5"   >                
                 </td>
 
@@ -187,22 +184,12 @@
 
 @endsection
 @section('scripts')
+
 <script>
-function grabarActa()
-{
-
-  document.frm_actas.action = '/admin/actas';
-  document.frm_actas.submit();
-
-
-}
-
-function mensaje(obj)
-{
-
-  alert(obj)
-}
+  const url = '{{ env('MY_URL') }}';
+  
 </script>
+
 <script src="{{ asset('js/lista_productos.js') }}" ></script>
  
 @endsection

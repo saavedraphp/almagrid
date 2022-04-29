@@ -9,6 +9,7 @@ class Servicio extends Model
 {
     use SoftDeletes;
        
-    
-    protected $primaryKey = 'serv_id';
+    protected $table = 'tipo_movimiento';
+
+    protected $primaryKey = 'tm_id';
 }

@@ -29,7 +29,8 @@ class ProductosController extends Controller
             $productos = DB::table('productos_x_empresa  as p')
             ->join('empresas as e','p.empr_id','=','e.empr_id')
             ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
-            ->select('p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre', 'p.prod_stock','p.prod_precio', 'e.empr_nombre',
+            ->select('p.prod_sku', 'p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre',
+             'p.prod_stock','p.prod_precio', 'e.empr_nombre','p.prod_fecha_vencimiento',
             'p.created_at','p.deleted_at')->where('prod_nombre', 'LIKE', '%' . $query . '%')
             ->whereNull('p.deleted_at')
             ->orderBy('p.created_at', 'asc')
@@ -59,21 +60,20 @@ class ProductosController extends Controller
         $producto                   = new Producto();
         
         $producto->prod_nombre      = $request->get('producto');
-        $producto->prod_codigo      = $request->get('codigo_producto');
+        $producto->prod_sku         = $request->get('sku');
         $producto->unidad_id        = $request->get('cbo_presentacion');
+
         $producto->prod_peso        = (float)$request->get('peso');
-
         $producto->empr_id          = $request->get('cbo_empresa');
+        $producto->prod_lote         = $request->get('lote');
 
-
+        $producto->prod_fecha_vencimiento         = $request->get('fecha_vencimiento');
         $producto->prod_comentario  = $request->get('comentario');
+
 
         /*
 
-        $producto->prod_sku         = $request->get('sku');
-        $producto->prod_ean         = $request->get('ean');
         
-        $producto->prod_lote         = $request->get('lote');
         $producto->prod_serie       = $request->get('serie');
         $producto->prod_precio  =   (float)$request->get('precio');
         
@@ -97,13 +97,19 @@ class ProductosController extends Controller
     {
         $producto                   = Producto::findOrFail($id);
         
-        $producto->empr_id          = $request->get('cbo_empresa');
-        $producto->prod_nombre      = $request->get('producto');
-        $producto->prod_codigo      = $request->get('codigo_producto');
+        $producto->prod_nombre      = $request->get('producto');        
+        $producto->prod_sku         = $request->get('sku');
         $producto->unidad_id        = $request->get('cbo_presentacion');
-        $producto->prod_peso        = (float)$request->get('peso');
+
+        $producto->prod_peso        = (float)$request->get('peso');        
         $producto->empr_id          = $request->get('cbo_empresa');
+        $producto->prod_lote         = $request->get('lote');
+
+        $producto->prod_fecha_vencimiento         = $request->get('fecha_vencimiento');
         $producto->prod_comentario  = $request->get('comentario');
+
+        
+
 
         /*
         $producto->prod_sku         = $request->get('sku');

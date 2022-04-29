@@ -6,7 +6,25 @@
 
 @section('scripts')
 <script src="{{asset('js/productos.js') }}" ></script>
+<!-- Include Date Range Picker -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
+ 
+
+<script>
+	$(document).ready(function(){
+		var date_input=$('input[name="fecha_vencimiento"]'); //our date input has the name "date"
+		var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+		date_input.datepicker({
+			format: 'yyyy-mm-dd',
+			container: container,
+			todayHighlight: true,
+			autoclose: true,
+		})
+	})
+
+</script>
 @endsection
 
 <div class="container">
@@ -45,7 +63,7 @@
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">P. Inventario</label>
-      <input type="text" class="form-control" v-model="codigo_producto" name="codigo_producto" id="codigo_producto" placeholder="SKU" value="{{old('prod_codigo')}}">
+      <input type="text" class="form-control" v-model="sku" name="sku" id="sku_id" placeholder="SKU" value="{{old('sku')}}">
     </div>
   </div>
 
@@ -73,7 +91,7 @@
 
     <div class="form-group col-md-6">
         <label for="inputAddress">Peso neto KG</label>
-        <input type="number" class="form-control" id="inputAddress" placeholder="Peso" name="peso" value="{{old('peso')}}">
+        <input type="number" class="form-control" id="peso_id" placeholder="Peso" name="peso" value="{{old('peso')}}">
     </div>
     
   </div>
@@ -103,18 +121,22 @@
   <div class="form-row">
     <div class="form-group col-md-6">
         <label for="inputAddress">Lote</label>
-        <input type="number" class="form-control" id="inputAddress" placeholder="Lote" name="peso" value="{{old('peso')}}">
+        <input type="number" class="form-control" id="lote_id" placeholder="Lote" name="lote" value="{{old('lote')}}">
  
    </div>
 
 
     <div class="form-group col-md-6">
         <label for="inputAddress">Fecha Vencimiento</label>
-        <input type="number" class="form-control" id="inputAddress" placeholder="YYYY-MM-DD" name="peso" value="{{old('peso')}}">
+        <input  class="form-control"    id="fecha_id"  name="fecha_vencimiento"  placeholder="YYYY-MM-DD"  value="{{old('peso')}}">
+        
+
     </div>
     
   </div>
 
+
+ 
 
 
     <div class="form-group">
@@ -132,8 +154,5 @@
 </div>
 </div>
 </div>
-@endsection
-@section('scripts')
-<script src="{{asset('js/productos.js') }}" ></script>
 
 @endsection

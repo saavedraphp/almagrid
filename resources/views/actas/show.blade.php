@@ -91,7 +91,7 @@
           {{$guion  =""}};
             @foreach ($servicios->get() as $index => $value)
             
-              <option value="{{$index}}"  @if($acta->serv_id ==$index)   selected @endif >{{$index.$guion.$value}}</option>
+              <option value="{{$index}}"  @if($acta->tm_id ==$index)   selected @endif >{{$index.$guion.$value}}</option>
                 {{$guion  =" - "}};
             @endforeach
             </select>    

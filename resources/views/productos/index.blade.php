@@ -57,10 +57,11 @@
 <table class="table table-hover" >
   <thead>
     <tr>
-      <th scope="col">Codigo</th>
+      <th scope="col">ID</th>
+      <th scope="col">SKU</th>
       <th scope="col">Producto</th>
       <th scope="col">Total</th>
-      <th scope="col">Medida</th>
+      <th scope="col">F.Vencimiento</th>
       <th scope="col">Empresa</th>
     </tr>
   </thead>
@@ -68,10 +69,11 @@
   	@foreach($productos as $producto)
 
     <tr v-for>
-      <th > {{ $producto->prod_codigo }} </th>
+      <th > {{ $producto->prod_id }} </th>
+      <th > {{ $producto->prod_sku }} </th>
       <td>{{$producto->prod_nombre}}</td>
       <td>{{$producto->prod_stock}}</td>
-      <td>{{$producto->unid_nombre}}</td>
+      <td>{{$producto->prod_fecha_vencimiento}}</td>
       <td>{{$producto->empr_nombre}}</td>
 
       <td>

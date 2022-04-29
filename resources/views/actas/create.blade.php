@@ -6,19 +6,10 @@
 @inject('servicios','App\Services\Servicios') 
 @inject('presentaciones','App\Services\Presentaciones')
 
-<h2>Adicionar Productos </h2>
-
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a href="#home" class="nav-link active" data-toggle="tab">Acta</a>
-    </li>
-    <li class="nav-item">
-        <a href="#profile" class="nav-link" data-toggle="tab">Registro de Productos</a>
-    </li>
+<h2>[Nuevo] </h2>
  
-</ul>
 
-<form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/actas" @submit="checkForm">
+<form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/actas" >
 
 <p v-if="errors.length">
     <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
@@ -30,7 +21,7 @@
 <div class="tab-content col-md-10" id="crud">
 
 
-  <div class="tab-pane fade show active" id="home">
+  <div   id="home">
     
     @csrf
     <div class="form-group">
@@ -52,7 +43,7 @@
 
  
     <div class="form-group">
-      <label for="inputEmail4">Sub Cliente</label>
+      <label for="inputEmail4">Usuario</label>
       <input type="text" class="form-control"  v-model="acta_sub_cliente_id" name="sub_cliente" id="acta_sub_cliente_id" placeholder="Sub Cliente"
        value="{{old('acta_sub_cliente')}}" >
     </div>
@@ -89,13 +80,83 @@
 
     
     <div class="form-row">
-      <div class="form-group col-md-12">
-        <label for="inputAddress">Precio</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="Precio" name="precio"
-         value="{{old('precio')}}">
+      <div class="form-group col-md-6">
+      <label for="Productos">Productos</label>
+
+       <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control">
+        <option value="">Selecciona un producto</option>
+        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_nombre+' - '+producto.prod_stock}}</option>
+        </select>
      </div>
 
+     <div class="form-group col-md-2">
+          <label for="inputAddress">Lote</label>
+          <input type="text" v-model="lote" class="form-control" name="lote" id="lote" placeholder="Lote" 
+          value="{{$lotes[0]->lote_nombre}}">
+          
+          <input type="hidden"  class="form-control" name="lote_id" id="lote" placeholder="Lote"  
+          value="{{$lotes[0]->lote_id}}">          
+
+      </div>
+ 
+      <div class="form-group col-md-2">
+          <label for="inputAddress">F.Vencimiento</label>
+          <input type="text" class="form-control" v-model="f_vencimiento" name="f_vencimiento" id="f_vencimiento" placeholder="YYYY-MM-DD" 
+          value="{{$lotes[0]->lote_fecha_vencimiento}}">
+      </div>
+
+      <div class="form-group col-md-2">
+          <label for="inputAddress">Cantidad a ingresar</label>
+          <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
+          value="" @keyup.enter="add_producto()" v-model="v_cantidad">
+      </div>
+
     </div>
+
+
+
+<!--tabla-->
+<div class="col-sm-12">
+          <table class="table table-hover"  >
+            <thead>
+              <tr>
+                <th scope="col">#ID Producto</th>
+                <th scope="col">Producto</th>
+                <th scope="col">Lote</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Accion</th>
+              </tr>
+            </thead>
+
+            <tbody id="userList">
+              <tr v-for="producto in productos_acta"   >
+                <th class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
+                <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
+                </th>
+                <td>@{{producto.prod_nombre}}</td>
+                <td>@{{producto.prod_lote}} <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" > </td>
+
+                <td >@{{producto.cantidad}}
+                    <input v-model="producto.cantidad" v-on:blur="modificarStock(producto)" v-on:keydown.enter.prevent="modificarStock(producto)" 
+                     type="hidden" class="form-control"     size="3" placeholder="Cantidad"    
+                          name="cantidad[]" value="0" maxlength="5"   >                
+                          
+
+                </td>
+
+              <td><button type="button" class="btn btn-default" @click="removeItem(producto)">Remove</button></td>  
+              </tr>
+              
+              <tr>
+              <td colspan="6"><input  type="hidden" class="form-control"  size="3"  v-model="total_productos"  name="txt_total_productos"  value="0"></td>
+              <input  type="hidden" class="form-control"  size="3"   id="operacion_id" name="operacion"  value="1">
+              </tr>
+          
+            </tbody>
+          </table>
+        </div>
+<!--tabla-->
+
 
 
     <div class="form-row">
@@ -109,7 +170,7 @@
     
 
 
-    <button type="submit"   class="btn btn-primary">Registrar</button>
+    <button type="button" @click="checkForm()"   class="btn btn-primary">Registrar</button>
     <button type="reset" class="btn btn-danger">Cancelar</button>
     
 
@@ -119,53 +180,13 @@
 
 
 
-    <div class="tab-pane fade" id="profile">
+    <div   >
     <p>&nbsp;</p>
     
     
  
-
-
-
  
-        <div class="col-sm-12">
-          <table class="table table-hover"  >
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Producto</th>
-                <th scope="col">Lote</th>
-                <th scope="col">Stock</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
 
-            <tbody id="userList">
-              <tr v-for="producto in data"   >
-                <th class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
-                <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
-                </th>
-                <td>@{{producto.prod_nombre}}</td>
-                <td>@{{producto.prod_lote}}</td>
-                <td>@{{producto.prod_stock}}</td>
-                <td>
-                    <input v-model="producto.valor" v-on:blur="modificarStock(producto)" v-on:keydown.enter.prevent="modificarStock(producto)"  type="number" class="form-control"     size="3" placeholder="Cantidad"    
-                          name="cantidad[]" value="0" maxlength="5"   >                
-                </td>
-
-                <td><p>@{{producto.total}}</p></td>
- 
-              </tr>
-              
-              <tr>
-              <td colspan="6"><input  type="hidden" class="form-control"  size="3"  v-model="total_productos"  name="txt_total_productos"  value="0"></td>
-              <input  type="hidden" class="form-control"  size="3"   id="operacion_id" name="operacion"  value="1">
-              </tr>
-          
-            </tbody>
-          </table>
-        </div>
 
         
 
@@ -186,9 +207,8 @@
 @section('scripts')
 
 <script>
-  const url = '{{ env('MY_URL') }}';
-  
-</script>
+  const url = '{{ env("MY_URL") }}';
+ </script>
 
 <script src="{{ asset('js/lista_productos.js') }}" ></script>
  
