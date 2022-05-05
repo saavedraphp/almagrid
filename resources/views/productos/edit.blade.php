@@ -119,23 +119,7 @@
  
   </div>
 
-
-  <div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="inputAddress">Lote</label>
-        <input type="number" class="form-control" id="lote_id" placeholder="Lote" name="lote" value="{{$producto->prod_lote}}">
  
-   </div>
-
-
-    <div class="form-group col-md-6">
-        <label for="inputAddress">Fecha Vencimiento</label>
-        <input  class="form-control"    id="fecha_id"  name="fecha_vencimiento"  placeholder="YYYY-MM-DD"  value="{{$producto->prod_fecha_vencimiento}}">
-        
-
-    </div>
-    
-  </div>
 
 
 

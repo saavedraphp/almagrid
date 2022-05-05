@@ -6,10 +6,10 @@
 @inject('servicios','App\Services\Servicios') 
 @inject('presentaciones','App\Services\Presentaciones')
 
-<h2>[Nuevo] </h2>
+<h2>[{{MiConstantes::NUEVO_DESPACHO}}] </h2>
  
 
-<form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/recepcion" >
+<form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/despacho" >
 
 <p v-if="errors.length">
     <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
@@ -105,7 +105,7 @@
  
 
       <div class="form-group col-md-2">
-          <label for="inputAddress">Cantidad a ingresar</label>
+          <label for="inputAddress">Cantidad</label>
           <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
           value="" @keyup.enter="add_producto()" v-model="v_cantidad">
       </div>
@@ -123,7 +123,7 @@
                 <th scope="col">Producto</th>
                 <th scope="col">Lote</th>
                 <th scope="col">Stock</th>
-                <th scope="col">Ingreso</th>
+                <th scope="col">Salida</th>
                 <th scope="col">Accion</th>
               </tr>
             </thead>

@@ -161,6 +161,20 @@ class ProductosController extends Controller
     }
     
 
+    public function getTotalProductosLotes(Request $request)
+    {
+                        
+        $totalProductoPorLote = DB::table('lote_x_producto')
+        ->select('cantidad')
+        ->where('lote_id', '=',$request->lote_id )
+        ->where('prod_id', '=',$request->producto_id )->value('cantidad');
+        //dd($totalProductoPorLote);
+
+
+         return (int)$totalProductoPorLote;
+
+        
+    }
 
 
     public function xs(Request $request)

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 
 
-class ActaController extends Controller
+class RecepcionController extends Controller
 {
 
     public function __construct()
@@ -41,7 +41,7 @@ class ActaController extends Controller
         $busqueda ="";
         if ($request) {
            
-           
+            
             $query    = trim($request->get('search'));
 
 
@@ -54,7 +54,7 @@ class ActaController extends Controller
                 'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 
                 's.serv_nombre','a.acta_sub_cliente', 'a.created_at')->where('empr_nombre', 'LIKE', '%' . $query . '%')
                 ->whereNull('a.deleted_at')
-                ->orderBy('a.created_at', 'asc')->paginate(10);
+                ->orderBy('a.created_at', 'desc')->paginate(10);
                 $busqueda = 'nombre';
 
 
@@ -69,8 +69,9 @@ class ActaController extends Controller
                 ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
                 'acta_numero_ingr_sali', 'a.tipo_movimiento_codigo',
                 'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
+                ->where('tm.tm_codigo', '=', 'INGRESO')
                 ->whereNull('a.deleted_at')
-                ->orderBy('a.created_at', 'asc')->paginate(10);
+                ->orderBy('a.created_at', 'desc')->paginate(10);
 
                 switch ($request->get('rbo_lista')) {
                     case 'DESPAC':
@@ -83,7 +84,7 @@ class ActaController extends Controller
                         'a.created_at')
                         ->where('tm.tm_codigo', '=', 'DESPAC')
                         ->whereNull('a.deleted_at')
-                        ->orderBy('a.created_at', 'asc')->paginate(10);
+                        ->orderBy('a.created_at', 'desc')->paginate(10);
                         $busqueda = 'DESPAC';
                         $query = 'Despacho';
                         
@@ -99,7 +100,7 @@ class ActaController extends Controller
                             'tm.tm_codigo', 'a.acta_sub_cliente' , 'a.created_at')
                             ->where('tm.tm_codigo', '=', 'ALMACE')
                             ->whereNull('a.deleted_at')
-                            ->orderBy('a.created_at', 'asc')->paginate(10);
+                            ->orderBy('a.created_at', 'desc')->paginate(10);
                             $busqueda = 'ALMACE';
                             $query = 'Almacenamiento';
                         break;                        
@@ -113,7 +114,7 @@ class ActaController extends Controller
                             'acta_numero_ingr_sali', 'a.tipo_movimiento_codigo' , 'a.acta_sub_cliente',  'tm.tm_codigo',
                             'a.created_at')
                             ->whereNull('a.deleted_at')
-                            ->orderBy('a.created_at', 'asc')->paginate(10);
+                            ->orderBy('a.created_at', 'desc')->paginate(10);
                             $busqueda = 'ALL';
                             $query = 'Todos';
                         break;
@@ -129,9 +130,10 @@ class ActaController extends Controller
                     ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
                     ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
                     'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
+                    ->where('tm.tm_codigo', '=', 'INGRESO')
                     ->where('a.acta_numero_ingr_sali','=',$nro_documento)
                     ->whereNull('a.deleted_at')
-                    ->orderBy('a.created_at', 'asc')->paginate(10);
+                    ->orderBy('a.created_at', 'desc')->paginate(10);
                     $busqueda = 'nro_documento';
                     $query = $request->get('nro_documento');
                     //dd($actas->toSql());
@@ -176,15 +178,7 @@ class ActaController extends Controller
 
 
 
-
-    public function create_despacho()
-    {
-
  
-        return view('actas.create_despacho');
-    }
-
-
 
 
 
@@ -247,8 +241,31 @@ class ActaController extends Controller
                     
                      $query = "update productos_x_empresa set prod_stock = (prod_stock + ".$cantidad[$key].") where  prod_id = ".$value;
                      $resul = DB::update($query);
+
+ 
+                    /*********** VERIFICA  SI EXISTE PRODUCTO X LOTE =  INSERT O UPDATE******* */
+                     $existe_producto_lote = DB::table('lote_x_producto')
+                     ->where('prod_id', '=', $value)
+                     ->where('lote_id' ,'=', $lote[$key])->count();
+
+                    if($existe_producto_lote==0)
+                    {
+                        $query_lote = "insert into lote_x_producto  (lote_id, prod_id, cantidad,created_at)
+                         values(".$lote[$key].", ".$value." , ".$cantidad[$key].",'".date('Y-m-d H:i:s')."')";
+                        DB::insert($query_lote);
+
+                    }
+                    else
+                    {
+                        $query_lote = "update lote_x_producto set cantidad = (cantidad + ".$cantidad[$key]."),
+                        updated_at =  '".date('Y-m-d H:i:s')."' where  prod_id = ".$value." and lote_id = ".$lote[$key];
+                        DB::update($query_lote);
+
+                    }
+
     
                     }
+
 
                 }
                 Kardex::insert($answers);
@@ -257,12 +274,12 @@ class ActaController extends Controller
 
  
         DB::commit();
-        return redirect('admin/actas')->with('message','Datos cargados correctamente')->with('operacion','1');
+        return redirect('admin/recepcion')->with('message','Datos cargados correctamente')->with('operacion','1');
 
         } catch (Exception $e) {
          DB::rollBack();    
             report($e);
-            return redirect('admin/actas')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
+            return redirect('admin/recepcion')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
 
         }        
             
@@ -329,13 +346,13 @@ class ActaController extends Controller
 
         DB::commit();
 
-        return redirect('admin/actas')->with('message','Datos cargados correctamente')->with('operacion','1');
+        return redirect('admin/recepcion')->with('message','Datos cargados correctamente')->with('operacion','1');
 
         } catch (Exception $e) {
             DB::rollBack();    
             
             report($e);
-            return redirect('admin/actas')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
+            return redirect('admin/recepcion')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
             
         }        
             
@@ -436,7 +453,7 @@ class ActaController extends Controller
 
         $acta->update();
 
-        return redirect('admin/actas');
+        return redirect('admin/recepcion');
 
         
     }
@@ -474,7 +491,7 @@ class ActaController extends Controller
         }
 
         Acta::destroy($id);
-        return redirect('admin/actas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        return redirect('admin/recepcion')->with('message','La operacion se realizo con Exito')->with('operacion','1');
         
 
     }

@@ -16,7 +16,7 @@ class ProductoSeeder extends Seeder
         //'password' => Hash::make('password'),
 
         //#1
-        DB::table('productos')->insert([
+        DB::table('productos_x_empresa')->insert([
             'empr_id' => 1,
             'pres_id' => 1, //1 unidad, 2 Caja
             'prod_nombre' =>'Workstation Lenovo P320 SFF',

@@ -6,12 +6,14 @@ const app = new Vue({
         producto:document.getElementById("producto_id").value,
         v_cantidad:document.getElementById("cantidad_id").value,
         total_productos:0,
+        totalProductos_x_Lotes:0,
         
-        f_vencimiento:document.getElementById("f_vencimiento").value,
+
         lote:document.getElementById("lote").value,
 
         data: [],
         productos_acta:[],
+
 
 
 
@@ -25,17 +27,34 @@ const app = new Vue({
 
     methods: {
 
-        removeItem: function(element){
-            this.productos_acta.splice(this.productos_acta.indexOf(element), 1);
-            console.log(element);
+        async getCantidadPoductoPorLote(producto_id,lote_id) {
+        try{
+            let response =  await axios.get(url+`/getTotalProductosLotes`, 
+            {params: {producto_id: producto_id,lote_id:lote_id} }).then((response) => {
+            this.totalProductos_x_Lotes = response.data;
+            //console.log('paso 1 => '+ this.totalProductos_x_Lotes);
+         
+            });
+            
+        }
+           catch(error) {
+            console.log(error);
+        }
+         
+
+       },
+      
+ 
+
+       removeItem: function(element){
+        this.productos_acta.splice(this.productos_acta.indexOf(element), 1);
+        console.log(element);
         },
 
 
- 
-
-        add_producto:function(){
-
-            //console.log('valor de producto '+this.producto);
+       async add_producto(){
+        let existeProductoLote = false;
+            console.log('valor de producto '+this.producto.prod_nombre);
             
             if(this.producto=="")
             {
@@ -56,18 +75,55 @@ const app = new Vue({
     
             }
 
-    
             if(this.v_cantidad>0){
 
-             this.productos_acta.push({prod_id:this.producto.prod_id, prod_nombre:this.producto.prod_nombre,
-             prod_lote:this.lote, cantidad:this.v_cantidad, total:this.producto.prod_stock+this.cantidad});
-             this.$refs.r_producto.focus();
-             
-             this.v_cantidad="";
-             console.log(this.productos_acta);
-               /*
-              this.calcularTotal();
-              */
+              
+            
+
+        
+                await  this.getCantidadPoductoPorLote(this.producto.prod_id,this.lote);
+                //console.log('Paso 2 => '+this.totalProductos_x_Lotes)
+
+                //let array = response.data; array.forEach(element => console.log(element.nombre));
+
+                const newArray = this.productos_acta.filter((elemento, index) => {
+                    console.log('prod_id :' + elemento.prod_id+ ' = '+this.producto.prod_id+'   LoteID :'+elemento.prod_lote+' = '+this.lote);
+                    console.log('index =>'+index);
+                    if (elemento.prod_id === this.producto.prod_id && elemento.prod_lote === this.lote) 
+                    {
+                        elemento.cantidad = parseInt(elemento.cantidad) + parseInt(this.v_cantidad)
+                        existeProductoLote =  true;
+                    }
+                    //console.log('Existe LoteXProducto');
+                });
+
+
+
+                /*this.productos_acta.forEach((element, index) => 
+                console.log(element, index)
+                           
+                if(element.prod_id == this.producto.prod_id && element.lote_id == this.lote)
+                {
+                    alert('encontro');
+                }
+
+     
+
+                );*/
+
+                if(existeProductoLote ==false)
+                {
+                    this.productos_acta.push({prod_id:this.producto.prod_id, prod_nombre:this.producto.prod_nombre,
+                    prod_lote:this.lote,stock_x_lote:this.totalProductos_x_Lotes, cantidad:this.v_cantidad, total:this.producto.prod_stock+this.cantidad});
+                }
+                
+                this.$refs.r_producto.focus();
+                
+                this.v_cantidad="";
+                //console.log(this.productos_acta);
+                /*
+                this.calcularTotal();
+                */
    
             }
     
@@ -81,6 +137,9 @@ const app = new Vue({
     
        },
 
+
+
+      
         checkForm: function (e) {
             console.log('valor de lista => '+this.productos_acta.length);
 

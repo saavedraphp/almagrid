@@ -6,8 +6,8 @@
  
  
 
-<h2>Lista de Recepcion
- <a href="recepcion/create"> <button type="button" class="btn btn-success float-right mr-3">{{MiConstantes::NUEVO}}</button></a>  
+<h2>Lista de Despacho
+ <a href="despacho/create"> <button type="button" class="btn btn-success float-right mr-3">{{MiConstantes::NUEVO_DESPACHO}}</button></a>  
 
  </h2>
 

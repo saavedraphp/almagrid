@@ -22,7 +22,8 @@ Route::get('/usuario', 'HomeController@login_empresa')->name('homex');
 Route::get('admin/actas/create-despacho', 'ActaController@create_despacho');
 Route::post('admin/actas/store-despacho', 'ActaController@store_despacho');
 
-Route::resource('admin/actas', 'ActaController');
+Route::resource('admin/recepcion', 'RecepcionController');
+Route::resource('admin/despacho', 'DespachoController');
 
 //Route::resource('admin/clientes', 'ClienteController');
 
@@ -53,6 +54,8 @@ Route::get('usuario/kardex/', 'KardexController@index');
 Route::get('racks/obtenerCasillas/', 'RackCasillaController@obenerCasillasIdRack');
 
 Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
+Route::get('getTotalProductosLotes/', 'ProductosController@getTotalProductosLotes');
+
 
 Route::get('ciudades/estado/', 'UsuarioController@getCiudadesByEstado');
 

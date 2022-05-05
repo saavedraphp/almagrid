@@ -6,6 +6,7 @@ class Constants {
 
    //OPERACIONES
    const NUEVO = 'Nuevo';
+   const NUEVO_DESPACHO = 'Nuevo Despacho';
    const CREAR = 'Crear';
    const EDITAR = 'Editar';
    const ELIMINAR = 'Eliminar';

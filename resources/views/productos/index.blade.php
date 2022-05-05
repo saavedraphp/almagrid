@@ -61,8 +61,7 @@
       <th scope="col">SKU</th>
       <th scope="col">Producto</th>
       <th scope="col">Total</th>
-      <th scope="col">F.Vencimiento</th>
-      <th scope="col">Empresa</th>
+       <th scope="col">Empresa</th>
     </tr>
   </thead>
   <tbody id="userList">
@@ -73,8 +72,7 @@
       <th > {{ $producto->prod_sku }} </th>
       <td>{{$producto->prod_nombre}}</td>
       <td>{{$producto->prod_stock}}</td>
-      <td>{{$producto->prod_fecha_vencimiento}}</td>
-      <td>{{$producto->empr_nombre}}</td>
+       <td>{{$producto->empr_nombre}}</td>
 
       <td>
 
