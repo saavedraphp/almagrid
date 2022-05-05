@@ -94,7 +94,7 @@ const app = new Vue({
                         elemento.cantidad = parseInt(elemento.cantidad) + parseInt(this.v_cantidad)
                         existeProductoLote =  true;
                     }
-                    //console.log('Existe LoteXProducto');
+                    console.log('Existe LoteXProducto');
                 });
 
 
