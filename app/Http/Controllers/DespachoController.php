@@ -146,7 +146,8 @@ class DespachoController extends Controller
                          'prod_id' => $value,
                          'lote_id' => $lote[$key],
                          'tipo_movimiento' => 'DESPACHO',
-                         'kard_cantidad' => $cantidad[$key]
+                         'kard_cantidad' => $cantidad[$key],
+                         'created_at' => date('Y-m-d H:i:s')
     
                          ];
                         
@@ -225,6 +226,54 @@ class DespachoController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+
+        try 
+        {
+
+            DB::beginTransaction();
+            
+
+            $kardexs = Kardex::where('acta_id','=', $id)->get();
+
+            //dd($kardexs);
+
+            foreach ($kardexs as $kardex) {
+                
+            /**************** ACTUALIZO EL TOTAL DE PRODUCTO_X_EMPRESA*/
+            $query_prod = "update productos_x_empresa set prod_stock = (prod_stock + ".$kardex->kard_cantidad.") where  prod_id = ".$kardex->prod_id;
+            DB::update($query_prod);
+            
+
+            /**************** ACTUALIZO LOTE_X_PRODUCTO*/
+            $query_lote = "update lote_x_producto set cantidad = (cantidad + ".$kardex->kard_cantidad."), 
+                        updated_at =  '".date('Y-m-d H:i:s')."' 
+            where  prod_id = ".$kardex->prod_id." and lote_id = ".$kardex->lote_id;
+            DB::update($query_lote);
+    
+
+
+            
+                //ELIMINO REGISTROS KARDEX
+                $kardex->destroy($kardex->kard_id);
+            }
+
+            Acta::destroy($id);
+            DB::commit();
+
+            return redirect('admin/despacho')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        
+        } catch (Exception $e) {
+            DB::rollBack();    
+            
+            report($e);
+            return redirect('admin/despacho')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
+            
+        } 
+
     }
+
+
+
+
 }

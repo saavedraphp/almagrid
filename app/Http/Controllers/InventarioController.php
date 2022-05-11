@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Empresa;
-
+use App\Producto;
+use App\Kardex;
 use Auth;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -18,17 +19,24 @@ class InventarioController extends Controller
     {
         // LSL PARA LA VALIDACION
         $this->middleware('auth');
-        //$this->foo = $foo;
+        DB::enableQueryLog();
     }
 
 
     public function kardexPorProductoId($id)
     {
         if ($id>0) {
-            
-            $empresas = Empresa::where('empr_nombre', 'LIKE', '%' . $query . '%')->orderBy('empr_nombre', 'asc')->paginate(10);
 
-            return view('empresas.index', ['empresas' => $empresas, 'search' => $query]);
+            $producto = Producto::findOrFail($id);
+            
+            $search  =  $producto->prod_id;
+            $empresa = Empresa::findOrFail($producto->empr_id);
+            
+            $kardex = Kardex::where("prod_id","=",$producto->prod_id)->paginate(10);
+            
+            //dd(DB::getQueryLog());
+
+            return view('inventario.kardex_por_producto', ['producto' => $producto,'empresa' => $empresa,'kardex' => $kardex,'search' => $search]);
 
         }
     }

@@ -20,7 +20,7 @@ Route::get('/usuario', 'HomeController@login_empresa')->name('homex');
 
 /** INVENTARIO  */
 
-Route::get('admin/inventario/producto/{id}', 'InventarioController@kardexPorProductoId');
+Route::get('admin/inventario/producto/{id}', 'InventarioController@kardexPorProductoId')->name('kardexPorIdProductpo');
 
 
 Route::get('admin/actas/create-despacho', 'ActaController@create_despacho');

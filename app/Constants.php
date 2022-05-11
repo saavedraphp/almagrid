@@ -14,6 +14,8 @@ class Constants {
    const VER = 'Ver';
 
    const ASIGNAR_CASILLAS = 'Casillas';
-   const IMG_REPORTE = 'Imagen Reporte';
+   const IMG_REPORTE = 'Contrato';
+   const KARDEX = 'Kardex';
+
 
 }

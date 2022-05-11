@@ -86,7 +86,7 @@
 @endsection
 @section('scripts')
 <script>
-  const url = '{{ env('MY_URL') }}';
+  const url = '{{ env(MY_URL) }}';
   
 </script>
 <script src="{{asset('js/frm_empresa.js') }}" ></script>

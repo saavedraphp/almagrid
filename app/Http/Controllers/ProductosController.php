@@ -31,12 +31,18 @@ class ProductosController extends Controller
             ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
             ->select('p.prod_sku', 'p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre',
              'p.prod_stock','p.prod_precio', 'e.empr_nombre','p.prod_fecha_vencimiento',
-            'p.created_at','p.deleted_at')->where('prod_nombre', 'LIKE', '%' . $query . '%')
+            'p.created_at','p.deleted_at')
+            ->where(function($query) use ($request){
+                $query->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('prod_nombre', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
+                })
             ->whereNull('p.deleted_at')
             ->orderBy('p.created_at', 'asc')
             ->paginate(10);
         
-           // dd(DB::getQueryLog());
+            //dd(DB::getQueryLog());
+            
 
 
 

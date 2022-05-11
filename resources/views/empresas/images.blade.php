@@ -73,9 +73,11 @@ id="frm_formulario" enctype="multipart/form-data" >
 
 
   <div class="form-group">
-  
-    <img src="/img/cabecera_reporte/@if(empty($empresa->empr_ruta_img_reporte))defauld_1090_163.jpg @else{{$empresa->empr_ruta_img_reporte}} @endif" class="img-fluid" alt="Responsive image">
+    @if(!empty($empresa->empr_ruta_img_reporte))
+  <a href="{{ asset('/img/cabecera_reporte/'.$empresa->empr_ruta_img_reporte) }}" target="_blank" rel="noopener noreferrer">Descarga Ahora: {{$empresa->empr_ruta_img_reporte}} </a>
+    @endif
 
+    
   </div>
 
  

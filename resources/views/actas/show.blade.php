@@ -82,31 +82,8 @@
 
 
 
-
-    <div class="form-group">
-        <label for="inputEmail4">Tipo de Servicio</label>
-        <select  id="tipo_servicio_id" data-old="{{old('cbo_empresa')}}"
-          name="tipo_servicio"  class="form-control" disabled>
-
-          {{$guion  =""}};
-            @foreach ($servicios->get() as $index => $value)
-            
-              <option value="{{$index}}"  @if($acta->tm_id ==$index)   selected @endif >{{$index.$guion.$value}}</option>
-                {{$guion  =" - "}};
-            @endforeach
-            </select>    
-    </div>
-
-
-    
-    <div class="form-row">
-      <div class="form-group col-md-12">
-        <label for="inputAddress">Precio</label>
-        <input type="text" class="form-control" id="inputAddress" placeholder="Precio" name="precio"
-         value="{{$acta->acta_costo}}" disabled>
-     </div>
-
-    </div>
+ 
+ 
 
 
     <div class="form-row">
@@ -156,7 +133,7 @@
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </th>
                 <td>{{$item->prod_nombre}}</td>
-                <td>{{$item->prod_lote}}</td>
+                <td>{{$item->lote_id}}</td>
 
                 <td align="center"> {{abs($item->kard_cantidad)}}</td>
               </tr>

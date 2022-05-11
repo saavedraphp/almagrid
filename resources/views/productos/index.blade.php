@@ -84,7 +84,9 @@
 
 
          <a href="{{route('productos.edit',$producto->prod_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
-         <a href="javascript:document.getElementById('frm_destroy{{$producto->prod_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$producto->prod_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
+         <a href="javascript:document.getElementById('frm_destroy{{$producto->prod_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$producto->prod_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>|
+         <a href="{{route('kardexPorIdProductpo',$producto->prod_id)}}" title="{{MiConstantes::KARDEX}}"><i class="fa fa-align-justify"></i></a> 
+         
 
         </form>
 

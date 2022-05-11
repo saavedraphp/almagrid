@@ -6,7 +6,7 @@
 @inject('servicios','App\Services\Servicios') 
 @inject('presentaciones','App\Services\Presentaciones')
 
-<h2>[{{MiConstantes::NUEVO_DESPACHO}}] </h2>
+<h2>[{{MiConstantes::NUEVO}}] </h2>
  
 
 <form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/despacho" >

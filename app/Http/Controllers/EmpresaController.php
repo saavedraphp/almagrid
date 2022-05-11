@@ -172,16 +172,16 @@ class EmpresaController extends Controller
     {
         try {
             DB::beginTransaction();
-
+            //required|image|mimes:jpeg,png,jpg,gif
             $request->validate([
-                'img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+                'img' => 'required'
 
             ],
             [
-                'img.max'=> 'El archivo no puede ser mayor 1MB',
-                'img.required'=> 'tiene que eleguir una imagen por favor',
+                'img.max'=> 'El archivo no puede ser mayor 2MB',
+                'img.required'=> 'tiene que seleccionar un archivo por favor',
                 
-               ]);
+            ]);
 
               //  dd($request);
             $imagen = $request->file('img');
@@ -193,9 +193,9 @@ class EmpresaController extends Controller
 
             $empresa->empr_ruta_img_reporte = $nombre;
             $empresa->save();
-
             
-            //DB::commit();
+            
+            DB::commit();
             return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
         
         
@@ -214,8 +214,9 @@ class EmpresaController extends Controller
 
             $empresa = Empresa::findOrFail($id);
             $ruta = public_path().'/img/cabecera_reporte/'.$empresa->empr_ruta_img_reporte;
-            
-            if(@getimagesize($ruta))
+            //dd('valor file'.filesize($ruta));
+
+            if(filesize($ruta))
             {
                 unlink($ruta);
 

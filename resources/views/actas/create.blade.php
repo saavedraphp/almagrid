@@ -105,7 +105,7 @@
  
 
       <div class="form-group col-md-2">
-          <label for="inputAddress">Cantidad a ingresar</label>
+          <label for="inputAddress">Cantidad</label>
           <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
           value="" @keyup.enter="add_producto()" v-model="v_cantidad">
       </div>
