@@ -4,11 +4,43 @@ const app = new Vue({
     casillas_rack: [],
     casillas_empresa: [],
     errors: [],
+    exists: null,
+    id_empresa: document.getElementById('id_empresa').value
+    
 
-  
-    exists: null
   },
-  methods: {
+  methods:{
+    async  validar_casillas(e) {
+      try {
+        //{{route('save_casillas_asignadas',$empresa->empr_id)}}
+          console.log(this.casillas_empresa.length);
+          let ruta =  'http://127.0.0.1:8080';
+
+          if(this.casillas_empresa.length>0)
+          {  
+            response = await axios.put(`http://127.0.0.1:8080/admin/empresas/adicionar_casillas/`+this.id_empresa,{'casillas':this.casillas_empresa} );
+            alert(response);
+            window.location.href = ruta +'/admin/empresas/casillas/'+this.id_empresa;
+
+          }
+          else
+          {
+          
+            alert('Elija las casillas para su asignacion');
+          }
+    } catch (error) {
+          //alert(error.response.data.errors.nombre);
+          console.log(error)
+    }
+
+
+
+     },// FIN METODO
+
+
+
+
+
      obtenerCasillas(rack_id) {
  
             axios.get(url+`/racks/obtenerCasillas`, {params: {rack_id: rack_id} }).then((response) => {

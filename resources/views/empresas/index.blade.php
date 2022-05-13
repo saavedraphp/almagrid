@@ -62,7 +62,7 @@
           @csrf
 
 
-        <a href="{{route('casillas_add',$empresa->empr_id)}}" title="{{MiConstantes::ASIGNAR_CASILLAS}}"> <i class="fas fa-border-none"></i></a> |
+        <a href="{{route('lista_casillas_asignadas',$empresa->empr_id)}}" title="{{MiConstantes::ASIGNAR_CASILLAS}}"> <i class="fas fa-border-none"></i></a> |
         <a href="{{route('imagesHead',$empresa->empr_id)}}" title="{{MiConstantes::IMG_REPORTE}}"> <i class="far fa-images" ></i></a> |
          <a href="{{route('clientes.edit',$empresa->empr_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
          

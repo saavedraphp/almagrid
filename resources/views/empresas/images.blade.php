@@ -56,7 +56,7 @@ id="frm_formulario" enctype="multipart/form-data" >
 
 
   <div class="form-group">
-        <label for="inputAddress">Imagen</label>
+        <label for="inputAddress">Seleccione un Archivo</label>
         <div class="input-group mb-3">
 
             <div class="input-group-prepend">
@@ -82,7 +82,7 @@ id="frm_formulario" enctype="multipart/form-data" >
 
  
 
-  <button type="submit" class="btn btn-primary">Subir Imagen</button>
+  <button type="submit" class="btn btn-primary">Subir Archivo</button>
 
   @if(!empty($empresa->empr_ruta_img_reporte))
     <a href="{{route('dropImages',$empresa->empr_id)}}" 

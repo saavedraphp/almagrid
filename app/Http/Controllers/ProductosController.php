@@ -34,7 +34,7 @@ class ProductosController extends Controller
             'p.created_at','p.deleted_at')
             ->where(function($query) use ($request){
                 $query->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('prod_nombre', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
                 })
             ->whereNull('p.deleted_at')

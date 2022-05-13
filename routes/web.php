@@ -34,11 +34,19 @@ Route::resource('admin/despacho', 'DespachoController');
 
 
 Route::resource('admin/clientes', 'EmpresaController');
+
+
+/******************  EMPRESAS **************** */
 Route::get('/admin/empresas/images/{id}', 'EmpresaController@images')->name('imagesHead');
 Route::post('/admin/empresas/images/{id}', 'EmpresaController@upload_mages')->name('upload_mages');
 Route::get('/admin/empresas/deleteImages/{id}', 'EmpresaController@eliminar_imagen')->name('dropImages');
 
-Route::get('/admin/empresas/casillas/{id}', 'CasillasEmpresaController@asignar_casillas')->name('casillas_add');
+Route::get('/admin/empresas/casillas/{id}', 'CasillasEmpresaController@lista_casillas_asignadas')->name('lista_casillas_asignadas');
+Route::get('/admin/empresas/asignar_celda/create/{id}', 'CasillasEmpresaController@create_casillas_empresa')->name('elegir_celdas');
+Route::put('/admin/empresas/adicionar_casillas/{id}', 'CasillasEmpresaController@save_casillas_asignadas')->name('save_casillas_asignadas');
+
+
+  
 
 
 

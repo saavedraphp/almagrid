@@ -186,7 +186,7 @@ class EmpresaController extends Controller
               //  dd($request);
             $imagen = $request->file('img');
             $nombre = $id.'-'.time().'.'.$imagen->getClientOriginalExtension();
-            $destino = public_path('img\cabecera_reporte');
+            $destino = ('img/cabecera_reporte');
             $request->img->move($destino, $nombre);
             
             $empresa = Empresa::findOrFail($id);
@@ -213,7 +213,7 @@ class EmpresaController extends Controller
             DB::beginTransaction();
 
             $empresa = Empresa::findOrFail($id);
-            $ruta = public_path().'/img/cabecera_reporte/'.$empresa->empr_ruta_img_reporte;
+            $ruta = 'img/cabecera_reporte/'.$empresa->empr_ruta_img_reporte;
             //dd('valor file'.filesize($ruta));
 
             if(filesize($ruta))
