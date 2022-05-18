@@ -10,6 +10,7 @@ const app = new Vue({
 
   },
   methods:{
+
     async  validar_casillas(e) {
       try {
         //{{route('save_casillas_asignadas',$empresa->empr_id)}}
@@ -19,18 +20,18 @@ const app = new Vue({
           if(this.casillas_empresa.length>0)
           {  
             response = await axios.put(`http://127.0.0.1:8080/admin/empresas/adicionar_casillas/`+this.id_empresa,{'casillas':this.casillas_empresa} );
-            alert(response);
+            alert(response.data.errors);
+            
             window.location.href = ruta +'/admin/empresas/casillas/'+this.id_empresa;
 
           }
           else
           {
-          
             alert('Elija las casillas para su asignacion');
           }
     } catch (error) {
-          //alert(error.response.data.errors.nombre);
-          console.log(error)
+          alert(error.response.data.errors);
+          console.log('error =>'+error)
     }
 
 

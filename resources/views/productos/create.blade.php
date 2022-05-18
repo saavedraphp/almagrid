@@ -91,7 +91,7 @@
 
     <div class="form-group col-md-6">
         <label for="inputAddress">Peso neto KG</label>
-        <input type="number" class="form-control" id="peso_id" placeholder="Peso" name="peso" value="{{old('peso')}}">
+        <input type="text"  @keypress="esNumerico($event)" class="form-control" id="peso_id" placeholder="Peso" name="peso" value="{{old('peso')}}">
     </div>
     
   </div>

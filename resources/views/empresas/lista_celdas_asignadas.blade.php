@@ -45,7 +45,9 @@
     </tr>
   </thead>
   <tbody id="userList">
-  	@foreach($filas as $fila)
+    <?php
+     ?>
+  	@foreach($casillas_x_empresa as $fila)
 
     <tr v-for>
       <th scope="row"> {{ $fila->id }} </th>
@@ -73,7 +75,7 @@
 </table>
 
 <div class="row">
-  <div class="mx-auto">{{$filas->links()}}</div>
+  <div class="mx-auto">{{$casillas_x_empresa->links()}}</div>
 </div>
 </div>
  @endsection

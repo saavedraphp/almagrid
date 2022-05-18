@@ -32,7 +32,9 @@ class InventarioController extends Controller
             $search  =  $producto->prod_id;
             $empresa = Empresa::findOrFail($producto->empr_id);
             
-            $kardex = Kardex::where("prod_id","=",$producto->prod_id)->paginate(10);
+            $kardex = DB::table('kardex as k')
+                    ->leftJoin('actas as a','k.acta_id','=','a.acta_id')
+                    ->where("prod_id","=",$producto->prod_id)->paginate(10);
             
             //dd(DB::getQueryLog());
 

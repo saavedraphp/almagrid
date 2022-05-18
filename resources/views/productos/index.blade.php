@@ -70,9 +70,9 @@
     <tr v-for>
       <th > {{ $producto->prod_id }} </th>
       <th > {{ $producto->prod_sku }} </th>
-      <td>{{$producto->prod_nombre}}</td>
+      <td title="{{$producto->created_at}}">{{$producto->prod_nombre}}</td>
       <td>{{$producto->prod_stock}}</td>
-       <td>{{$producto->empr_nombre}}</td>
+       <td >{{$producto->empr_nombre}}</td>
 
       <td>
 
@@ -101,6 +101,3 @@
 </div>
 </div>
  @endsection
-@section('scripts')
-
-@endsection

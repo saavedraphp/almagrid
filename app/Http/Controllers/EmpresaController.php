@@ -33,7 +33,11 @@ class EmpresaController extends Controller
     {
         if ($request) {
             $query    = trim($request->get('search'));
-            $empresas = Empresa::where('empr_nombre', 'LIKE', '%' . $query . '%')->orderBy('empr_nombre', 'asc')->paginate(10);
+            $empresas = DB::table("empresas")->where(function($query) use ($request){
+                $query->where('empr_nombre', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('empr_ruc', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('empr_celular', 'LIKE', '%' . $request->search . '%');
+                })->orderBy('empr_nombre', 'asc')->paginate(10);
 
             return view('empresas.index', ['empresas' => $empresas, 'search' => $query]);
 

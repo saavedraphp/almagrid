@@ -90,7 +90,7 @@
 
     <div class="form-group col-md-6">
     <label for="inputAddress">Peso neto KG</label>
-        <input type="number" class="form-control" id="inputAddress" placeholder="peso" name="peso" value="{{$producto->prod_peso}}">    </div>
+        <input type="text" class="form-control" @keypress="esNumerico($event)" id="inputAddress" placeholder="peso" name="peso" value="{{$producto->prod_peso}}">    </div>
 
     
   </div>

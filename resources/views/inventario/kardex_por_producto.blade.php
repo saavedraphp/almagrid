@@ -62,7 +62,7 @@
       <th scope="col">Lote</th>
       <th scope="col">Entrada</th>
       <th scope="col">Salida</th>
-      <th scope="col">Existencia</th>
+      <th scope="col">Comentario</th>
     </tr>
   </thead>
   <tbody id="userList">
@@ -75,7 +75,7 @@
       <td>{{$item->lote_id}}</td>
       <td><?php echo ($item->tipo_movimiento=='INGRESO'?$item->kard_cantidad:'0')?></td>
       <td><?php echo ($item->tipo_movimiento=='DESPACHO'?$item->kard_cantidad:'0')?></td>
-      <td>{{$item->tipo_movimiento}}</td>
+      <td title="{{$item->acta_comentario}}">{{substr($item->acta_comentario, 0, 8)}}</td>
       
     </tr>
     @endforeach

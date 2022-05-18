@@ -32,6 +32,27 @@
 
 @endif
 
+<form action="" method="GET" class="card-header" >
+<div class="form-outline">
+  <div class="form-row">
+    
+    <div class="form-group col-md-5" >
+      <div class="input-group input-group-sm">
+          <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search" name="search">
+          <div class="input-group-append">
+              <button class="btn btn-navbar" type="submit">
+                  <i class="fas fa-search"></i>
+              </button>
+          </div>
+      </div>
+
+    </div>
+  </div>
+
+  </div>
+ 
+</form>
+<br>
 
 <table class="table table-hover" >
   <thead>
@@ -83,5 +104,5 @@
 
 @endsection
 @section('scripts')
-<script src="{{ asset('js/user-list.js') }}" ></script>
+
 @endsection
