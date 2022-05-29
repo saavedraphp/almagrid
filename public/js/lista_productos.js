@@ -193,6 +193,9 @@ const app = new Vue({
             
         },
 
+
+        
+
         modificarStock: function(producto){
           
 

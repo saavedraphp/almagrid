@@ -7,21 +7,26 @@ const app2 = new Vue({
       correo_id: document.getElementById("correo_id").value,
       celular_id:  document.getElementById("celular_id").value,
       contacto:  document.getElementById("contacto").value,
+      empresa_id:document.getElementById("empresa_id").value,
       msg:[],
+      data:[],
       encontroEmail: false,
     },
     methods:{
+ 
+
       checkForm: function (e) {
  
-  
         this.errors = [];
   
         if (!this.nombre_id) {
+         
           this.errors.push('El Nombre / Ruc es obligatorio.');
         }
 
         
         if (!this.ruc_id) {
+          
           this.errors.push('El DNI / RUC es obligatorio.');
         }        
   
@@ -77,8 +82,22 @@ const app2 = new Vue({
         } else {
           return true;
         }
+      },
+
+      obtenerContactosEmpresaId() {
+            
+          
+        axios.get(url+`/obtenerContactosEmpresaId`, {params: {empresa_id: this.empresa_id} }).then((response) => {
+        this.data = response.data;
+
+        });
       }
 
 
-    }
+
+
+  
+    }//fin method
+
+  
   })

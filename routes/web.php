@@ -67,6 +67,9 @@ Route::get('racks/obtenerCasillas/', 'RackCasillaController@obenerCasillasIdRack
 
 Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
 Route::get('getTotalProductosLotes/', 'ProductosController@getTotalProductosLotes');
+Route::get('obtenerContactosEmpresaId', 'ProductosController@obtenerContactosEmpresaId');
+Route::get('adicionarContacto', 'ContactosEmpresaController@adicionarContacto');
+
 
 
 Route::get('ciudades/estado/', 'UsuarioController@getCiudadesByEstado');

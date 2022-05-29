@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Empresa;
+
 use App\User;
+
 use App\Roles;
 use Auth;
 use Exception;
@@ -123,7 +125,8 @@ class EmpresaController extends Controller
      */
     public function edit($id)
     {
-        return view('empresas.edit', ['empresa' => Empresa::findOrFail($id)]);
+
+        return view('empresas.edit', ['empresa' => Empresa::findOrFail($id),'contactos' =>$contactos]);
     }
     
     /**
