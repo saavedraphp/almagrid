@@ -33,7 +33,7 @@
     <div class="form-group col-md-6">
       <label for="inputEmail4">Empresa</label>
       <input type="text" class="form-control" name="nombre" v-model="nombre_id" id="nombre_id" placeholder="Nombre" value="{{$empresa->empr_nombre}}">
-      <input type="text" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="{{$empresa->empr_id}}">
+      <input type="hidden" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="{{$empresa->empr_id}}">
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">DNI / RUC</label>
@@ -73,56 +73,63 @@
 
   </div>
 
+
+
+    <button type="submit" class="btn btn-primary">Actualizar</button>
+    <button type="reset" class="btn btn-danger">Cancelar</button>
+
+
  
-  <hr>
-  <div class="form-group">
-    <label for="inputAddress">Lista de Contactos</label>
-    <input   type="text" class="form-control"   v-model="contacto"  id="contacto" placeholder="Contacto" name="contacto" 
-    value="{{$empresa->empr_contacto}}"  >
-
-
-    <table class="table table-hover" >
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Nombre</th>
-          <th scope="col">Telefono</th>      
-          <th scope="col">Email</th>
-          <th scope="col">Opciones</th>
-        </tr>
-      </thead>
-     
-      <tbody id="userList">
- 
- <tr v-for="contacto in data">
-   <th scope="row"> @{{contacto.id }} </th>
-   <td>@{{contacto.nombre}}</td>
-   <td>@{{contacto.telefono}}</td>
-   <td>@{{contacto.email}}</td>
-   <td>
-
- opciones
-
-   </td>
- </tr>
-</tbody>
-  </table>
-
-
-
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Crear Contacto
-</button>
-   </div>
-
-
-  <button type="submit" class="btn btn-primary">Actualizar</button>
-  <button type="reset" class="btn btn-danger">Cancelar</button>
-
-
-  <!-- Modal -->
  
 </form>
+
+
+
+<br>
+<br>
+
+<!--lista contactos-->
+<div class="row" id="lista_contacto">
+
+<hr>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Crear Contacto
+</button>
+
+  <div class="form-group">
+        <label for="inputAddress">Lista de Contactos</label>
+        
+
+        <table class="table table-hover" >
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Nombre</th>
+              <th scope="col">Telefono</th>      
+              <th scope="col">Email</th>
+              <th scope="col">Opciones</th>
+            </tr>
+          </thead>
+        
+          <tbody id="userList">
+          
+          <tr v-for="contacto in data">
+            <th scope="row"> @{{contacto.id }} </th>
+            <td>@{{contacto.nombre}}</td>
+            <td>@{{contacto.telefono}}</td>
+            <td>@{{contacto.email}}</td>
+            <td>
+
+
+            <a title="{{MiConstantes::ELIMINAR}}"  @click="eliminar_contacto(contacto)"><i class="fas fa-trash-alt"></i></a>
+
+
+            </td>
+          </tr>
+          </tbody>
+            </table>
+   </div>
+
 
 <!-- modal-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -135,25 +142,33 @@
         </button>
       </div>
       <div class="modal-body">
+
+      <p v-if="errors.length">
+          <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
+          <ul>
+            <li v-for="error in errors">@{{error}}</li>
+          </ul>
+        </p>
+
         <form id="frm_contacto" name="frm_contacto">
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Nombre:</label>
-            <input type="text" class="form-control" id="nombre" value="Luis">
+            <label for="recipient-name" class="col-form-label">Nombre:*</label>
+            <input type="text" class="form-control" id="nombre"  v-model="nombre"  value="" >
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Telefono:</label>
-            <input type="text" class="form-control" id="telefono" value="123456">
+            <label for="message-text" class="col-form-label">Telefono:*</label>
+            <input type="text" class="form-control" id="telefono"  v-model="telefono"  value="">
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Email:</label>
-            <input type="text" class="form-control" id="email" value="saavedraphp@gmail.com">
+            <input type="text" class="form-control" id="email" v-model="email"  value="">
           </div>
           
 
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
         <button type="button" class="btn btn-primary"  @click="adicionarContacto()"  >Grabar</button>
       </div>
     </div>
@@ -161,9 +176,21 @@
 </div>
 <!--fin modal-->
 
+</div>
+   <!--fin lista contactos-->
+
+ 
+
+
+
+
+
+
 
 </div>
 </div>
+
+
 </div>
 
 
@@ -173,7 +200,8 @@
   const url = '{{ env("MY_URL") }}';
   
 </script>
-<script src="{{asset('js/frm_empresa.js') }}" ></script>
 
+<script src="{{asset('js/frm_empresa.js') }}" ></script>
 <script src="{{asset('js/frm_contacto.js') }}" ></script> 
+
 @endsection

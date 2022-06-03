@@ -1,6 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
 
+
+
 Auth::routes();
 
  
@@ -20,7 +22,9 @@ Route::get('/usuario', 'HomeController@login_empresa')->name('homex');
 
 /** INVENTARIO  */
 
-Route::get('admin/inventario/producto/{id}', 'InventarioController@kardexPorProductoId')->name('kardexPorIdProductpo');
+
+Route::get('admin/inventario/downloadKardexProductoId/{id}', 'InventarioController@downloadKardexProductoId')->name('downloadKardexProductoId');
+Route::get('admin/inventario/producto/{id}', 'InventarioController@kardexPorProductoId')->name('kardexPorIdProducto');
 
 
 Route::get('admin/actas/create-despacho', 'ActaController@create_despacho');
@@ -67,8 +71,10 @@ Route::get('racks/obtenerCasillas/', 'RackCasillaController@obenerCasillasIdRack
 
 Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
 Route::get('getTotalProductosLotes/', 'ProductosController@getTotalProductosLotes');
-Route::get('obtenerContactosEmpresaId', 'ProductosController@obtenerContactosEmpresaId');
+Route::get('obtenerContactosEmpresaId', 'ContactosEmpresaController@obtenerContactosEmpresaId');
 Route::get('adicionarContacto', 'ContactosEmpresaController@adicionarContacto');
+Route::get('eliminar_contacto_id', 'ContactosEmpresaController@eliminar_contacto_id');
+
 
 
 

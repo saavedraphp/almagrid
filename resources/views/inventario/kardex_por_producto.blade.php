@@ -2,17 +2,52 @@
 
 @section('content')
 
+<div class="container">
+  
+<div class="form-row">
+    
+    <div class="form-group col-md-8">
+      <label for="producto">KARDEX *</label>
+    </div>
 
+    <div class="form-group col-md-4">
+      <div class="row btn-custom">
+          <div class="btn-group btn-group col-xs-4" >
+            <a href="{{ route('downloadKardexProductoId',$producto->prod_id)}}"><button class="btn btn-success col-xs-2">DESCARGAR EXCEL <i class="far fa-file-excel"></i></button></a>
+          </div>
+        </div>
+    
+    </div>
+
+
+  </div>
+</div>  
  
  
-<h2 style="text-align: center;">KARDEX</h2>
+<h2 style="text-align: center;"></h2>  
+
+     
  
  <STYLE>
-     .bold1
-     {
-        font-weight: 900; 
-     }
+
+.btn-custom {
+    margin-bottom: 5px; 
+}
+
+.btn-custom button { 
+    border-left:none; 
+    height: 50px;
+}
+
+.bold1
+{
+  font-weight: 900; 
+}
+
+
  </STYLE>
+
+
  <table class="table table-hover">
       <tbody>
         <tr>

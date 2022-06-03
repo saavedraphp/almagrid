@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 29-04-2022 a las 19:54:35
+-- Tiempo de generación: 03-06-2022 a las 20:18:57
 -- Versión del servidor: 5.7.31
 -- Versión de PHP: 7.4.9
 
@@ -45,10 +45,7 @@ CREATE TABLE IF NOT EXISTS `actas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`acta_id`),
-  KEY `fk_empresas_idx` (`empr_id`),
-  KEY `fk_servicios_x_acta_idx` (`tipo_movimiento_codigo`),
-  KEY `fk_tipo_documentos_x_acta_idx` (`tipo_docu_id`)
+  PRIMARY KEY (`acta_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='																			';
 
 --
@@ -56,9 +53,8 @@ CREATE TABLE IF NOT EXISTS `actas` (
 --
 
 INSERT INTO `actas` (`acta_id`, `empr_id`, `tipo_docu_id`, `tipo_movimiento_codigo`, `acta_encargado_id`, `acta_supervisor_id`, `contrato_id`, `acta_sub_cliente`, `acta_numero_ingr_sali`, `acta_costo`, `acta_fecha_ini`, `acta_fecha_fin`, `acta_comentario`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(4, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, NULL, '2022-04-28 20:36:00', '2022-04-28 20:36:00', NULL),
-(7, 10, 1, 'INGRESO', NULL, NULL, NULL, 'Rocio Saavedra', '54227813', NULL, NULL, NULL, 'Rocio saavedra ingreso estos productos', '2022-04-29 15:57:02', '2022-04-29 19:08:25', '2022-04-29 19:08:25'),
-(8, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, NULL, '2022-04-29 19:19:31', '2022-04-29 19:19:31', NULL);
+(7, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, '11	PITAJAYA modi	9999999	0	5	\r\n11	PITAJAYA modi	1234567	0	10', '2022-05-11 19:33:03', '2022-05-11 19:33:03', NULL),
+(8, 11, 1, 'DESPACHO', NULL, NULL, NULL, 'Rocio Saavedra', '54227813', NULL, NULL, NULL, '11	PITAJAYA modi	9999999	5	3	\r\n11	PITAJAYA modi	1234567	10	2', '2022-05-11 20:32:57', '2022-05-11 20:57:22', '2022-05-11 20:57:22');
 
 -- --------------------------------------------------------
 
@@ -77,7 +73,16 @@ CREATE TABLE IF NOT EXISTS `casillas_empresas` (
   PRIMARY KEY (`id`),
   KEY `fk_casillas` (`rc_id`),
   KEY `fk_empresa_casilla` (`empr_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `casillas_empresas`
+--
+
+INSERT INTO `casillas_empresas` (`id`, `rc_id`, `empr_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(11, 8, 9, NULL, NULL, NULL),
+(12, 5, 9, NULL, NULL, NULL),
+(13, 5, 9, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -115,6 +120,38 @@ CREATE TABLE IF NOT EXISTS `ciudades` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `contactos_x_empresa`
+--
+
+DROP TABLE IF EXISTS `contactos_x_empresa`;
+CREATE TABLE IF NOT EXISTS `contactos_x_empresa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `empresa_id` int(11) NOT NULL,
+  `nombre` varchar(50) NOT NULL,
+  `telefono` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `contactos_x_empresa`
+--
+
+INSERT INTO `contactos_x_empresa` (`id`, `empresa_id`, `nombre`, `telefono`, `email`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 9, 'Veronica', '123456', 'saavedraphp@gmail.com', '2022-05-30 17:31:13', '2022-05-31 17:06:10', '2022-05-31 17:06:10'),
+(2, 9, 'Luis', '123456', 'saavedraphp@gmail.com', '2022-05-30 17:43:51', '2022-05-31 17:09:50', '2022-05-31 17:09:50'),
+(3, 9, 'Luis', '123456', 'saavedraphp@gmail.com', '2022-05-30 19:37:33', '2022-05-31 17:09:53', '2022-05-31 17:09:53'),
+(4, 9, 'Luis', '123456', 'saavedraphp@gmail.com', '2022-05-31 17:07:16', '2022-05-31 17:07:16', NULL),
+(5, 9, 'Veronica Saavedra', '960203783', 'adeconperuventas@gmail.com', '2022-05-31 17:37:29', '2022-05-31 17:37:29', NULL),
+(6, 9, 'VERONICA SAAVEDRA', '960203783', 'rocio@gmail.com', '2022-05-31 17:38:06', '2022-05-31 17:38:06', NULL),
+(7, 9, 'Jessica', '960203783', 'elizabethcanaquiri@gmail.com', '2022-05-31 17:38:56', '2022-05-31 17:39:03', '2022-05-31 17:39:03');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `empresas`
 --
 
@@ -144,7 +181,7 @@ CREATE TABLE IF NOT EXISTS `empresas` (
 INSERT INTO `empresas` (`empr_id`, `user_id`, `empr_nombre`, `empr_ruc`, `empr_direccion`, `empr_telefono`, `empr_celular`, `empr_correo`, `empr_contacto`, `empr_estado`, `empr_ruta_img_reporte`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (9, 8, 'Abogados S.A', '10438875820', 'adeconperuventas@gmail.com', '980560812', '980560812', 'adeconperuventas@gmail.com', NULL, 'ACTI', NULL, '2022-03-17 18:31:13', '2022-03-17 18:31:13', NULL),
 (10, 9, 'FOREVER21', '20390247487', 'Av Los Precursores 593', '980560812', '5612937', 'elizabethcanaquiri@gmail.com', NULL, 'ACTI', NULL, '2022-03-17 18:42:40', '2022-03-17 18:42:40', NULL),
-(11, 10, 'LUVANET modi', '20390247499', 'AV LA MOLINA 6521 modi', '45874199', '960203799', 'ventasmodi@luevanet.com', 'Ronny Tirado Bazan modi', 'ACTI', NULL, '2022-04-22 19:38:34', '2022-04-25 13:36:17', NULL);
+(11, 10, 'LUVANET modi', '20390247499', 'AV LA MOLINA 6521 modi', '45874199', '960203799', 'ventasmodi@luevanet.com', 'Ronny Tirado Bazan modi', 'ACTI', '', '2022-04-22 19:38:34', '2022-05-09 16:28:07', NULL);
 
 -- --------------------------------------------------------
 
@@ -200,19 +237,17 @@ CREATE TABLE IF NOT EXISTS `kardex` (
   KEY `fk_kardex_idx` (`prod_id`),
   KEY `fk_actas_idx` (`acta_id`),
   KEY `fk_lote_idx` (`lote_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `kardex`
 --
 
 INSERT INTO `kardex` (`kard_id`, `acta_id`, `prod_id`, `lote_id`, `tipo_movimiento`, `kard_cantidad`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 4, 11, 9999999, 'INGRESO', 5, NULL, NULL, NULL),
-(2, 4, 12, 9999999, 'INGRESO', 10, NULL, NULL, NULL),
-(3, 4, 13, 9999999, 'INGRESO', 15, NULL, NULL, NULL),
-(4, 7, 10, 9999999, 'INGRESO', 8, NULL, '2022-04-29 19:08:25', '2022-04-29 19:08:25'),
-(5, 7, 10, 9999999, 'INGRESO', 15, NULL, '2022-04-29 19:08:25', '2022-04-29 19:08:25'),
-(6, 8, 12, 9999999, 'INGRESO', 2, NULL, NULL, NULL);
+(1, 7, 11, 9999999, 'INGRESO', 5, '2022-05-11 19:33:03', NULL, NULL),
+(2, 7, 11, 1234567, 'INGRESO', 10, '2022-05-11 19:33:03', NULL, NULL),
+(3, 8, 11, 9999999, 'DESPACHO', 3, '2022-05-11 20:32:57', '2022-05-11 20:57:22', '2022-05-11 20:57:22'),
+(4, 8, 11, 1234567, 'DESPACHO', 2, '2022-05-11 20:32:57', '2022-05-11 20:57:22', '2022-05-11 20:57:22');
 
 -- --------------------------------------------------------
 
@@ -238,6 +273,32 @@ CREATE TABLE IF NOT EXISTS `lotes` (
 INSERT INTO `lotes` (`lote_id`, `lote_nombre`, `lote_fecha_vencimiento`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, '9999999', '2030-12-30', NULL, NULL, NULL),
 (2, '1234567', '2022-12-30', NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `lote_x_producto`
+--
+
+DROP TABLE IF EXISTS `lote_x_producto`;
+CREATE TABLE IF NOT EXISTS `lote_x_producto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lote_id` int(11) NOT NULL,
+  `prod_id` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_poducto_idx` (`prod_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `lote_x_producto`
+--
+
+INSERT INTO `lote_x_producto` (`id`, `lote_id`, `prod_id`, `cantidad`, `created_at`, `updated_at`) VALUES
+(3, 9999999, 11, 5, '2022-05-11 19:33:03', '2022-05-11 20:57:22'),
+(4, 1234567, 11, 10, '2022-05-11 19:33:03', '2022-05-11 20:57:22');
 
 -- --------------------------------------------------------
 
@@ -391,18 +452,17 @@ CREATE TABLE IF NOT EXISTS `productos_x_empresa` (
   KEY `fk_presentaciones_idx` (`unidad_id`),
   KEY `fk_empresas_idx` (`empr_id`),
   KEY `fk_categoria_producto_idx` (`categoria_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `productos_x_empresa`
 --
 
 INSERT INTO `productos_x_empresa` (`prod_id`, `categoria_id`, `empr_id`, `unidad_id`, `prod_nombre`, `prod_codigo`, `prod_sku`, `prod_ean`, `prod_cantidad`, `prod_precio`, `prod_serie`, `prod_lote`, `prod_comentario`, `prod_stock`, `prod_fecha_vencimiento`, `prod_peso`, `prod_estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(9, NULL, 9, 1, 'Monomero 15ml', '09009MO03030', NULL, NULL, NULL, NULL, NULL, NULL, 'MONOMERO', 0, NULL, NULL, NULL, '2022-03-17 18:39:45', '2022-04-25 20:32:05', '2022-04-25 20:32:05'),
-(10, NULL, 10, 1, 'Polvos Acrilicos 30G', 'PAFS3000001', NULL, NULL, NULL, NULL, NULL, NULL, 'POLVOS ACRILICOS', 0, NULL, NULL, NULL, '2022-04-20 19:11:24', '2022-04-25 20:32:11', '2022-04-25 20:32:11'),
-(11, NULL, 11, 5, 'PITAJAYA modi', NULL, 'LUVPITMEDD', NULL, NULL, NULL, NULL, '1235466', 'COMENTAIOS MODI', 5, '2022-04-26', '99', NULL, '2022-04-25 18:17:15', '2022-04-25 20:28:28', NULL),
-(12, NULL, 11, 5, 'GRANADA', NULL, 'LUVGRAMED', NULL, NULL, NULL, NULL, '5412', 'ADD', 12, '2022-04-25', '2', NULL, '2022-04-25 20:29:51', '2022-04-25 20:29:51', NULL),
-(13, NULL, 11, 5, 'PALTA FUERTE GRADE', NULL, 'LUVPALGRA', NULL, NULL, NULL, NULL, '5210', 'ADD PALTA', 15, '2023-02-08', '1', NULL, '2022-04-25 20:31:32', '2022-04-25 20:31:32', NULL);
+(11, NULL, 11, 5, 'PITAJAYA modi', NULL, 'LUVPITMEDD', NULL, NULL, NULL, NULL, NULL, 'COMENTAIOS MODI', 15, NULL, '2', NULL, '2022-04-25 18:17:15', '2022-05-18 15:34:19', NULL),
+(12, NULL, 11, 5, 'GRANADA', NULL, 'LUVGRAMED', NULL, NULL, NULL, NULL, '5412', 'ADD', 0, '2022-04-25', '2', NULL, '2022-04-25 20:29:51', '2022-04-25 20:29:51', NULL),
+(13, NULL, 11, 5, 'PALTA FUERTE GRADE', NULL, 'LUVPALGRA', NULL, NULL, NULL, NULL, '5210', 'ADD PALTA', 0, '2023-02-08', '1', NULL, '2022-04-25 20:31:32', '2022-04-25 20:31:32', NULL),
+(14, NULL, 10, 5, 'Manzana Mediana', NULL, 'F12MANMED', NULL, NULL, NULL, NULL, NULL, 'MANZANA MEDIANA', 0, NULL, '1', NULL, '2022-05-03 18:44:08', '2022-05-03 18:45:49', NULL);
 
 -- --------------------------------------------------------
 
@@ -444,7 +504,7 @@ CREATE TABLE IF NOT EXISTS `racks_casillas` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`rc_id`),
   KEY `fk_rack_idx` (`rack_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `racks_casillas`
@@ -453,7 +513,9 @@ CREATE TABLE IF NOT EXISTS `racks_casillas` (
 INSERT INTO `racks_casillas` (`rc_id`, `rack_id`, `rc_nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (4, 3, 'RACK1-1', '2022-04-25 20:50:25', '2022-04-25 20:50:25', NULL),
 (5, 3, 'RACK 1-2', '2022-04-25 20:50:44', '2022-04-25 20:50:44', NULL),
-(6, 3, 'RACK 1-3', '2022-04-25 20:50:56', '2022-04-25 20:50:56', NULL);
+(6, 3, 'RACK 1-3', '2022-04-25 20:50:56', '2022-04-25 20:50:56', NULL),
+(7, 4, 'RACK2-1', '2022-05-12 21:05:48', '2022-05-12 21:05:48', NULL),
+(8, 4, 'RACK2-2', '2022-05-12 21:05:59', '2022-05-12 21:05:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -674,9 +736,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Luis', 'saavedraphp@gmail.com', NULL, '$2y$12$P3DK3QkU/VicHL5fj1ZLSOFWyyFie4BouEuyx81ZcBP6Omtqjjs/6', 'eBoVOx8HBSlhtURb56mBNnpJo3eyJiXyOIBUbV9qKZ6pxhMO3StFRiTjxd4z', NULL, NULL),
+(1, 'Luis', 'saavedraphp@gmail.com', NULL, '$2y$12$P3DK3QkU/VicHL5fj1ZLSOFWyyFie4BouEuyx81ZcBP6Omtqjjs/6', '33x1dvlLcDasonxidyvMpfEBFzNgw7ypo14knngIkDGjKyS9kc6ggSsh1akR', NULL, NULL),
 (2, 'Usuario Demo', 'demo@gmail.com', NULL, '$2y$10$ebXJfHGWbAOXZO9KK029.eES/HkZQKOcMcs.ejkY8zNot.YkhW3yK', 'M12SVMyqRiGYYztYUXpkPLXaFNaUgps1CtAJUtLdsA5W0GYz30RTsE7alVPH', '2021-02-23 03:41:09', '2021-02-23 03:41:09'),
-(3, 'Eduardo', 'egrillo@almagri.com', NULL, '$2y$12$P3DK3QkU/VicHL5fj1ZLSOFWyyFie4BouEuyx81ZcBP6Omtqjjs/6', 'OR3KT630lrbL8FRCYD7JeXiJamHYDga67x3zZrdq6hVOUWUHId3nQ7mDttwa', '2021-02-26 05:22:30', '2021-03-02 23:18:11'),
+(3, 'Eduardo', 'egrillo@almagri.com', NULL, '$2y$12$P3DK3QkU/VicHL5fj1ZLSOFWyyFie4BouEuyx81ZcBP6Omtqjjs/6', 'dm6aa1BXVVzvyLm2Nmha3aDiKWrfUom6RV40hznYOmkgdgrFWq1cw2CTQQ2x', '2021-02-26 05:22:30', '2021-03-02 23:18:11'),
 (8, 'Abogados S.A', 'adeconperuventas@gmail.com', NULL, '$2y$10$FoJcwBfziPsKAbQPG4dPC.ANdHHFn8ysO3br4PZQGp4esjOm.aczO', NULL, '2022-03-17 18:31:13', '2022-03-17 18:31:13'),
 (9, 'FOREVER21', 'elizabethcanaquiri@gmail.com', NULL, '$2y$10$LOZmpgbXswvvd6K0ga3tTepin40tsqdRx9TMuMenCnYhhWJAjoRr2', NULL, '2022-03-17 18:42:40', '2022-03-17 18:42:40'),
 (10, 'LUVANET', 'ventas@luevanet.com', NULL, '$2y$10$b2YmFSppkFmBFBmC0pSfruLRbUaQj0MSmJhPH7O7RGl41U.aH.XEG', NULL, '2022-04-22 19:38:33', '2022-04-22 19:38:33');
@@ -703,7 +765,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`usua_id`),
   KEY `usuarios_pais_id_foreign` (`pais_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Restricciones para tablas volcadas
@@ -715,6 +777,18 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 ALTER TABLE `casillas_empresas`
   ADD CONSTRAINT `fk_casillas` FOREIGN KEY (`rc_id`) REFERENCES `racks_casillas` (`rc_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_empresa_casilla` FOREIGN KEY (`empr_id`) REFERENCES `empresas` (`empr_id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `kardex`
+--
+ALTER TABLE `kardex`
+  ADD CONSTRAINT `fk_acta_id` FOREIGN KEY (`acta_id`) REFERENCES `actas` (`acta_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `lote_x_producto`
+--
+ALTER TABLE `lote_x_producto`
+  ADD CONSTRAINT `fk_poducto` FOREIGN KEY (`prod_id`) REFERENCES `productos_x_empresa` (`prod_id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `productos_x_empresa`

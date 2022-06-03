@@ -126,7 +126,7 @@ class EmpresaController extends Controller
     public function edit($id)
     {
 
-        return view('empresas.edit', ['empresa' => Empresa::findOrFail($id),'contactos' =>$contactos]);
+        return view('empresas.edit', ['empresa' => Empresa::findOrFail($id)]);
     }
     
     /**

@@ -6,10 +6,10 @@ const app2 = new Vue({
       ruc_id: document.getElementById("ruc_id").value,
       correo_id: document.getElementById("correo_id").value,
       celular_id:  document.getElementById("celular_id").value,
-      contacto:  document.getElementById("contacto").value,
+//      contacto:  document.getElementById("contacto").value,
       empresa_id:document.getElementById("empresa_id").value,
       msg:[],
-      data:[],
+      //data:[],
       encontroEmail: false,
     },
     methods:{
@@ -83,15 +83,6 @@ const app2 = new Vue({
           return true;
         }
       },
-
-      obtenerContactosEmpresaId() {
-            
-          
-        axios.get(url+`/obtenerContactosEmpresaId`, {params: {empresa_id: this.empresa_id} }).then((response) => {
-        this.data = response.data;
-
-        });
-      }
 
 
 
