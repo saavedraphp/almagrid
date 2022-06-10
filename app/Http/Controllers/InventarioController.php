@@ -37,7 +37,8 @@ class InventarioController extends Controller
             
             $kardex = DB::table('kardex as k')
                     ->leftJoin('actas as a','k.acta_id','=','a.acta_id')
-                    ->where("prod_id","=",$producto->prod_id)->paginate(10);
+                    ->whereNull('k.deleted_at')
+                    ->where("prod_id",$producto->prod_id)->paginate(10);
             
             //dd(DB::getQueryLog());
 
@@ -58,7 +59,8 @@ class InventarioController extends Controller
             
             $kardex = DB::table('kardex as k')->select('k.acta_id','tipo_movimiento','kard_cantidad','k.created_at','lote_id')
                     ->leftJoin('actas as a','k.acta_id','=','a.acta_id')
-                    ->where("prod_id","=",$producto->prod_id)->paginate(10);
+                    ->where("prod_id",$producto->prod_id)
+                    ->whereNull('k.deleted_at')->paginate(10);
             
             
             

@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\DB;
 
 class RackCasillaController extends Controller
 {
+
+
+    public function __construct()
+    {
+        // LSL PARA LA VALIDACION
+        //$this->middleware('auth');
+        DB::enableQueryLog();
+
+        
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
@@ -138,7 +151,15 @@ class RackCasillaController extends Controller
     
     public function obenerCasillasIdRack(Request $request)
     {   //dd($request->rack_id);
-        $data = RackCasillas::where('rack_id', $request->rack_id)->orderBy('rc_nombre', 'asc')->get();
+        //$data = RackCasillas::where('rack_id', $request->rack_id)->orderBy('rc_nombre', 'asc')->get();
+        $data = DB::table('racks_casillas as rc')
+        ->leftJoin('casillas_empresas as ce', 'rc.rc_id', 'ce.rc_id') 
+        ->leftJoin('empresas as e', 'e.empr_id', 'ce.empr_id')
+        ->where('rc.rack_id',$request->rack_id)
+        ->whereNull('ce.deleted_at')
+        ->select('rc.rc_id','rc.rc_nombre','ce.empr_id', 'e.empr_nombre')->get();  
+       // dd(DB::getQueryLog());
+
         return $data;
 
         

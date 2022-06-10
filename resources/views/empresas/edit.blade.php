@@ -19,85 +19,90 @@
     </div>
    @endif
 
-   <form action="{{route('clientes.update',$empresa->empr_id)}}" id="frm_formulario" @submit="checkForm" method="POST">
-@method('PATCH')
-@csrf
-<p v-if="errors.length">
-    <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
-    <ul>
-      <li v-for="error in errors">@{{error}}</li>
-    </ul>
-  </p>
+  <form action="{{route('clientes.update',$empresa->empr_id)}}" id="frm_formulario" @submit="checkForm" method="POST">
+  @method('PATCH')
+  @csrf
+  <p v-if="errors.length">
+      <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
+      <ul>
+        <li v-for="error in errors">@{{error}}</li>
+      </ul>
+    </p>
 
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Empresa</label>
-      <input type="text" class="form-control" name="nombre" v-model="nombre_id" id="nombre_id" placeholder="Nombre" value="{{$empresa->empr_nombre}}">
-      <input type="hidden" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="{{$empresa->empr_id}}">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Empresa</label>
+        <input type="text" class="form-control" name="nombre" v-model="nombre_id" id="nombre_id" placeholder="Nombre" value="{{$empresa->empr_nombre}}">
+        <input type="hidden" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="{{$empresa->empr_id}}">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="inputPassword4">DNI / RUC</label>
+        <input type="number"   onKeyPress="if(this.value.length==11) return false;"   class="form-control" name="ruc" 
+        id="ruc_id" v-model="ruc_id"  placeholder="Ruc" value="{{$empresa->empr_ruc}}">
+      </div>
     </div>
-    <div class="form-group col-md-6">
-      <label for="inputPassword4">DNI / RUC</label>
-      <input type="number"   onKeyPress="if(this.value.length==11) return false;"   class="form-control" name="ruc" 
-      id="ruc_id" v-model="ruc_id"  placeholder="Ruc" value="{{$empresa->empr_ruc}}">
+
+
+    <div class="form-group">
+      <label for="inputAddress">Direccion</label>
+      <input type="text" class="form-control" id="inputAddress" placeholder="Direccion" name="direccion" value="{{$empresa->empr_direccion}}">
     </div>
-  </div>
+
+    <div class="form-group">
+      <label for="inputAddress">Correo</label>
+      <input   type="text" class="form-control"   v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
+      value="{{$empresa->empr_correo}}"  @blur="existeEmail" >
+      <span    v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
+    </div>
 
 
-  <div class="form-group">
-    <label for="inputAddress">Direccion</label>
-    <input type="text" class="form-control" id="inputAddress" placeholder="Direccion" name="direccion" value="{{$empresa->empr_direccion}}">
-  </div>
-
-  <div class="form-group">
-    <label for="inputAddress">Correo</label>
-    <input   type="text" class="form-control"   v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
-    value="{{$empresa->empr_correo}}"  @blur="existeEmail" >
-    <span    v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
-  </div>
+    <div class="form-row">
+    
+    <div class="form-group col-md-6">
+        <label for="inputPassword4">Celular</label>
+        <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==9) return false;" class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{$empresa->empr_celular}}">
+      </div>
 
 
-  <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputEmail4">Telefono</label>
+        <input  type="number" maxlength="9"  class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" 
+        value="{{$empresa->empr_telefono}}">
+      </div>
+
+
+    </div>
+
+
+
+      <button type="submit" class="btn btn-primary">Actualizar</button>
+      <button type="reset" class="btn btn-danger">Cancelar</button>
+
+
   
-  <div class="form-group col-md-6">
-      <label for="inputPassword4">Celular</label>
-      <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==9) return false;" class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{$empresa->empr_celular}}">
-    </div>
-
-
-    <div class="form-group col-md-6">
-      <label for="inputEmail4">Telefono</label>
-      <input  type="number" maxlength="9"  class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" 
-      value="{{$empresa->empr_telefono}}">
-    </div>
-
-
-  </div>
-
-
-
-    <button type="submit" class="btn btn-primary">Actualizar</button>
-    <button type="reset" class="btn btn-danger">Cancelar</button>
-
-
- 
- 
-</form>
+  
+  </form>
 
 
 
 <br>
 <br>
+<hr>
+
 
 <!--lista contactos-->
-<div class="row" id="lista_contacto">
+<div class="container" id="lista_contacto">
+  <div style="text-align:center">
+<label for="inputAddress" style="text-align:center">Lista de Contactos</label>
+</div>
 
-<hr>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Crear Contacto
+ <button type="button"   @click="showModal" id="btn_frmcontacto" class="btn btn-success float-right" data-toggle="modal" data-target="#exampleModal">
+    Crear Contacto 
 </button>
+ 
 
-  <div class="form-group">
-        <label for="inputAddress">Lista de Contactos</label>
+
+
         
 
         <table class="table table-hover" >
@@ -121,18 +126,18 @@
             <td>
 
 
-            <a title="{{MiConstantes::ELIMINAR}}"  @click="eliminar_contacto(contacto)"><i class="fas fa-trash-alt"></i></a>
+            <a title="{{MiConstantes::ELIMINAR}}"  @click="eliminar_contacto(contacto)"> <i class="fas fa-trash-alt"></i> </a>
+            <a href="#" title="{{MiConstantes::EDITAR}}" @click="obtenerContactoId(contacto)"> <i class="far fa-edit" ></i></a> |
 
 
             </td>
           </tr>
           </tbody>
-            </table>
-   </div>
-
+          </table>
+ 
 
 <!-- modal-->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade"  id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -150,27 +155,29 @@
           </ul>
         </p>
 
-        <form id="frm_contacto" name="frm_contacto">
-          <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Nombre:*</label>
-            <input type="text" class="form-control" id="nombre"  v-model="nombre"  value="" >
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Telefono:*</label>
-            <input type="text" class="form-control" id="telefono"  v-model="telefono"  value="">
-          </div>
-          <div class="form-group">
-            <label for="message-text" class="col-form-label">Email:</label>
-            <input type="text" class="form-control" id="email" v-model="email"  value="">
-          </div>
-          
+          <form id="frm_contacto" name="frm_contacto">
+            <div class="form-group">
+              <label for="recipient-name" class="col-form-label">Nombre:*</label>
+              <input type="text" class="form-control" id="nombre"  v-model="nombre"  value="" >
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Telefono:*</label>
+              <input type="text" class="form-control" id="telefono"  v-model="telefono"  value="">
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="col-form-label">Email:</label>
+              <input type="text" class="form-control" id="email" v-model="email"  value="">
+            </div>
+            
 
-        </form>
+          </form>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">Close</button>
-        <button type="button" class="btn btn-primary"  @click="adicionarContacto()"  >Grabar</button>
+        <button type="button" class="btn btn-primary"  @click="grabarContacto()"  >Grabar</button>
       </div>
+
     </div>
   </div>
 </div>

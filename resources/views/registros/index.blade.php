@@ -45,7 +45,7 @@
         <form action="{{route('registros.destroy',$registro->empr_id)}}" method="POST">
           @method('DELETE')
           @csrf
-
+ 
          <a href="{{route('registros.show',$registro->empr_id)}}"> <button type="button" class="btn btn-secondary">Ver</button></a>
 
          <a href="{{route('registros.edit',$registro->empr_id)}}"> <button type="button" class="btn btn-danger">Editar</button></a>

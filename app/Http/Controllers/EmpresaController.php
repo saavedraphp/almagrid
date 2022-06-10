@@ -39,7 +39,9 @@ class EmpresaController extends Controller
                 $query->where('empr_nombre', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('empr_ruc', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('empr_celular', 'LIKE', '%' . $request->search . '%');
-                })->orderBy('empr_nombre', 'asc')->paginate(10);
+                })
+                ->whereNull('deleted_at')
+                ->orderBy('empr_nombre', 'asc')->paginate(10);
 
             return view('empresas.index', ['empresas' => $empresas, 'search' => $query]);
 
@@ -129,6 +131,12 @@ class EmpresaController extends Controller
         return view('empresas.edit', ['empresa' => Empresa::findOrFail($id)]);
     }
     
+
+
+
+
+
+
     /**
      * Update the specified resource in storage.
      *

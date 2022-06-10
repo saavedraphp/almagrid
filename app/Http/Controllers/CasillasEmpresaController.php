@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Empresa;
+use App\CasillasEmpresa;
 use App\Rack;
 use Auth;
 use Exception;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Carbon;
 
 use Illuminate\Http\Request;
@@ -23,13 +25,55 @@ class CasillasEmpresaController extends Controller
     }
 
 
+    public function eliminarCasillaEmpresaId($idCliente,$idCasilla)
+    {
+         
+         //,'message'=>'La operacion se realizo con Exito'
+         //dd($idCasilla);
+        CasillasEmpresa::destroy($idCasilla);
+
+        
+        $casillas_x_empresa = DB::table('casillas_empresas as ce')
+        ->leftJoin('racks_casillas as rc', 'ce.rc_id','=','rc.rc_id')
+        ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
+        ->where('ce.empr_id',$idCliente)->paginate(10);
+        
+
+         //dd(DB::getQueryLog($casillas_x_empresa));
+//        $this->lista_casillas_asignadas($idCliente);
+        //return redirect('empresas/casillas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        return view('empresas.lista_celdas_asignadas', ['empresa' => Empresa::findOrFail($idCliente),'casillas_x_empresa' => $casillas_x_empresa]);
+
+        
+        
+    }
+ 
+
+    public function obtenerCasillasEmpresaId(Request $request)
+    {
+     
+        $casillas_x_empresa = DB::table('casillas_empresas as ce')
+        ->leftJoin('racks_casillas as rc', 'ce.rc_id','=','rc.rc_id')
+        ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
+        ->where('ce.empr_id',$request->empresa_id)->whereNull('ce.deleted_at')->get();
+        //dd($casillas_x_empresa);
+
+        //dd(DB::enableQueryLog()); 
+        //dd($casillas_x_empresa);
+        //$casillas_x_empresa = DB::table('casillas_empresas')->paginate(10);
+
+        return $casillas_x_empresa;
+    }    
+    
+
+
     public function lista_casillas_asignadas($id)
     {
      
         $casillas_x_empresa = DB::table('casillas_empresas as ce')
         ->leftJoin('racks_casillas as rc', 'ce.rc_id','=','rc.rc_id')
         ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
-        ->where('ce.empr_id',$id)->paginate(10);
+        ->where('ce.empr_id',$id)->whereNull('ce.deleted_at')->paginate(10);
     
 
         //dd(DB::enableQueryLog()); 
@@ -68,7 +112,8 @@ class CasillasEmpresaController extends Controller
                  $array_insert[] =
                 [
                     'rc_id' => $value['rc_id'],
-                    'empr_id' => $id
+                    'empr_id' => $id,
+                    'created_at' => date('Y-m-d h:i:s')
                 ];
             }
             
@@ -82,7 +127,7 @@ class CasillasEmpresaController extends Controller
          } catch (Exception $e) {
             DB::rollBack();    
             report($e);
-            return response()->json(['errors' =>  DB::getQueryLog(),'status'=>400], 400);
+            return response()->json(['errors' =>$e,'status'=>400], 400);
 
             
         }

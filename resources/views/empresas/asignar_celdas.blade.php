@@ -41,7 +41,7 @@
   <div class="form-row">
     
     <div class="form-group col-md-6">
-    <input name="id_empresa" value="{{$empresa->empr_id}}" id="id_empresa"  v-model="id_empresa">
+    <input name="id_empresa" type="hidden" value="{{$empresa->empr_id}}" id="id_empresa"  v-model="id_empresa">
       <label for="inputEmail4">Empresa</label>
       {{$empresa->empr_nombre}}  -  {{$empresa->empr_ruc}}
     </div>
@@ -65,8 +65,14 @@
   <div class="form-group col-md-4">
       <ul class="list-group" id="casillas_id">
           <li class="list-group-item active" aria-current="true">Celdas</li>
-          <li class="list-group-item"  v-for="option in casillas_rack" v-bind:value="option.value"  >@{{ option.rc_nombre }} - 
-          <a href="#"  @click="asignarCasilla(option)"><i class="fas fa-plus-circle" style="font-size: 12px;"></i></a></li>
+          
+          <li  class="list-group-item"  v-for="option in casillas_rack" v-bind:value="option.value" 
+              :class="{ 'disabled': option.empr_nombre }"  >@{{ option.rc_nombre }} - @{{ (option.empr_nombre?option.empr_nombre:'DISPONIBLE') }}
+            
+              <a href="#"  @click="asignarCasilla(option)"><i class="fas fa-plus-circle" style="font-size: 12px;"></i></a>
+        
+          </li>
+
       </ul>
     
   </div>

@@ -58,12 +58,12 @@
       <td>
 
 
-        <form action="{{route('racks.destroy',$fila->rack_id)}}" method="POST" id="frm_destroy{{$fila->rack_id}}">
-          @method('DELETE')
+        <form action="{{route('eliminarCasillaEmpresaId',[$fila->empr_id,$fila->id])}}" method="POST" id="frm_destroy{{$fila->id}}">
+        @method('DELETE')
           @csrf
           
           <a href="{{route('racks.edit',$fila->rack_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
-          <a href="javascript:document.getElementById('frm_destroy{{$fila->rack_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->rack_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
+          <a href="javascript:document.getElementById('frm_destroy{{$fila->id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
          
      
         </form>

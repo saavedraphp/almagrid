@@ -111,6 +111,7 @@
       <th scope="col">Tipo Movimiento</th>
       <th scope="col">Nombre</th>
        <th scope="col">Fecha de Creacion</th>      
+       <th scope="col">Asignacion</th>      
       <th scope="col">Acciones</th>
     </tr>
   </thead>
@@ -122,7 +123,8 @@
       <td>{{$acta->empr_nombre}}</td>
       <td>{{$acta->tipo_movimiento_codigo}}</td>
       <td>{{$acta->acta_sub_cliente}}</td>
-       <td>{{ date('M d Y h:i:s', strtotime($acta->created_at)) }}</td>
+       <td>{{ date('M d Y h:i', strtotime($acta->created_at)) }}</td>
+       <td style="color:red">Pendiente</td>
 
       <td>
 
@@ -130,8 +132,10 @@
         <form action="{{route('recepcion.destroy',$acta->acta_id)}}" method="POST" id="frm_destroy{{$acta->acta_id}}">
           @method('DELETE')
           @csrf
-
  
+          
+          <a href="{{route('asignarProductosCeldas',$acta->acta_id)}}" title="{{MiConstantes::VER}}"><i class="fas fa-check-circle"></i></a> |
+
          <a href="{{route('recepcion.show',$acta->acta_id)}}" title="{{MiConstantes::VER}}"><i class="far fa-eye"></i></a> |
          <a href="#" title="{{MiConstantes::REPORTE}}"><i class="far fa-file-pdf"></i></a> |
          <a href="javascript:document.getElementById('frm_destroy{{$acta->acta_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$acta->acta_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>

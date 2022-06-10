@@ -20,8 +20,6 @@ const app = new Vue({
           if(this.casillas_empresa.length>0)
           {  
             response = await axios.put(`http://127.0.0.1:8080/admin/empresas/adicionar_casillas/`+this.id_empresa,{'casillas':this.casillas_empresa} );
-            alert(response.data.errors);
-            
             window.location.href = ruta +'/admin/empresas/casillas/'+this.id_empresa;
 
           }
@@ -55,13 +53,23 @@ const app = new Vue({
 
  
 
-    asignarCasilla (item) {
-      this.casillas_empresa.push({'rc_id': item.rc_id, 'rc_nombre': item.rc_nombre })
-     /* this.checkIfExists(item.rc_id)
-      if (!this.exists) {
-      	this.items.push({'id': 4, 'text': 'Item 4' })
-      }
-      */
+    asignarCasilla (data) {
+      let existeElemento = false;
+
+         const newArray = this.casillas_empresa.filter((elemento, index) => {
+        console.log('casilla_id :' + elemento.rc_id+ ' = '+data.rc_id);
+        console.log('index =>'+index);
+        if (elemento.rc_id === data.rc_id) 
+        {   existeElemento = true;
+        }
+
+    });
+
+      if(existeElemento ==false)
+         this.casillas_empresa.push({'rc_id': data.rc_id, 'rc_nombre': data.rc_nombre })
+    
+      console.log(this.casillas_empresa);
+
     },
 
 

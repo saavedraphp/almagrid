@@ -33,7 +33,9 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Nombre / Empresa</label>
-      <input type="text" class="form-control" v-model="nombre_id" name="nombre" id="nombre_id" placeholder="Nombre" value="{{old('nombre')}}">
+      <input type="text" class="form-control" v-model="nombre_id" name="nombre" id="nombre_id" placeholder="Nombre" value="">
+      <input type="hidden" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="">
+
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">DNI / RUC</label>
@@ -60,24 +62,18 @@
 
     <div class="form-group col-md-6">
       <label for="inputPassword4">Celular</label>
-      <input type="text"    @keypress="esNumerico($event)" class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{old('celular')}}">
+      <input type="text"    @keypress="esNumerico($event)" class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular">
     </div>
 
 
     <div class="form-group col-md-6">
       <label for="inputEmail4">Telefono</label>
-      <input type="text"   @keypress="esNumerico($event)" class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" value="{{old('telefono')}}">
+      <input type="text"   @keypress="esNumerico($event)" class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" >
     </div>
 
   </div>
 
- <hr>
-  <div class="form-group">
-    <label for="inputAddress">Contacto</label>
-    <input   type="text" class="form-control"   v-model="contacto"  id="contacto" placeholder="Contacto" name="contacto" 
-    value="{{old('contacto')}}"  >
-   </div>
-
+ 
 
   <button type="submit" class="btn btn-primary">Registrar</button>
   <button type="reset" class="btn btn-danger">Cancelar</button>

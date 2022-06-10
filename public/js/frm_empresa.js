@@ -41,7 +41,7 @@ const app2 = new Vue({
         
 
         if (!this.celular_id) {
-            this.errors.push('La Celular es obligatoria.');
+            this.errors.push('El Celular es obligatoria.');
           }        
   
          
@@ -49,9 +49,8 @@ const app2 = new Vue({
             return true;
           }
 
-
-
         e.preventDefault();
+        
       },
 
       validEmail: function (email) {

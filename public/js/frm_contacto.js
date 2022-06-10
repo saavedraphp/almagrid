@@ -5,8 +5,11 @@ const appContacto = new Vue({
        nombre:document.getElementById("nombre").value,
        telefono:document.getElementById("telefono").value,
        email:document.getElementById("email").value,
+       id:0,
        data:[],
+       contacto:[],
        errors:[],
+       accion:"adicionar"
 
      },
 
@@ -43,19 +46,58 @@ const appContacto = new Vue({
       {
        axios.get(url+`/obtenerContactosEmpresaId`, {params: {empresa_id: this.empresa_id} }).then((response) => {
         this.data = response.data;
-        //alert(this.empresa_id);
+         });
+      },
+
+ 
+      obtenerContactoId(contacto)
+      {
+        this.errors = [];
+        this.accion = "editar";
+        
+        axios.get(url+`/obtenerContactoId`, {params: {contacto_id: contacto.id} }).then((response) => {
+        this.contacto = response.data;
+        
+        this.nombre = this.contacto.nombre;
+        this.telefono = this.contacto.telefono;
+        this.email = this.contacto.email;
+        this.id  = this.contacto.id;
+
+ 
+        document.getElementById('exampleModalLabel').innerText = "Editar Contacto";
+        
+        jQuery.noConflict();
+        $('#exampleModal').modal('toggle');
+
+        
         });
+      
+     
+
+      },
+
+      showModal(){
+        this.errors = [];
+        this.accion = "adicionar";
+        this.nombre="";
+        this.telefono="";
+        this.email="";
+        this.id=0;
+        document.getElementById('exampleModalLabel').innerText = "Nuevo Contacto";
+
+
+        
       },
 
 
-
-        adicionarContacto() {
+        grabarContacto() {
           if(this.validarFormContacto()==true)
           {
+            let parametros= {contacto_id:this.id, empresa_id:this.empresa_id,telefono:this.telefono,email:this.email, nombre:this.nombre};
 
+            if(this.accion=="adicionar")
+            {
               try {
-                let parametros= {empresa_id:this.empresa_id,telefono:this.telefono,email:this.email, nombre:this.nombre};
-                console.log("entro");
                 axios.get(url+`/adicionarContacto`, {params:parametros}).then((response) => {
                 this.data = response.data;
                 document.getElementById('close').click();
@@ -64,9 +106,28 @@ const appContacto = new Vue({
       
               } catch (error) {
                 console.log(error);
-              }
+              }  
+            } 
+          
+
+
+
+            if(this.accion=="editar")
+            {
+                try {
+                  axios.get(url+`/editarContactoId`, {params:parametros}).then((response) => {
+                  this.data = response.data;
+                  document.getElementById('close').click();
+
+                  })
+        
+                } catch (error) {
+                  console.log(error);
+                }  
+            } 
+            
   
-          } 
+          }//validaicon 
       
 
     

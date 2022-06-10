@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 
 use App\Acta;
 use App\Kardex;
+
 use App\Producto;
+use App\Empresa;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -26,6 +28,52 @@ class RecepcionController extends Controller
 
 
     
+    public function asignarProductosCeldas($id)
+    {
+
+        $acta = DB::table('actas as a')
+        ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
+        ->where('a.acta_id', '=',$id)->first();
+
+    
+        $detalles = DB::table('productos_x_empresa  as p')
+        ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
+        ->select('p.prod_id','p.unidad_id', 'p.prod_nombre',  'k.lote_id','p.prod_stock', 'p.prod_fecha_vencimiento',
+        'k.kard_cantidad', 'p.prod_stock as total')
+        ->where('k.acta_id', '=',$id)
+        ->orderBy('p.created_at', 'asc')->get();
+        
+        $empresa = Empresa::findOrFail($acta->empr_id);
+ 
+
+
+        switch ($acta->tipo_movimiento_codigo) {
+            case 'INGRESO':
+                $array_titulos = [
+                    'CABECERA'=>'Registro de Ingreso',
+                    'TAB'   =>'Registro de Productos'
+                ];
+                
+                break;
+            
+            case 'DESPACHO':
+                $array_titulos = [
+                    'CABECERA'=>'Registro de Despacho',
+                    'TAB'   =>'Despacho de Productos'
+                ];
+
+                break;
+ 
+        }
+        
+        
+        return view('actas.asignacion_registros_actas',  ['acta' => $acta, 'detalles'=> $detalles, 'array_titulos' =>$array_titulos,'empresa' => $empresa]);    
+
+     }
+
+
+
+
 
 
     /**
@@ -401,10 +449,7 @@ class RecepcionController extends Controller
                 ];
 
                 break;
-                                
-            default:
-                # code...
-                break;
+ 
         }
 
 
@@ -429,6 +474,12 @@ class RecepcionController extends Controller
     {
         return view('actas.edit', ['acta' => Acta::findOrFail($id)]);
     }
+
+
+
+
+
+
 
     /**
      * Update the specified resource in storage.
