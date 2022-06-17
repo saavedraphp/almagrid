@@ -17,7 +17,7 @@
     </div>
    @endif
 
-@if(Session::get('operacion')=='1')
+   @if(Session::get('operacion')=='1')
 <div class="alert alert-success alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
   {{Session::get('message')}}
@@ -34,8 +34,9 @@
 
 
 
+
 <form action="{{route('upload_mages',$empresa->empr_id)}}" method="POST" 
-id="frm_formulario" enctype="multipart/form-data" >
+id="frm_formulario" enctype="multipart/form-data" @submit="checkForm">
 
 @csrf
 
@@ -56,6 +57,8 @@ id="frm_formulario" enctype="multipart/form-data" >
 
 
   <div class="form-group">
+  <input type="hidden"  id="ruta_file"  v-model="ruta_file" value="{{$empresa->empr_ruta_img_reporte}}"   name="ruta_file">
+
         <label for="inputAddress">Seleccione un Archivo</label>
         <div class="input-group mb-3">
 
@@ -64,10 +67,10 @@ id="frm_formulario" enctype="multipart/form-data" >
             </div>
 
             <div class="custom-file">
-                <input type="file" class="custom-file-input" id="img_cabecera"    ref="imagen" name="img">
+                <input type="file" class="custom-file-input" id="img_cabecera" v-on="imagen"   ref="imagen" name="img">
                 <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
             </div>
-        
+
         </div>
   </div>
 

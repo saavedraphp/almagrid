@@ -93,7 +93,7 @@ Route::get('obtenerCasillasEmpresaId/', 'CasillasEmpresaController@obtenerCasill
 Route::get('ciudades/estado/', 'UsuarioController@getCiudadesByEstado');
 
 
-Route::get('reporte_acta/id/{id}/','ActaController@pdfReporteRecepcion')->name('reporteRecepcion.pdf');
+Route::get('reporte_acta/id/{id}/','RecepcionController@pdfReporteRecepcion')->name('reporteRecepcion.pdf');
 Route::get('asignarProductosCeldas/{id}', 'RecepcionController@asignarProductosCeldas')->name('asignarProductosCeldas');
 
 
@@ -120,3 +120,13 @@ Route::get('admin/ejemplos',function(){
 
         
 Route::get('rollback','PruebaController@index');
+
+
+/* PARAMETROS PARA EL SISTEMA HOSTING*/
+Route::get('/sistemclear', function() {
+
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    return "Cleared!";
+    });

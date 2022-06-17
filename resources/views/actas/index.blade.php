@@ -137,7 +137,7 @@
           <a href="{{route('asignarProductosCeldas',$acta->acta_id)}}" title="{{MiConstantes::VER}}"><i class="fas fa-check-circle"></i></a> |
 
          <a href="{{route('recepcion.show',$acta->acta_id)}}" title="{{MiConstantes::VER}}"><i class="far fa-eye"></i></a> |
-         <a href="#" title="{{MiConstantes::REPORTE}}"><i class="far fa-file-pdf"></i></a> |
+         <a href="{{route('reporteRecepcion.pdf',$acta->acta_id)}}" title="{{MiConstantes::REPORTE}}"><i class="far fa-file-pdf"></i></a> |
          <a href="javascript:document.getElementById('frm_destroy{{$acta->acta_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$acta->acta_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
          
      

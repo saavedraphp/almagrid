@@ -41,7 +41,7 @@ class EmpresaController extends Controller
                 ->orWhere('empr_celular', 'LIKE', '%' . $request->search . '%');
                 })
                 ->whereNull('deleted_at')
-                ->orderBy('empr_nombre', 'asc')->paginate(10);
+                ->orderBy('empr_nombre', 'asc')->paginate(25);
 
             return view('empresas.index', ['empresas' => $empresas, 'search' => $query]);
 
@@ -211,13 +211,14 @@ class EmpresaController extends Controller
             
             
             DB::commit();
-            return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
-        
+            return redirect()->route('imagesHead', ['id' => $id])->with('message','La operacion se realizo con Exito')->with('operacion','1');
+
         
         } catch (ValidationException $exception) {
             DB::rollBack(); 
             
             return view('empresas.images', ['empresa' => Empresa::findOrFail($id),'errors' => $exception->errors()])->with('message','Ocurrio un error inesperado')->with('operacion','0');
+            
         }
     }    
 
@@ -234,15 +235,17 @@ class EmpresaController extends Controller
             if(filesize($ruta))
             {
                 unlink($ruta);
-
-                //dd($ruta);
-    
                 $empresa->empr_ruta_img_reporte="";
                 $empresa->save();
                 DB::commit();
             }
 
-            return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+            
+            
+            //return view('empresas.images', ['empresa' => Empresa::findOrFail($id)])->with('message','La operacion se realizo con Exito')->with('operacion','1');
+            return redirect()->route('imagesHead', ['id' => $id])->with('message','La operacion se realizo con Exito')->with('operacion','1');
+
+
         
         
         } catch (Exception $e) {

@@ -157,8 +157,8 @@ class RackCasillaController extends Controller
         ->leftJoin('empresas as e', 'e.empr_id', 'ce.empr_id')
         ->where('rc.rack_id',$request->rack_id)
         ->whereNull('ce.deleted_at')
-        ->select('rc.rc_id','rc.rc_nombre','ce.empr_id', 'e.empr_nombre')->get();  
-       // dd(DB::getQueryLog());
+        ->select('rc.rc_id','rc.rc_nombre','ce.empr_id', 'e.empr_nombre')->orderBy('rc_nombre','asc')->get();  
+        //dd(DB::getQueryLog());
 
         return $data;
 

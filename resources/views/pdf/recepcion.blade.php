@@ -53,8 +53,8 @@ body
     <table width="90%" border="0">
       <tbody>
         <tr>
-          <td width="27%" class="tituloBoldLeft">SISTEMA DE ALMACEN</td>
-          <td width="50%"><p class="tituloBoldLeft">ACTA DE {{strtoupper($acta[0]->serv_nombre)}} NRO: {{$acta[0]->acta_id}}</p></td>
+          <td width="27%" class="tituloBoldLeft">{{MiConstantes::TITULO}}</td>
+          <td width="50%"><p class="tituloBoldLeft">ACTA DE {{strtoupper($acta[0]->tipo_movimiento_codigo)}} NRO: {{$acta[0]->acta_id}}</p></td>
           <td width="23%"><table width="200" border="0">
             <tbody>
               <tr>
@@ -104,23 +104,21 @@ body
   </div>
   <div style="background-color:FFFFFF;">
   <?php
-$col1 = "10%";
-$col2 = "20%";
-$col3 = "30%";
-$col4 = "40%";
+$col_small = "10%";
+$col_small_l = "20%";
+$col_large = "30%";
+$col_large_l = "40%";
 
 
   ?>
     <table width="90%" border="0">
       <tbody>
           <tr class="th_cabecera">
-            <td width="6%">Item</td>
-            <td width="{{$col4}}" align="left">Descripcion</td>
-            <td width="9%">Presentacion</td>
-            <td width="{{$col1}}" align="center">Lote</td>
-            <td width="{{$col1}}" align="center">Serie</td>
-            <td width="{{$col1}}" align="center">Codigo</td>
-            <td width="{{$col1}}" align="center">Cantidad</td>
+            <td width="{{$col_small}}">Item</td>
+            <td width="{{$col_large_l}}" align="left">Descripcion</td>
+            <td width="{{$col_small_l}}">Medida</td>
+             <td width="{{$col_small_l}}" align="center">SKU</td>
+            <td width="{{$col_small}}" align="center">Cantidad</td>
  
           </tr>
 
@@ -133,13 +131,11 @@ $col4 = "40%";
       
             
             <tr>
-              <td align="center">{{$x++}}</td>
-              <td width="{{$col4}}">{{$detalle->prod_id}} - {{$detalle->prod_nombre}}</td>
-              <td width="{{$col2}}" align="center">{{$detalle->pres_nombre}}<</td>
-              <td width="{{$col1}}" align="center">{{$detalle->prod_lote}}</td>
-              <td width="{{$col1}}" align="center">{{$detalle->prod_serie}}</td>
-              <td width="{{$col1}}" align="center">{{$detalle->prod_codigo}}</td>
-              <td width="{{$col1}}" align="center">{{abs($detalle->kard_cantidad)}}</td>
+              <td align="center" width="{{$col_small}}">{{$x++}}</td>
+              <td width="{{$col_large_l}}">{{$detalle->prod_id}} - {{$detalle->prod_nombre}}</td>
+              <td width="{{$col_small_l}}" align="center">{{$detalle->unid_nombre}}<</td>
+               <td width="{{$col_small_l}}" align="center">{{$detalle->prod_sku}}</td>
+              <td width="{{$col_small}}" align="center">{{abs($detalle->kard_cantidad)}}</td>
     
    
             </tr>

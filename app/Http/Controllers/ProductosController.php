@@ -39,7 +39,7 @@ class ProductosController extends Controller
                 })
             ->whereNull('p.deleted_at')
             ->orderBy('p.created_at', 'asc')
-            ->paginate(10);
+            ->paginate(25);
         
             //dd(DB::getQueryLog());
             
@@ -153,7 +153,7 @@ class ProductosController extends Controller
         ->select('p.prod_id','p.unidad_id', 'p.prod_nombre',  'p.prod_lote','p.prod_stock', 'p.prod_fecha_vencimiento',
         'p.prod_stock as total')
         ->where('p.empr_id', '=',$request->empresa_id )
-        ->orderBy('p.created_at', 'asc')->get();
+        ->orderBy('p.prod_nombre', 'asc')->get();
  
 
 

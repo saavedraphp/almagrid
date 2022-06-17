@@ -12,7 +12,7 @@
         <a href="#home" class="nav-link active" data-toggle="tab">Acta</a>
     </li>
     <li class="nav-item">
-        <a href="#profile" class="nav-link" data-toggle="tab">{{$array_titulos['TAB']}}</a>
+        <a href="#profile" class="nav-link" data-toggle="tab"></a>
     </li>
  
 </ul>
@@ -68,7 +68,7 @@
 
                 <td align="center"> {{abs($item->kard_cantidad)}}</td>
                 <td>
-                    <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control">
+                    <select id="producto_id_{{$item->prod_id}}"  v-model="producto"   name="producto_id" class="form-control">
                       <option value="">Selecciona un producto</option>
                       <option v-for="casilla  in data" v-bind:value="casilla" >@{{casilla.rack_nombre+' - '+casilla.rc_nombre}}</option>
                     </select>
@@ -86,7 +86,7 @@
 
 
         <div class="form-group col-md-12">
-        <button type="button" @click="checkForm()"   class="btn btn-primary float-right">Grabar Asignacion</button>        
+        <button type="button" @click="validar_asignacion()"   class="btn btn-primary float-right">Grabar Asignacion</button>        
         </div>
 
         

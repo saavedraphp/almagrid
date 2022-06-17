@@ -167,7 +167,7 @@
                 <!-- Brand Logo -->
                 <a href="{{ url('/') }}" class="brand-link">
                     <img src="{{ asset('dist/img/almagrilogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" >
-                    <span class="brand-text font-weight-light">SYS-Almacen</span>
+                    <span class="brand-text font-weight-light">{{MiConstantes::TITULO}}</span>
                 </a>
                 <!-- Sidebar -->
                 <div class="sidebar">

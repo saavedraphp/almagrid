@@ -208,6 +208,7 @@
 
 <script>
   const url = '{{ env("MY_URL") }}';
+  
  </script>
 
 <script src="{{ asset('js/lista_productos.js') }}" ></script>

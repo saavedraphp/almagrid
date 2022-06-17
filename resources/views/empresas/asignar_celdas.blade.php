@@ -105,7 +105,7 @@
 
 <script>
   const url = '{{ env("MY_URL") }}';
-  //alert(url);
+  
 </script>
 
 <script src="{{asset('js/casillasEmpresa.js') }}" ></script>

@@ -62,7 +62,7 @@
         @method('DELETE')
           @csrf
           
-          <a href="{{route('racks.edit',$fila->rack_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
+          
           <a href="javascript:document.getElementById('frm_destroy{{$fila->id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
          
      

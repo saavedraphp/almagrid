@@ -15,12 +15,11 @@ const app = new Vue({
       try {
         //{{route('save_casillas_asignadas',$empresa->empr_id)}}
           console.log(this.casillas_empresa.length);
-          let ruta =  'http://127.0.0.1:8080';
-
+ 
           if(this.casillas_empresa.length>0)
           {  
-            response = await axios.put(`http://127.0.0.1:8080/admin/empresas/adicionar_casillas/`+this.id_empresa,{'casillas':this.casillas_empresa} );
-            window.location.href = ruta +'/admin/empresas/casillas/'+this.id_empresa;
+            response = await axios.put(url+`/admin/empresas/adicionar_casillas/`+this.id_empresa,{'casillas':this.casillas_empresa} );
+            window.location.href = url +'/admin/empresas/casillas/'+this.id_empresa;
 
           }
           else
@@ -44,6 +43,11 @@ const app = new Vue({
  
             axios.get(url+`/racks/obtenerCasillas`, {params: {rack_id: rack_id} }).then((response) => {
             this.casillas_rack = response.data;
+            if(response.data.length==0)
+            {
+              alert('No existe celdas en este Rack')
+              console.log(response.data.length)
+            }
 
             });
         
