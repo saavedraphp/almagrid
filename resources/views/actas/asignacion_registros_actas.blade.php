@@ -68,9 +68,12 @@
 
                 <td align="center"> {{abs($item->kard_cantidad)}}</td>
                 <td>
-                    <select id="producto_id_{{$item->prod_id}}"  v-model="producto"   name="producto_id" class="form-control">
-                      <option value="">Selecciona un producto</option>
-                      <option v-for="casilla  in data" v-bind:value="casilla" >@{{casilla.rack_nombre+' - '+casilla.rc_nombre}}</option>
+
+                  <select     name="casilla_id[]" class="form-control">
+                   <option value="0">Selecciona una Casilla</option>
+                    @foreach($casillas_x_empresa as $casilla)
+                      <option value="{{ $casilla->id }}">{{ $casilla->rack_nombre.' - '.$casilla->rc_nombre }}</option>                      
+                    @endforeach          
                     </select>
                 </td>
               </tr>

@@ -42,7 +42,14 @@ class RecepcionController extends Controller
         'k.kard_cantidad', 'p.prod_stock as total')
         ->where('k.acta_id', '=',$id)
         ->orderBy('p.created_at', 'asc')->get();
+
+        $casillas_x_empresa = DB::table('casillas_empresas as ce')
+        ->leftJoin('racks_casillas as rc', 'ce.rc_id','=','rc.rc_id')
+        ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
+        ->where('ce.empr_id',$acta->empr_id)->whereNull('ce.deleted_at')->get();        
         
+
+
         $empresa = Empresa::findOrFail($acta->empr_id);
  
 
@@ -67,7 +74,8 @@ class RecepcionController extends Controller
         }
         
         
-        return view('actas.asignacion_registros_actas',  ['acta' => $acta, 'detalles'=> $detalles, 'array_titulos' =>$array_titulos,'empresa' => $empresa]);    
+        return view('actas.asignacion_registros_actas',  ['acta' => $acta, 'detalles'=> $detalles, 
+        'array_titulos' =>$array_titulos,'empresa' => $empresa,'casillas_x_empresa' =>$casillas_x_empresa]);    
 
      }
 
