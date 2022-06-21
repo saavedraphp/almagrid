@@ -94,8 +94,7 @@
       <th scope="col">#</th>
       <th scope="col">Fecha</th>
       <th scope="col">Movimiento</th>
-      <th scope="col">Lote</th>
-      <th scope="col">Entrada</th>
+       <th scope="col">Entrada</th>
       <th scope="col">Salida</th>
       <th scope="col">Comentario</th>
     </tr>
@@ -107,8 +106,7 @@
       <th scope="row"> {{ $item->kard_id }} </th>
       <td>{{ date('M d Y h:i', strtotime($item->created_at)) }}</td>
       <td>{{$item->tipo_movimiento}}</td>
-      <td>{{$item->lote_id}}</td>
-      <td><?php echo ($item->tipo_movimiento=='INGRESO'?$item->kard_cantidad:'0')?></td>
+       <td><?php echo ($item->tipo_movimiento=='INGRESO'?$item->kard_cantidad:'0')?></td>
       <td><?php echo ($item->tipo_movimiento=='DESPACHO'?$item->kard_cantidad:'0')?></td>
       <td title="{{$item->acta_comentario}}">{{substr($item->acta_comentario, 0, 8)}}</td>
       

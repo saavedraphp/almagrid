@@ -124,7 +124,15 @@
       <td>{{$acta->tipo_movimiento_codigo}}</td>
       <td>{{$acta->acta_sub_cliente}}</td>
        <td>{{ date('M d Y h:i', strtotime($acta->created_at)) }}</td>
-       <td style="color:red">Pendiente</td>
+       <td>
+       @if($acta->estado_asignacion=='REALIZADO')
+       <span class="badge badge-success">REALIZADO</span>
+       @else
+       <span class="badge badge-danger">PENDIENTE</span>
+       @endif
+
+
+      </td>
 
       <td>
 

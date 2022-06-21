@@ -27,7 +27,50 @@ class RecepcionController extends Controller
     }
 
 
+
+    public function grabarAsignacionProductosCasillas(Request $request)
+    {
+        try
+        {
+        
+            DB::beginTransaction();
+
+            $casillas = $request->get('casilla_id');
+            $kard_ids = $request->get('kard_id');
+            //dd($kard_ids);
+        
+
+            foreach ($kard_ids as $key => $value) {
+                $data = array(
+                    'rc_id'=>$casillas[$key]);         
+                
+                Kardex::where('kard_id',$value)->update($data); 
+            }
+ 
+            $acta = Acta::findOrFail($request->get('acta_id'));
+            $acta->estado_asignacion = 'REALIZADO';
+            $acta->update();
+            //Acta::where('acta_id',$request->get('acta_id'))->update(['estado_asignacion','REALIZADO']);
+
+            
+            DB::commit();
+
+      return redirect('admin/recepcion')->with('message','Datos cargados correctamente')->with('operacion','1');
+
+      } catch (Exception $e) {
+       DB::rollBack();    
+          report($e);
+          return redirect('admin/recepcion')->with('message','Se encontro un error inesperado en la operación<br>'.$e)->with('operacion','0');
+
+      }        
+          
+
+        
+    }
+
     
+
+
     public function asignarProductosCeldas($id)
     {
 
@@ -38,8 +81,8 @@ class RecepcionController extends Controller
     
         $detalles = DB::table('productos_x_empresa  as p')
         ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
-        ->select('p.prod_id','p.unidad_id', 'p.prod_nombre',  'k.lote_id','p.prod_stock', 'p.prod_fecha_vencimiento',
-        'k.kard_cantidad', 'p.prod_stock as total')
+        ->select('kard_id','p.prod_id','p.unidad_id', 'p.prod_nombre',  'k.lote_id','p.prod_stock', 'p.prod_fecha_vencimiento',
+        'k.kard_cantidad', 'p.prod_stock as total','rc_id')
         ->where('k.acta_id', '=',$id)
         ->orderBy('p.created_at', 'asc')->get();
 
@@ -57,7 +100,7 @@ class RecepcionController extends Controller
         switch ($acta->tipo_movimiento_codigo) {
             case 'INGRESO':
                 $array_titulos = [
-                    'CABECERA'=>'Registro de Ingreso',
+                    'CABECERA'=>'Asignacion de productos a racks',
                     'TAB'   =>'Registro de Productos'
                 ];
                 
@@ -107,7 +150,7 @@ class RecepcionController extends Controller
                 ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
                 ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                 ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 
+                'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo','estado_asignacion' ,
                 's.serv_nombre','a.acta_sub_cliente', 'a.created_at')->where('empr_nombre', 'LIKE', '%' . $query . '%')
                 ->whereNull('a.deleted_at')
                 ->orderBy('a.created_at', 'desc')->paginate(10);
@@ -123,7 +166,7 @@ class RecepcionController extends Controller
                 ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                 ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
                 ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                'acta_numero_ingr_sali', 'a.tipo_movimiento_codigo',
+                'acta_numero_ingr_sali', 'a.tipo_movimiento_codigo','estado_asignacion' ,
                 'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
                 ->where('tm.tm_codigo', '=', 'INGRESO')
                 ->whereNull('a.deleted_at')
@@ -136,7 +179,7 @@ class RecepcionController extends Controller
                         ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                         ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
                         ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                        'acta_numero_ingr_sali', 'a.serv_id',  'a.acta_sub_cliente', 'tm.tm_codigo', 
+                        'acta_numero_ingr_sali', 'a.serv_id',  'a.acta_sub_cliente', 'tm.tm_codigo' ,'estado_asignacion' ,
                         'a.created_at')
                         ->where('tm.tm_codigo', '=', 'DESPAC')
                         ->whereNull('a.deleted_at')
@@ -152,7 +195,7 @@ class RecepcionController extends Controller
                             ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                             ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
                             ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                            'acta_numero_ingr_sali', 'a.serv_id', 
+                            'acta_numero_ingr_sali', 'a.serv_id','estado_asignacion' , 
                             'tm.tm_codigo', 'a.acta_sub_cliente' , 'a.created_at')
                             ->where('tm.tm_codigo', '=', 'ALMACE')
                             ->whereNull('a.deleted_at')
@@ -167,7 +210,8 @@ class RecepcionController extends Controller
                             ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                             ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
                             ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                            'acta_numero_ingr_sali', 'a.tipo_movimiento_codigo' , 'a.acta_sub_cliente',  'tm.tm_codigo',
+                            'acta_numero_ingr_sali', 'a.tipo_movimiento_codigo' , 'a.acta_sub_cliente',
+                            'estado_asignacion' ,  'tm.tm_codigo',
                             'a.created_at')
                             ->whereNull('a.deleted_at')
                             ->orderBy('a.created_at', 'desc')->paginate(10);
@@ -185,7 +229,8 @@ class RecepcionController extends Controller
                     ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
                     ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
                     ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                    'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
+                    'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 'tm.tm_codigo', 'a.acta_sub_cliente', 
+                    'estado_asignacion' ,'a.created_at')
                     ->where('tm.tm_codigo', '=', 'INGRESO')
                     ->where('a.acta_numero_ingr_sali','=',$nro_documento)
                     ->whereNull('a.deleted_at')
@@ -264,7 +309,8 @@ class RecepcionController extends Controller
         $acta->acta_numero_ingr_sali =         $request->get('nro_documento');
         //  $acta->acta_encargado_id =        $request->get('cbo_empresa');
         //  $acta->acta_supervisor_id =        $request->get('cbo_empresa');
-        $acta->acta_comentario =        $request->get('comentario');        
+        $acta->acta_comentario =        $request->get('comentario');
+        $acta->estado_asignacion =        'PENDIENTE';        
 
         $acta->save();
  

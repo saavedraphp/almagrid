@@ -17,7 +17,8 @@
  
 </ul>
 
-<form  method="POST" name="frm_formulario" id="frm_formulario">
+<form  method="POST" name="frm_formulario" id="frm_formulario" action="{{route('grabarAsignacionProductosCasillas')}}"
+@submit="validar_asignacion" method="POST">
 @csrf
 <div class="tab-content col-md-10" id="crud">
 
@@ -40,7 +41,7 @@
       <div class="form-group col-md-6">
           <label for="inputAddress">Acta Id</label>
           <input type="text" class="form-control" value="{{$acta->acta_id}}"   disabled>
-          <input type="hidden" class="form-control" value="{{$acta->acta_id}}" v-model="acta_id" id="acta_id" >
+          <input type="hidden" class="form-control" value="{{$acta->acta_id}}" name="acta_id" v-model="acta_id" id="acta_id" >
       </div>
     </div>
 
@@ -51,8 +52,7 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Producto</th>
-                <th scope="col">Lote</th>
-
+ 
                 <th scope="col">Cantidad</th>
                 <th scope="col">Casilla</th>
                </tr>
@@ -63,16 +63,15 @@
               <tr >
                <th class="item" scope="row">{{$item->prod_id}}
                  </th>
-                <td>{{$item->prod_nombre}}</td>
-                <td>{{$item->lote_id}}</td>
-
+                <td>{{$item->prod_nombre}} <input type="hidden" name="kard_id[]" value="{{$item->kard_id}}"></td>
+ 
                 <td align="center"> {{abs($item->kard_cantidad)}}</td>
                 <td>
 
                   <select     name="casilla_id[]" class="form-control">
                    <option value="0">Selecciona una Casilla</option>
                     @foreach($casillas_x_empresa as $casilla)
-                      <option value="{{ $casilla->id }}">{{ $casilla->rack_nombre.' - '.$casilla->rc_nombre }}</option>                      
+                      <option value="{{ $casilla->rc_id }}"  @if($item->rc_id ==$casilla->rc_id) selected @endif>{{ $casilla->rack_nombre.' - '.$casilla->rc_nombre }}</option>                      
                     @endforeach          
                     </select>
                 </td>
@@ -89,7 +88,7 @@
 
 
         <div class="form-group col-md-12">
-        <button type="button" @click="validar_asignacion()"   class="btn btn-primary float-right">Grabar Asignacion</button>        
+        <button type="submit"   class="btn btn-primary float-right">Grabar Asignacion</button>        
         </div>
 
         

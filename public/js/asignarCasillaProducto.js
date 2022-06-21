@@ -28,9 +28,9 @@ const app2 = new Vue({
 
       
     methods:{
-       validar_asignacion()
+       validar_asignacion(e)
        {
-        let array = document.getElementsByName('casilla_id[]');
+         let array = document.getElementsByName('casilla_id[]');
         
  
         for (let index = 0; index < array.length; index++) {
@@ -38,21 +38,21 @@ const app2 = new Vue({
           element.style.backgroundColor = "";
           if(array[index].options[array[index].selectedIndex].value=="0")
           {
-            console.log("Por favor seleccione una casilla para su asignacion");
-
-            //element.options.selected =0;
+            //console.log("Por favor seleccione una casilla para su asignacion");
+            alert("Por favor seleccione una casilla para su asignacion");
             element.style.backgroundColor = "#D6EEEE";
-
-            //element.selectedIndex = 0;
-            console.log('obj '+element);
+            grabar =  false;
+             e.preventDefault();
             return false;
           }
           
 
 
         }
+         
+         console.log("Grabar datos");
 
-        console.log("Grabar datos");
+     
 
         
 

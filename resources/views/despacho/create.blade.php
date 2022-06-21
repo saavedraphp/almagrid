@@ -89,7 +89,17 @@
         </select>
      </div>
 
-     <div class="form-group col-md-4">
+
+ 
+ 
+
+      <div class="form-group col-md-6">
+          <label for="inputAddress">Cantidad</label>
+          <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
+          value="" @keyup.enter="add_producto()" v-model="v_cantidad">
+      </div>
+
+      <div class="form-group col-md-4" style="visibility: hidden;">
           <label for="inputAddress">Lote</label>
           <select  v-model="lote" id="lote" data-old="{{old('lote')}}"
           name="lote_id"  class="form-control">
@@ -100,15 +110,7 @@
           </select>
         
 
-      </div>
- 
- 
-
-      <div class="form-group col-md-2">
-          <label for="inputAddress">Cantidad</label>
-          <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
-          value="" @keyup.enter="add_producto()" v-model="v_cantidad">
-      </div>
+      </div>      
 
     </div>
 
@@ -121,8 +123,7 @@
               <tr>
                 <th scope="col">#ID Producto</th>
                 <th scope="col">Producto</th>
-                <th scope="col">Lote</th>
-                <th scope="col">Stock</th>
+                 <th scope="col">Stock</th>
                 <th scope="col">Salida</th>
                 <th scope="col">Accion</th>
               </tr>
@@ -130,12 +131,11 @@
 
             <tbody id="userList">
               <tr v-for="producto in productos_acta"   >
-                <th class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
+                <td class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
-                </th>
+                </td>
                 <td>@{{producto.prod_nombre}}</td>
-                <td>@{{producto.prod_lote}} <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" > </td>
-                <td>@{{producto.stock_x_lote}}</td>
+                <td>@{{producto.stock_x_lote}} <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" > </td>
                 <td >@{{producto.cantidad}}
                     <input v-model="producto.cantidad" v-on:blur="modificarStock(producto)" v-on:keydown.enter.prevent="modificarStock(producto)" 
                      type="hidden" class="form-control"     size="3" placeholder="Cantidad"    

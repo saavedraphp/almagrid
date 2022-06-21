@@ -120,28 +120,29 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Producto</th>
-                <th scope="col">Lote</th>
-
-                <th scope="col">Cantidad</th>
+                 <th scope="col">Cantidad</th>
                </tr>
             </thead>
 
             <tbody id="userList">
             @foreach($detalles as $item)
               <tr >
-               <th class="item-{{$index}}" scope="row">{{$item->prod_id}}
+               <td class="item-{{$index}}" scope="row">{{$item->prod_id}}
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
-                </th>
+                </td>
                 <td>{{$item->prod_nombre}}</td>
-                <td>{{$item->lote_id}}</td>
+ 
+                <td > <span style="text-align: center;" >{{abs($item->kard_cantidad)}}</span></td>
 
-                <td align="center"> {{abs($item->kard_cantidad)}}</td>
               </tr>
             @endforeach  
             
             <tr>
-              <td colspan="6"><input  type="hidden" class="form-control"  size="3"  v-model="total_productos"  name="txt_total_productos"  value="0"></td>
-              <input  type="hidden" class="form-control"  size="3"   id="operacion_id" name="operacion"  value="1">
+              <td colspan="3">
+                <input  type="hidden" class="form-control"  size="3"  v-model="total_productos"  name="txt_total_productos"  value="0">
+                <input  type="hidden" class="form-control"  size="3"   id="operacion_id" name="operacion"  value="1">
+            </td>
+            
             </tr>
 
 
