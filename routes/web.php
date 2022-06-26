@@ -74,6 +74,8 @@ Route::get('usuario/kardex/', 'KardexController@index');
 Route::get('racks/obtenerCasillas/', 'RackCasillaController@obenerCasillasIdRack');
 
 Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
+Route::get('listaProductoQuery/consulta/{search}/','ProductosController@pdfListaProducto')->name('pdfListaProducto.pdf');
+
 Route::get('getTotalProductosLotes/', 'ProductosController@getTotalProductosLotes');
 Route::get('obtenerContactosEmpresaId', 'ContactosEmpresaController@obtenerContactosEmpresaId');
 Route::get('obtenerContactoId', 'ContactosEmpresaController@obtenerContactoId');

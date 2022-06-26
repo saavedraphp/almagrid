@@ -4,10 +4,11 @@
 
 <div class="container">
 <h2>Lista de Productos 
-  <a href="productos/create"> <button type="button" class="btn btn-success float-right">{{MiConstantes::NUEVO}}</button></a>
-  
+  <a href="productos/create"> <button type="button" class="btn btn-success float-right" >{{MiConstantes::NUEVO}}</button></a>  
+  <a href="{{route('pdfListaProducto.pdf',($search?$search:'null'))}}"> <button type="button" class="btn btn-success float-right mr-2">Exportar PDF</button></a>
 
 </h2>
+ 
 
 @if($search)
 <h6><div class="alert alert-primary" role="alert">
@@ -38,7 +39,7 @@
     
     <div class="form-group col-md-5" >
       <div class="input-group input-group-sm">
-          <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search" name="search">
+          <input class="form-control form-control-navbar" type="search" placeholder="Buscar" aria-label="Search" name="search" value="{{$search}}">
           <div class="input-group-append">
               <button class="btn btn-navbar" type="submit">
                   <i class="fas fa-search"></i>
