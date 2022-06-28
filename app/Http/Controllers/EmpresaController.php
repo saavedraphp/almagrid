@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Empresa;
+use App\Constants;
 
 use App\User;
 
@@ -41,7 +42,7 @@ class EmpresaController extends Controller
                 ->orWhere('empr_celular', 'LIKE', '%' . $request->search . '%');
                 })
                 ->whereNull('deleted_at')
-                ->orderBy('empr_nombre', 'asc')->paginate(25);
+                ->orderBy('empr_nombre', 'asc')->paginate(Constants::NRO_FILAS);
 
             return view('empresas.index', ['empresas' => $empresas, 'search' => $query]);
 

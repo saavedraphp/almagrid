@@ -150,7 +150,7 @@ const app = new Vue({
             }
     
             if (!this.acta_sub_cliente_id) {
-                this.errors.push('Seleccione un sub cliente.');
+                this.errors.push('Ingrese el nombre del Usuario.');
               }
 
 

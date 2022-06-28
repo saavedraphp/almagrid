@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Rack;
 use App\RackCasillas;
+use App\Constants;
+
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +40,7 @@ class RackCasillaController extends Controller
             ->leftJoin('racks_casillas as rc','r.rack_id','=','rc.rack_id')
             ->select('*')->where('rc_nombre', 'LIKE', '%' . $query . '%')
             ->whereNull('rc.deleted_at')
-            ->orderBy('rc.created_at', 'asc')->paginate(10);
+            ->orderBy('rc.created_at', 'asc')->paginate(Constants::NRO_FILAS);
 
            // dd(DB::getQueryLog());
             return view('racks_casillas.index', ['filas' => $filas, 'search' => $query]);
@@ -156,8 +158,7 @@ class RackCasillaController extends Controller
         ->leftJoin('casillas_empresas as ce', 'rc.rc_id', 'ce.rc_id') 
         ->leftJoin('empresas as e', 'e.empr_id', 'ce.empr_id')
         ->where('rc.rack_id',$request->rack_id)
-        ->whereNull('ce.deleted_at')
-        ->select('rc.rc_id','rc.rc_nombre','ce.empr_id', 'e.empr_nombre')->orderBy('rc_nombre','asc')->get();  
+        ->select('rc.rc_id','rc.rc_nombre','ce.empr_id', 'ce.deleted_at','e.empr_nombre')->orderBy('rc_nombre','asc')->get();  
         //dd(DB::getQueryLog());
 
         return $data;

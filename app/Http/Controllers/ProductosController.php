@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Constants;
 use App\Producto;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class ProductosController extends Controller
         DB::enableQueryLog();
         if ($request) {
             $query    = trim($request->get('search'));
-            //$productos = Producto::where('prod_nombre', 'LIKE', '%' . $query . '%')->orderBy('prod_nombre', 'asc')->paginate(10);
+            
 
             $productos = DB::table('productos_x_empresa  as p')
             ->join('empresas as e','p.empr_id','=','e.empr_id')
@@ -39,7 +39,7 @@ class ProductosController extends Controller
                 })
             ->whereNull('p.deleted_at')
             ->orderBy('p.created_at', 'asc')
-            ->paginate(25);
+            ->paginate(Constants::NRO_FILAS);
         
             //dd(DB::getQueryLog());
             

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Constants;
 use App\Acta;
 use App\Kardex;
 use App\Producto;
@@ -46,7 +47,7 @@ class DespachoController extends Controller
             ->where('tm.tm_codigo', '=', 'DESPACHO')
             ->where('a.acta_numero_ingr_sali','=',$nro_documento)
             ->whereNull('a.deleted_at')
-            ->orderBy('a.created_at', 'desc')->paginate(10);
+            ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
             $busqueda = 'nro_documento';
             $query = $request->get('nro_documento');
             //dd($actas->toSql());
@@ -65,7 +66,7 @@ class DespachoController extends Controller
         'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
         ->where('tm.tm_codigo', '=', 'DESPACHO')
         ->whereNull('a.deleted_at')
-        ->orderBy('a.created_at', 'desc')->paginate(10);
+        ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
         }
 
             //echo $actas;  

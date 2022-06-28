@@ -1,9 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Constants;
 use App\Empresa;
 use App\CasillasEmpresa;
+
 use App\Rack;
 use Auth;
 use Exception;
@@ -30,19 +31,24 @@ class CasillasEmpresaController extends Controller
          
          //,'message'=>'La operacion se realizo con Exito'
          //dd($idCasilla);
-        CasillasEmpresa::destroy($idCasilla);
+        //CasillasEmpresa::destroy($idCasilla);
+        DB::table('casillas_empresas')->where('id', $idCasilla)->delete();
+
 
         
         $casillas_x_empresa = DB::table('casillas_empresas as ce')
         ->leftJoin('racks_casillas as rc', 'ce.rc_id','=','rc.rc_id')
         ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
-        ->where('ce.empr_id',$idCliente)->paginate(10);
+        ->where('ce.empr_id',$idCliente)->whereNull('ce.deleted_at')->paginate(Constants::NRO_FILAS);
         
 
          //dd(DB::getQueryLog($casillas_x_empresa));
 //        $this->lista_casillas_asignadas($idCliente);
-        //return redirect('empresas/casillas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
-        return view('empresas.lista_celdas_asignadas', ['empresa' => Empresa::findOrFail($idCliente),'casillas_x_empresa' => $casillas_x_empresa]);
+        //return redirect('lista_casillas_asignadas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+        return redirect()->route('lista_casillas_asignadas', ['id' => $idCliente])->with('message','La operacion se realizo con Exito')->with('operacion','1');;
+
+
+        //return view('empresas.lista_celdas_asignadas', ['empresa' => Empresa::findOrFail($idCliente),'casillas_x_empresa' => $casillas_x_empresa])->with('message','La operacion se realizo con Exito')->with('operacion','1');;
 
         
         
@@ -57,11 +63,7 @@ class CasillasEmpresaController extends Controller
         ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
         ->where('ce.empr_id',$request->empresa_id)->whereNull('ce.deleted_at')->get();
         //dd($casillas_x_empresa);
-
-        //dd(DB::enableQueryLog()); 
-        //dd($casillas_x_empresa);
-        //$casillas_x_empresa = DB::table('casillas_empresas')->paginate(10);
-
+ 
         return $casillas_x_empresa;
     }    
     
@@ -73,12 +75,9 @@ class CasillasEmpresaController extends Controller
         $casillas_x_empresa = DB::table('casillas_empresas as ce')
         ->leftJoin('racks_casillas as rc', 'ce.rc_id','=','rc.rc_id')
         ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
-        ->where('ce.empr_id',$id)->whereNull('ce.deleted_at')->paginate(10);
+        ->where('ce.empr_id',$id)->whereNull('ce.deleted_at')->paginate(Constants::NRO_FILAS);
     
-
-        //dd(DB::enableQueryLog()); 
-        //dd($casillas_x_empresa);
-        //$casillas_x_empresa = DB::table('casillas_empresas')->paginate(10);
+ 
 
         return view('empresas.lista_celdas_asignadas', ['empresa' => Empresa::findOrFail($id),'casillas_x_empresa' => $casillas_x_empresa]);
     }
@@ -91,8 +90,6 @@ class CasillasEmpresaController extends Controller
     {
 
         $empresa = Empresa::findOrFail($id);
-        //$casillas = DB::table('casillas_empresas')->paginate(10);
-
         $racks = DB::table('racks')->get();
         
         return view('empresas.asignar_celdas', ['empresa' => $empresa, 'racks' =>$racks]);

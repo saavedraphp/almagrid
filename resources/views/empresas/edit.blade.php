@@ -19,8 +19,13 @@
     </div>
    @endif
 
-  <form action="/admin/asi" id="frm_formulario" @submit="checkForm" method="POST">
-   @csrf
+ 
+
+
+   <form action="{{route('clientes.update',$empresa->empr_id)}}" id="frm_formulario" @submit="checkForm" method="POST">
+    @method('PATCH')
+    @csrf
+
   <p v-if="errors.length">
       <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
       <ul>

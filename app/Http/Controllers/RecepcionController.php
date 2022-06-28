@@ -1,8 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
-
+use App\Constants;
 use App\Acta;
 use App\Kardex;
 
@@ -153,7 +152,7 @@ class RecepcionController extends Controller
                 'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo','estado_asignacion' ,
                 's.serv_nombre','a.acta_sub_cliente', 'a.created_at')->where('empr_nombre', 'LIKE', '%' . $query . '%')
                 ->whereNull('a.deleted_at')
-                ->orderBy('a.created_at', 'desc')->paginate(10);
+                ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                 $busqueda = 'nombre';
 
 
@@ -170,7 +169,7 @@ class RecepcionController extends Controller
                 'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
                 ->where('tm.tm_codigo', '=', 'INGRESO')
                 ->whereNull('a.deleted_at')
-                ->orderBy('a.created_at', 'desc')->paginate(10);
+                ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
 
                 switch ($request->get('rbo_lista')) {
                     case 'DESPAC':
@@ -183,7 +182,7 @@ class RecepcionController extends Controller
                         'a.created_at')
                         ->where('tm.tm_codigo', '=', 'DESPAC')
                         ->whereNull('a.deleted_at')
-                        ->orderBy('a.created_at', 'desc')->paginate(10);
+                        ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                         $busqueda = 'DESPAC';
                         $query = 'Despacho';
                         
@@ -199,7 +198,7 @@ class RecepcionController extends Controller
                             'tm.tm_codigo', 'a.acta_sub_cliente' , 'a.created_at')
                             ->where('tm.tm_codigo', '=', 'ALMACE')
                             ->whereNull('a.deleted_at')
-                            ->orderBy('a.created_at', 'desc')->paginate(10);
+                            ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                             $busqueda = 'ALMACE';
                             $query = 'Almacenamiento';
                         break;                        
@@ -214,7 +213,7 @@ class RecepcionController extends Controller
                             'estado_asignacion' ,  'tm.tm_codigo',
                             'a.created_at')
                             ->whereNull('a.deleted_at')
-                            ->orderBy('a.created_at', 'desc')->paginate(10);
+                            ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                             $busqueda = 'ALL';
                             $query = 'Todos';
                         break;
@@ -234,7 +233,7 @@ class RecepcionController extends Controller
                     ->where('tm.tm_codigo', '=', 'INGRESO')
                     ->where('a.acta_numero_ingr_sali','=',$nro_documento)
                     ->whereNull('a.deleted_at')
-                    ->orderBy('a.created_at', 'desc')->paginate(10);
+                    ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                     $busqueda = 'nro_documento';
                     $query = $request->get('nro_documento');
                     //dd($actas->toSql());
@@ -263,12 +262,6 @@ class RecepcionController extends Controller
     public function create()
     {
 
-/*
-        $productos = DB::table('productos  as p')
-        ->leftJoin('stock as td','a.tipo_docu_id','=','td.tipo_docu_id')
-        ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo', 
-        'a.created_at')->where('acta_numero_ingr_sali', 'LIKE', '%' . $query . '%')->orderBy('a.created_at', 'asc')->paginate(10);
-*/
         
         $lotes = DB::table('lotes')->get();
         //var_dump($lotes);
@@ -646,7 +639,7 @@ class RecepcionController extends Controller
         $detalles = DB::table('productos_x_empresa  as p')
         ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
         ->leftJoin('unidad_medida as um', 'um.id', '=', 'p.unidad_id')        
-        ->select('um.unid_nombre', 'p.prod_id','p.unidad_id', 'p.prod_nombre',  'p.prod_lote','prod_serie','prod_sku',
+        ->select('um.unid_nombre','um.unid_codigo', 'p.prod_id','p.unidad_id', 'p.prod_nombre',  'p.prod_lote','prod_serie','prod_sku',
         'prod_codigo','p.prod_stock', 'p.prod_fecha_vencimiento', 'k.kard_cantidad', 'p.prod_stock as total')
         ->where('k.acta_id', '=',$id )
         ->orderBy('p.created_at', 'asc')->get();

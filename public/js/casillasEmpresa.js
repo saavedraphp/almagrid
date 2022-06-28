@@ -19,6 +19,7 @@ const app = new Vue({
           if(this.casillas_empresa.length>0)
           {  
             response = await axios.put(url+`/admin/empresas/adicionar_casillas/`+this.id_empresa,{'casillas':this.casillas_empresa} );
+            console.log('se registro correctamente'+url);
             window.location.href = url +'/admin/empresas/casillas/'+this.id_empresa;
 
           }

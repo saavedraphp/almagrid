@@ -5,7 +5,6 @@
 @inject('presentaciones','App\Services\Presentaciones')
 
 @section('scripts')
-<script src="{{asset('js/productos.js') }}" ></script>
 <!-- Include Date Range Picker -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
@@ -31,7 +30,7 @@
 
 <div class="row">
 <div class="col-md-8">
-    @if ($errors->any())
+    @if($errors->any())
     <div class="alert alert-danger">
       <h4>Por Favor corriga los siguientes errores   </h4>
         <ul>
@@ -45,7 +44,7 @@
 <form action="/admin/productos" method="POST" id="frm_formulario" @submit="checkForm">
 @csrf
 
-  <p v-if="errors.length">
+  <p v-if="errors.length>0">
     <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
     <ul>
       <li v-for="error in errors">@{{error}}</li>
@@ -120,8 +119,6 @@
 
  
 
- 
-
 
     <div class="form-group">
       <label for="inputEmail4">Descripción</label>
@@ -138,5 +135,6 @@
 </div>
 </div>
 </div>
+<script src="{{asset('js/productos.js') }}" ></script>
 
 @endsection

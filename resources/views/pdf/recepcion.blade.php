@@ -111,7 +111,7 @@ $col_large_l = "40%";
 
 
   ?>
-    <table width="90%" border="0">
+    <table width="100%" border="0">
       <tbody>
           <tr class="th_cabecera">
             <td width="{{$col_small}}">Item</td>
@@ -133,7 +133,7 @@ $col_large_l = "40%";
             <tr>
               <td align="center" width="{{$col_small}}">{{$x++}}</td>
               <td width="{{$col_large_l}}">{{$detalle->prod_id}} - {{$detalle->prod_nombre}}</td>
-              <td width="{{$col_small_l}}" align="center">{{$detalle->unid_nombre}}<</td>
+              <td width="{{$col_small_l}}" align="center">{{$detalle->unid_codigo}}<</td>
                <td width="{{$col_small_l}}" align="center">{{$detalle->prod_sku}}</td>
               <td width="{{$col_small}}" align="center">{{abs($detalle->kard_cantidad)}}</td>
     

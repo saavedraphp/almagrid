@@ -8,7 +8,7 @@
 
 <div class="row">
 <div class="col-md-8">
-    @if ($errors->any())
+    @if($errors->any())
     <div class="alert alert-danger">
       <h4>Por Favor corriga los siguientes errores   </h4>
         <ul>
@@ -22,7 +22,7 @@
 <form action="/admin/clientes" method="POST"  id="frm_formulario" @submit="checkForm">
 @csrf
 
-<p v-if="errors.length">
+<p v-if="errors.length>0">
     <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
     <ul>
       <li v-for="error in errors">@{{error}}</li>
