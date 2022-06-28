@@ -6,6 +6,8 @@ use App\Producto;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 class ProductosController extends Controller
 {
@@ -196,6 +198,33 @@ class ProductosController extends Controller
         }
         
     }
+
+    public function pdfListaProducto( Request $request)
+    {
+        if($request->search=='null')
+        $request->search ="";
+        $productos = DB::table('productos_x_empresa  as p')
+        ->join('empresas as e','p.empr_id','=','e.empr_id')
+        ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
+        ->select('p.prod_sku', 'p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre',
+         'p.prod_stock','p.prod_precio', 'e.empr_nombre','p.prod_fecha_vencimiento',
+        'p.created_at','p.deleted_at')
+        ->where(function($consulta) use ($request){
+            $consulta->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
+            })
+        ->whereNull('p.deleted_at')
+        ->orderBy('p.created_at', 'asc')
+        ->paginate(25);
+
+        $pdf = PDF::loadView('pdf.productos',['productos'=>$productos,'consulta'=>$request->search]);
+        
+        
+        return $pdf->download('Productos-'.rand(1,1000).'.pdf');
+        
+    }
+
 
 
 }

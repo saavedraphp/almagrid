@@ -148,12 +148,20 @@ class RecepcionController extends Controller
                 $actas = DB::table('actas  as a')
                 ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
                 ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
-                ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-                'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo','estado_asignacion' ,
-                's.serv_nombre','a.acta_sub_cliente', 'a.created_at')->where('empr_nombre', 'LIKE', '%' . $query . '%')
+                ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
+                ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre',
+                'a.acta_costo','a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo','tm.tm_codigo', 
+                'a.acta_sub_cliente','estado_asignacion' ,'a.created_at')
+                ->where('tm.tm_codigo', '=', 'INGRESO')
+                ->where(function($query) use ($request){
+                    $query->where('empr_nombre', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('a.acta_sub_cliente', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
+                    })                
                 ->whereNull('a.deleted_at')
                 ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                 $busqueda = 'nombre';
+                
 
 
             }
@@ -244,9 +252,9 @@ class RecepcionController extends Controller
 
             }
             //echo $actas;  
-           // dd(DB::getQueryLog());
+            //dd(DB::getQueryLog());
 
-            //dd($actas->toSql());
+            
             //dd($actas);
             return view('actas.index', ['actas' => $actas, 'search' => $query,'busqueda' =>$busqueda]);
 

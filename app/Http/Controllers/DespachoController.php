@@ -34,7 +34,7 @@ class DespachoController extends Controller
             
         $busqueda ="";
         $query ="";
-        $nro_documento = trim($request->get('nro_documento'));
+        $nro_documento = trim($request->get('search'));
 
         if(strlen($nro_documento)>0)
         {  
@@ -42,10 +42,15 @@ class DespachoController extends Controller
             ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
             ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
             ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
-            ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-            'a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
+            ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre',
+            'a.acta_costo','a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 'tm.tm_codigo', 
+            'a.acta_sub_cliente', 'a.created_at')
             ->where('tm.tm_codigo', '=', 'DESPACHO')
-            ->where('a.acta_numero_ingr_sali','=',$nro_documento)
+            ->where(function($query) use ($request){
+                $query->where('empr_nombre', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('a.acta_sub_cliente', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
+                })
             ->whereNull('a.deleted_at')
             ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
             $busqueda = 'nro_documento';
