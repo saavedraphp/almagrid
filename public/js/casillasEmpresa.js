@@ -43,8 +43,8 @@ const app = new Vue({
      obtenerCasillas(rack_id) {
  
             axios.get(url+`/racks/obtenerCasillas`, {params: {rack_id: rack_id} }).then((response) => {
-            this.casillas_rack = response.data;
-            if(response.data.length==0)
+              this.casillas = response.data;
+              if(response.data.length==0)
             {
               alert('No existe celdas en este Rack')
               console.log(response.data.length)

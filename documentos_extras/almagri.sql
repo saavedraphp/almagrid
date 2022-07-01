@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 21-06-2022 a las 19:28:04
+-- Tiempo de generación: 01-07-2022 a las 21:53:01
 -- Versión del servidor: 5.7.31
 -- Versión de PHP: 7.4.9
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `actas` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`acta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='																			';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='																			';
 
 --
 -- Volcado de datos para la tabla `actas`
@@ -56,7 +56,8 @@ CREATE TABLE IF NOT EXISTS `actas` (
 INSERT INTO `actas` (`acta_id`, `empr_id`, `tipo_docu_id`, `tipo_movimiento_codigo`, `acta_encargado_id`, `acta_supervisor_id`, `contrato_id`, `acta_sub_cliente`, `acta_numero_ingr_sali`, `acta_costo`, `acta_fecha_ini`, `acta_fecha_fin`, `acta_comentario`, `estado_asignacion`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Ingreso	Accion\r\n12	GRANADA	0	10	\r\n13	PALTA FUERTE GRADE	0	10', 'REALIZADO', '2022-06-20 18:56:13', '2022-06-20 19:01:14', NULL),
 (2, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Veronica', '500023', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Ingreso	Accion\r\n11	PITAJAYA modi	0	15	\r\n12	GRANADA	10	15	\r\n13	PALTA FUERTE GRADE	10	25', 'REALIZADO', '2022-06-20 19:02:08', '2022-06-20 19:21:56', NULL),
-(3, 11, 1, 'DESPACHO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Salida	Accion\r\n12	GRANADA	25	5	\r\n13	PALTA FUERTE GRADE	35	5	\r\n11	PITAJAYA modi	15	4', NULL, '2022-06-20 19:58:03', '2022-06-20 19:58:03', NULL);
+(3, 11, 1, 'DESPACHO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Salida	Accion\r\n12	GRANADA	25	5	\r\n13	PALTA FUERTE GRADE	35	5	\r\n11	PITAJAYA modi	15	4', NULL, '2022-06-20 19:58:03', '2022-06-20 19:58:03', NULL),
+(4, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Rocio Saavedra', '54227813', NULL, NULL, NULL, '12	GRANADA \r\n7\r\n20	15	RACK 2-1	\r\n13	PALTA FUERTE GRADE \r\n8\r\n30	3	RACK 2-2', 'REALIZADO', '2022-07-01 21:50:15', '2022-07-01 21:50:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -83,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `casillas_empresas` (
 
 INSERT INTO `casillas_empresas` (`id`, `rc_id`, `empr_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 5, 11, '2022-06-08 09:42:39', NULL, NULL),
-(2, 4, 11, '2022-06-09 14:14:27', NULL, NULL),
+(2, 4, 11, '2022-06-09 14:14:27', '2022-06-22 20:21:08', '2022-06-22 20:21:08'),
 (3, 8, 11, '2022-06-09 14:14:27', NULL, NULL);
 
 -- --------------------------------------------------------
@@ -228,21 +229,23 @@ CREATE TABLE IF NOT EXISTS `kardex` (
   KEY `fk_kardex_idx` (`prod_id`),
   KEY `fk_lote_idx` (`lote_id`),
   KEY `fk_acta_id_idx` (`acta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `kardex`
 --
 
 INSERT INTO `kardex` (`kard_id`, `acta_id`, `prod_id`, `lote_id`, `rc_id`, `tipo_movimiento`, `kard_cantidad`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 12, 9999999, 4, 'INGRESO', 10, '2022-06-20 18:56:13', '2022-06-20 19:15:45', NULL),
-(2, 1, 13, 9999999, 8, 'INGRESO', 10, '2022-06-20 18:56:13', '2022-06-20 19:15:45', NULL),
-(3, 2, 11, 9999999, 8, 'INGRESO', 15, '2022-06-20 19:02:08', '2022-06-20 19:22:08', NULL),
-(4, 2, 12, 9999999, 4, 'INGRESO', 15, '2022-06-20 19:02:08', '2022-06-20 19:22:08', NULL),
-(5, 2, 13, 9999999, 5, 'INGRESO', 25, '2022-06-20 19:02:08', '2022-06-20 19:22:08', NULL),
+(1, 1, 12, 9999999, 8, 'INGRESO', 10, '2022-06-20 18:56:13', '2022-06-22 21:08:37', NULL),
+(2, 1, 13, 9999999, 8, 'INGRESO', 10, '2022-06-20 18:56:13', '2022-06-22 21:08:37', NULL),
+(3, 2, 11, 9999999, 8, 'INGRESO', 15, '2022-06-20 19:02:08', '2022-06-22 21:08:48', NULL),
+(4, 2, 12, 9999999, 5, 'INGRESO', 15, '2022-06-20 19:02:08', '2022-06-22 21:08:48', NULL),
+(5, 2, 13, 9999999, 5, 'INGRESO', 25, '2022-06-20 19:02:08', '2022-06-22 21:08:48', NULL),
 (6, 3, 12, 9999999, NULL, 'DESPACHO', 5, '2022-06-20 19:58:03', NULL, NULL),
 (7, 3, 13, 9999999, NULL, 'DESPACHO', 5, '2022-06-20 19:58:03', NULL, NULL),
-(8, 3, 11, 9999999, NULL, 'DESPACHO', 4, '2022-06-20 19:58:03', NULL, NULL);
+(8, 3, 11, 9999999, NULL, 'DESPACHO', 4, '2022-06-20 19:58:03', NULL, NULL),
+(9, 4, 12, 9999999, 7, 'INGRESO', 15, '2022-07-01 21:50:15', NULL, NULL),
+(10, 4, 13, 9999999, 8, 'INGRESO', 3, '2022-07-01 21:50:15', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -291,8 +294,8 @@ CREATE TABLE IF NOT EXISTS `lote_x_producto` (
 --
 
 INSERT INTO `lote_x_producto` (`id`, `lote_id`, `prod_id`, `cantidad`, `created_at`, `updated_at`) VALUES
-(1, 9999999, 12, 20, '2022-06-20 18:56:13', '2022-06-20 19:58:03'),
-(2, 9999999, 13, 30, '2022-06-20 18:56:13', '2022-06-20 19:58:03'),
+(1, 9999999, 12, 35, '2022-06-20 18:56:13', '2022-07-01 21:50:15'),
+(2, 9999999, 13, 33, '2022-06-20 18:56:13', '2022-07-01 21:50:15'),
 (3, 9999999, 11, 11, '2022-06-20 19:02:08', '2022-06-20 19:58:03');
 
 -- --------------------------------------------------------
@@ -460,8 +463,8 @@ CREATE TABLE IF NOT EXISTS `productos_x_empresa` (
 
 INSERT INTO `productos_x_empresa` (`prod_id`, `categoria_id`, `empr_id`, `unidad_id`, `prod_nombre`, `prod_codigo`, `prod_sku`, `prod_ean`, `prod_cantidad`, `prod_precio`, `prod_serie`, `prod_lote`, `prod_comentario`, `prod_stock`, `prod_fecha_vencimiento`, `prod_peso`, `prod_estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (11, NULL, 11, 5, 'PITAJAYA modi', NULL, 'LUVPITMEDD', NULL, NULL, NULL, NULL, NULL, 'COMENTAIOS MODI', 11, NULL, '2', NULL, '2022-04-25 18:17:15', '2022-05-18 15:34:19', NULL),
-(12, NULL, 11, 5, 'GRANADA', NULL, 'LUVGRAMED', NULL, NULL, NULL, NULL, '5412', 'ADD', 20, '2022-04-25', '2', NULL, '2022-04-25 20:29:51', '2022-04-25 20:29:51', NULL),
-(13, NULL, 11, 5, 'PALTA FUERTE GRADE', NULL, 'LUVPALGRA', NULL, NULL, NULL, NULL, '5210', 'ADD PALTA', 30, '2023-02-08', '1', NULL, '2022-04-25 20:31:32', '2022-04-25 20:31:32', NULL),
+(12, NULL, 11, 5, 'GRANADA', NULL, 'LUVGRAMED', NULL, NULL, NULL, NULL, '5412', 'ADD', 35, '2022-04-25', '2', NULL, '2022-04-25 20:29:51', '2022-04-25 20:29:51', NULL),
+(13, NULL, 11, 5, 'PALTA FUERTE GRADE', NULL, 'LUVPALGRA', NULL, NULL, NULL, NULL, '5210', 'ADD PALTA', 33, '2023-02-08', '1', NULL, '2022-04-25 20:31:32', '2022-04-25 20:31:32', NULL),
 (14, NULL, 10, 5, 'Manzana Mediana', NULL, 'F12MANMED', NULL, NULL, NULL, NULL, NULL, 'MANZANA MEDIANA', 0, NULL, '1', NULL, '2022-05-03 18:44:08', '2022-05-03 18:45:49', NULL);
 
 -- --------------------------------------------------------

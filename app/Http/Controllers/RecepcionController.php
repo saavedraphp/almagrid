@@ -308,10 +308,11 @@ class RecepcionController extends Controller
         $acta->acta_sub_cliente =              $request->get('sub_cliente');
         $acta->tipo_docu_id =           $request->get('tipo_documento');
         $acta->acta_numero_ingr_sali =         $request->get('nro_documento');
+        $acta->acta_numero_ingr_sali =         $request->get('nro_documento');
         //  $acta->acta_encargado_id =        $request->get('cbo_empresa');
         //  $acta->acta_supervisor_id =        $request->get('cbo_empresa');
         $acta->acta_comentario =        $request->get('comentario');
-        $acta->estado_asignacion =        'PENDIENTE';        
+        $acta->estado_asignacion =        'REALIZADO';        
 
         $acta->save();
  
@@ -326,6 +327,7 @@ class RecepcionController extends Controller
         $items = $request->get('prod_id');
         $cantidad = $request->get('cantidad');
         $lote = $request->get('lote');
+        $rc = $request->get('rc_id');
         
         if($request->get('cantidad') !==null )
         {
@@ -339,6 +341,7 @@ class RecepcionController extends Controller
                      'lote_id' => $lote[$key],
                      'tipo_movimiento' => 'INGRESO',// INGRESO
                      'kard_cantidad' => $cantidad[$key],
+                     'rc_id' => $rc[$key],
                      'created_at' => date('Y-m-d H:i:s')
 
                      ];

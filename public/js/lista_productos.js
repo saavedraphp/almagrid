@@ -2,9 +2,11 @@ const app = new Vue({
     el: '#frm_formulario',
 
     data: {
-        empresa_id: '',
-        producto:document.getElementById("producto_id").value,
+         producto:document.getElementById("producto_id").value,
         v_cantidad:document.getElementById("cantidad_id").value,
+        selected_rack:document.getElementById("rack_id").value,
+        selected_casilla:document.getElementById("casilla_id").value,
+        
         total_productos:0,
         totalProductos_x_Lotes:0,
         
@@ -13,6 +15,7 @@ const app = new Vue({
 
         data: [],
         productos_acta:[],
+        casillas:[],
 
 
 
@@ -26,6 +29,29 @@ const app = new Vue({
  
 
     methods: {
+
+
+        obtenerCasillasRackId(rack_id) {
+            console.log(rack_id);
+            try{
+                axios.get(url+`/racks/obtenerCasillas`, {params: {rack_id: rack_id} }).then((response) => {
+                this.casillas = response.data;
+                console.log('Cassillas '+ this.casillas);
+                this.selected_casilla = document.getElementById("casilla_id").value;
+             
+                });
+                
+            }
+               catch(error) {
+                console.log(error);
+            }
+             
+    
+           },
+
+
+
+
 
         async getCantidadPoductoPorLote(producto_id,lote_id) {
         try{
@@ -53,8 +79,18 @@ const app = new Vue({
 
 
        async add_producto(){
-        let existeProductoLote = false;
+ 
+         let existeProductoLote = false;
             console.log('valor de producto '+this.producto.prod_nombre);
+
+            if(this.selected_empresa=="")
+            {
+              alert("Seleccione una Empresa");
+              this.$refs.r_empresa.focus();
+              return;
+    
+            }
+
             
             if(this.producto=="")
             {
@@ -68,17 +104,38 @@ const app = new Vue({
 
             if(this.v_cantidad =="" || this.v_cantidad <= 0)
             {
-              alert("Ingrese un valor valido");
+              alert("Ingrese una Cantidad");
               this.v_cantidad = "";
               this.$refs.r_cantidad.focus();
               return;
     
             }
 
+
+            if(this.selected_rack=="")
+            {
+              alert("Seleccione un Rack");
+              this.$refs.r_rack.focus();
+              return;
+    
+            }
+
+            console.log('valor casilla = '+this.selected_casilla.rc_id);
+
+            if(typeof this.selected_casilla.rc_id == 'undefined' || this.selected_casilla.rc_id=="" )
+            {
+              console.log(this.selected_casilla.rc_id);
+              alert("Seleccione una Casilla");
+              this.$refs.r_casilla.focus();
+              return;
+    
+            }            
+
+
             if(this.v_cantidad>0){
 
               
-            
+               
 
         
                 await  this.getCantidadPoductoPorLote(this.producto.prod_id,this.lote);
@@ -91,7 +148,9 @@ const app = new Vue({
                     console.log('index =>'+index);
                     if (elemento.prod_id === this.producto.prod_id && elemento.prod_lote === this.lote) 
                     {
-                        elemento.cantidad = parseInt(elemento.cantidad) + parseInt(this.v_cantidad)
+                        elemento.cantidad = parseInt(elemento.cantidad) + parseInt(this.v_cantidad);
+                        elemento.rc_id = this.selected_casilla.rc_id;
+                        elemento.rc_nombre = this.selected_casilla.rc_nombre;
                         existeProductoLote =  true;
                     }
                     console.log('Existe LoteXProducto');
@@ -114,7 +173,9 @@ const app = new Vue({
                 if(existeProductoLote ==false)
                 {
                     this.productos_acta.push({prod_id:this.producto.prod_id, prod_nombre:this.producto.prod_nombre,
-                    prod_lote:this.lote,stock_x_lote:this.totalProductos_x_Lotes, cantidad:this.v_cantidad, total:this.producto.prod_stock+this.cantidad});
+                    prod_lote:this.lote,stock_x_lote:this.totalProductos_x_Lotes, cantidad:this.v_cantidad, 
+                    total:this.producto.prod_stock+this.cantidad, rc_id:this.selected_casilla.rc_id,
+                    rc_nombre:this.selected_casilla.rc_nombre});
                 }
                 
                 this.$refs.r_producto.focus();
@@ -164,7 +225,7 @@ const app = new Vue({
  
             if(this.verificar_cambios()==false)
             {
-                this.errors.push('Por favor tiene que eleguir algún producto');
+                this.errors.push('Por favor tiene adicionar  algún producto para generar la Acta');
             }
     
             
