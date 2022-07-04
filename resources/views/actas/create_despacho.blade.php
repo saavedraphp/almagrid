@@ -152,7 +152,10 @@
                 <th class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </th>
-                <td>@{{producto.prod_nombre}}</td>
+                <td>@{{producto.prod_nombre}}
+                <input v-model="producto.rc_id" type="hidden" size="3"name="rc_id[]" > 
+
+                </td>
                 <td>@{{producto.prod_lote}}</td>
                 <td>@{{producto.prod_stock}}</td>
                 <td>

@@ -142,7 +142,7 @@
           @csrf
  
           
-          <a href="{{route('asignarProductosCeldas',$acta->acta_id)}}" title="{{MiConstantes::VER}}"><i class="fas fa-check-circle"></i></a> |
+          <a  visibility: hidden href="{{route('asignarProductosCeldas',$acta->acta_id)}}"  title="{{MiConstantes::VER}}"><i class="fas fa-check-circle"></i></a> 
 
          <a href="{{route('recepcion.show',$acta->acta_id)}}" title="{{MiConstantes::VER}}"><i class="far fa-eye"></i></a> |
          <a href="{{route('reporteRecepcion.pdf',$acta->acta_id)}}" title="{{MiConstantes::REPORTE}}"><i class="far fa-file-pdf"></i></a> |

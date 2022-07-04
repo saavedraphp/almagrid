@@ -5,6 +5,7 @@
 @inject('documentos','App\Services\Documentos') 
 @inject('servicios','App\Services\Servicios') 
 @inject('presentaciones','App\Services\Presentaciones')
+@inject('racks','App\Services\Racks')
 
 <h2>[{{MiConstantes::NUEVO}}] </h2>
  
@@ -98,22 +99,51 @@
           <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
           value="" @keyup.enter="add_producto()" v-model="v_cantidad">
       </div>
-
-      <div class="form-group col-md-4" style="visibility: hidden;">
-          <label for="inputAddress">Lote</label>
-          <select  v-model="lote" id="lote" data-old="{{old('lote')}}"
-          name="lote_id"  class="form-control">
-           @foreach($lotes as $lote)
-            
-              <option value="{{$lote->lote_nombre}}"  >{{$lote->lote_nombre.' - '.$lote->lote_fecha_vencimiento}}</option>
-             @endforeach
-          </select>
-        
-
-      </div>      
-
+    
     </div>
 
+
+    <div class="form-row">
+
+        <div class="form-group col-md-6">
+                <label for="producto">Rack *</label>
+                <select  v-model="selected_rack" name="rack" id="rack_id"  ref="r_rack" @change="obtenerCasillasRackId($event.target.value)" class="form-control" >
+                    @foreach ($racks->get() as $index => $value)
+                      <option value={{$index}}>{{$value}}</option>
+                    @endforeach
+                  </select>
+        </div>
+
+
+
+      <div class="form-group col-md-4">
+        <label for="Productos">Casillas</label>
+
+        <select v-model="selected_casilla" id="casilla_id"  ref="r_casilla"   name="casilla" class="form-control">
+        <option value="">Seleccione una casilla</option>
+        <option v-for="casilla  in casillas" v-bind:value="casilla" >@{{casilla.rc_nombre}}</option>
+        </select>
+      </div>
+
+
+      <div class="form-group col-md-2" >
+        <label for="Productos">&nbsp;</label>
+        <br>
+        <button type="button" @click="add_producto"   class="btn btn-primary">Ingresar</button>
+
+      </div>
+
+
+      </div>
+
+      <select  v-model="lote" id="lote" data-old="{{old('lote')}}"
+      name="lote_id"  class="form-control" style="visibility:hidden">
+      @foreach($lotes as $lote)
+      
+        <option value="{{$lote->lote_nombre}}"  >{{$lote->lote_nombre.' - '.$lote->lote_fecha_vencimiento}}</option>
+        @endforeach
+    </select>
+  
 
 
 <!--tabla-->

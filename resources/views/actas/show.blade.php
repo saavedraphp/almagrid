@@ -121,6 +121,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Producto</th>
                  <th scope="col">Cantidad</th>
+                 <th scope="col">Casilla</th>
                </tr>
             </thead>
 
@@ -131,14 +132,15 @@
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </td>
                 <td>{{$item->prod_nombre}}</td>
- 
+                
                 <td > <span style="text-align: center;" >{{abs($item->kard_cantidad)}}</span></td>
+                <td > <span style="text-align: center;" >{{$item->rc_nombre}}</span></td>
 
               </tr>
             @endforeach  
             
             <tr>
-              <td colspan="3">
+              <td colspan="4">
                 <input  type="hidden" class="form-control"  size="3"  v-model="total_productos"  name="txt_total_productos"  value="0">
                 <input  type="hidden" class="form-control"  size="3"   id="operacion_id" name="operacion"  value="1">
             </td>

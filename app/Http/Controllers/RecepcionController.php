@@ -483,8 +483,9 @@ class RecepcionController extends Controller
        
        $detalles = DB::table('productos_x_empresa  as p')
        ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
+       ->leftJoin('racks_casillas as rc', 'k.rc_id', '=', 'rc.rc_id')
        ->select('p.prod_id','p.unidad_id', 'p.prod_nombre',  'k.lote_id','p.prod_stock', 'p.prod_fecha_vencimiento',
-       'k.kard_cantidad', 'p.prod_stock as total')
+       'k.kard_cantidad', 'p.prod_stock as total', 'rc.rc_nombre')
        ->where('k.acta_id', '=',$id )
        ->orderBy('p.created_at', 'asc')->get();
 
