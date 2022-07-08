@@ -10,9 +10,30 @@ Auth::routes();
 Route::get('/register', 'Auth\RegisterController@register')->name('register');
 Route::post('/register', 'Auth\RegisterController@create');
 
- 
 
 Route::get('/', 'HomeController@index');
+
+//MODULO AUTENTIFICACION    
+Route::resource('/admin/configuracion', 'ConfiguracionController');
+Route::get('/admin/editDatos', 'ConfiguracionController@edit');
+Route::get('/admin/updatePassword', 'ConfiguracionController@updatePassword')->name('updatePassword');
+Route::get('/admin/editPassword', 'ConfiguracionController@editPassword');
+Route::get('validarPassword/', 'ConfiguracionController@validarPassword');
+
+
+
+//MODULO USUARIOS
+Route::resource('/admin/usuarios', 'UserController');
+Route::get('existeEmail/', 'UserController@existeEmail');
+Route::get('validarModificacionEmail/', 'UserController@validarModificacionEmail');
+
+
+// ROLES
+Route::resource('/admin/roles', 'RoleController');
+
+
+
+
 
 //MODULO DE EMPRESA
 Route::get('/usuario', 'HomeController@login_empresa')->name('homex');

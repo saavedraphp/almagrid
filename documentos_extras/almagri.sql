@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 01-07-2022 a las 21:53:01
+-- Tiempo de generación: 08-07-2022 a las 21:25:42
 -- Versión del servidor: 5.7.31
 -- Versión de PHP: 7.4.9
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `actas` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`acta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='																			';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='																			';
 
 --
 -- Volcado de datos para la tabla `actas`
@@ -57,7 +57,8 @@ INSERT INTO `actas` (`acta_id`, `empr_id`, `tipo_docu_id`, `tipo_movimiento_codi
 (1, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Ingreso	Accion\r\n12	GRANADA	0	10	\r\n13	PALTA FUERTE GRADE	0	10', 'REALIZADO', '2022-06-20 18:56:13', '2022-06-20 19:01:14', NULL),
 (2, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Veronica', '500023', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Ingreso	Accion\r\n11	PITAJAYA modi	0	15	\r\n12	GRANADA	10	15	\r\n13	PALTA FUERTE GRADE	10	25', 'REALIZADO', '2022-06-20 19:02:08', '2022-06-20 19:21:56', NULL),
 (3, 11, 1, 'DESPACHO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Salida	Accion\r\n12	GRANADA	25	5	\r\n13	PALTA FUERTE GRADE	35	5	\r\n11	PITAJAYA modi	15	4', NULL, '2022-06-20 19:58:03', '2022-06-20 19:58:03', NULL),
-(4, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Rocio Saavedra', '54227813', NULL, NULL, NULL, '12	GRANADA \r\n7\r\n20	15	RACK 2-1	\r\n13	PALTA FUERTE GRADE \r\n8\r\n30	3	RACK 2-2', 'REALIZADO', '2022-07-01 21:50:15', '2022-07-01 21:50:15', NULL);
+(4, 11, 1, 'INGRESO', NULL, NULL, NULL, 'Rocio Saavedra', '54227813', NULL, NULL, NULL, '12	GRANADA \r\n7\r\n20	15	RACK 2-1	\r\n13	PALTA FUERTE GRADE \r\n8\r\n30	3	RACK 2-2', 'REALIZADO', '2022-07-01 21:50:15', '2022-07-01 21:50:15', NULL),
+(5, 11, 1, 'DESPACHO', NULL, NULL, NULL, 'Luis Saavedra', '40221837', NULL, NULL, NULL, '#ID Producto	Producto	Stock	Salida	Accion\r\n12	GRANADA	35	15	\r\n13	PALTA FUERTE GRADE	33	3', NULL, '2022-07-04 14:42:27', '2022-07-04 14:42:27', NULL);
 
 -- --------------------------------------------------------
 
@@ -229,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `kardex` (
   KEY `fk_kardex_idx` (`prod_id`),
   KEY `fk_lote_idx` (`lote_id`),
   KEY `fk_acta_id_idx` (`acta_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `kardex`
@@ -245,7 +246,9 @@ INSERT INTO `kardex` (`kard_id`, `acta_id`, `prod_id`, `lote_id`, `rc_id`, `tipo
 (7, 3, 13, 9999999, NULL, 'DESPACHO', 5, '2022-06-20 19:58:03', NULL, NULL),
 (8, 3, 11, 9999999, NULL, 'DESPACHO', 4, '2022-06-20 19:58:03', NULL, NULL),
 (9, 4, 12, 9999999, 7, 'INGRESO', 15, '2022-07-01 21:50:15', NULL, NULL),
-(10, 4, 13, 9999999, 8, 'INGRESO', 3, '2022-07-01 21:50:15', NULL, NULL);
+(10, 4, 13, 9999999, 8, 'INGRESO', 3, '2022-07-01 21:50:15', NULL, NULL),
+(11, 5, 12, 9999999, NULL, 'DESPACHO', 15, '2022-07-04 14:42:27', NULL, NULL),
+(12, 5, 13, 9999999, NULL, 'DESPACHO', 3, '2022-07-04 14:42:27', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -294,8 +297,8 @@ CREATE TABLE IF NOT EXISTS `lote_x_producto` (
 --
 
 INSERT INTO `lote_x_producto` (`id`, `lote_id`, `prod_id`, `cantidad`, `created_at`, `updated_at`) VALUES
-(1, 9999999, 12, 35, '2022-06-20 18:56:13', '2022-07-01 21:50:15'),
-(2, 9999999, 13, 33, '2022-06-20 18:56:13', '2022-07-01 21:50:15'),
+(1, 9999999, 12, 20, '2022-06-20 18:56:13', '2022-07-04 14:42:27'),
+(2, 9999999, 13, 30, '2022-06-20 18:56:13', '2022-07-04 14:42:27'),
 (3, 9999999, 11, 11, '2022-06-20 19:02:08', '2022-06-20 19:58:03');
 
 -- --------------------------------------------------------
@@ -336,7 +339,7 @@ CREATE TABLE IF NOT EXISTS `model_has_permissions` (
   `model_id` bigint(20) UNSIGNED NOT NULL,
   PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
   KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -359,12 +362,8 @@ CREATE TABLE IF NOT EXISTS `model_has_roles` (
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\User', 1),
-(3, 'App\\User', 10),
-(3, 'App\\User', 11),
-(3, 'App\\User', 12),
-(3, 'App\\User', 13),
-(3, 'App\\User', 14),
-(3, 'App\\User', 15);
+(1, 'App\\User', 25),
+(2, 'App\\User', 3);
 
 -- --------------------------------------------------------
 
@@ -396,6 +395,13 @@ CREATE TABLE IF NOT EXISTS `password_resets` (
   KEY `password_resets_email_index` (`email`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `password_resets`
+--
+
+INSERT INTO `password_resets` (`email`, `token`, `created_at`) VALUES
+('saavedraphp@gmail.com', '$2y$10$amjM0PXvbePv6.7MObNeSus8EW9ORFOvOMuYhalf.thX.AgMfkdh6', '2022-07-04 15:31:47');
+
 -- --------------------------------------------------------
 
 --
@@ -406,22 +412,23 @@ DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` varchar(200) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `guard_name` varchar(125) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin.productos.index', 'web', '2022-04-22 14:34:01', '2022-04-22 14:34:01'),
-(2, 'admin.productos.create', 'web', '2022-04-22 14:34:01', '2022-04-22 14:34:01'),
-(3, 'admin.productos.edit', 'web', '2022-04-22 14:34:01', '2022-04-22 14:34:01'),
-(4, 'admin.productos.destroy', 'web', '2022-04-22 14:34:01', '2022-04-22 14:34:01');
+INSERT INTO `permissions` (`id`, `name`, `description`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'admin.productos.index', 'Listado Productos', 'web', '2022-07-07 18:31:24', '2022-07-07 18:31:24'),
+(2, 'admin.productos.create', 'Crear Producto', 'web', '2022-07-07 18:31:24', '2022-07-07 18:31:24'),
+(3, 'admin.productos.edit', 'Editar Producto', 'web', '2022-07-07 18:31:24', '2022-07-07 18:31:24'),
+(4, 'admin.productos.destroy', 'Eliminar Producto', 'web', '2022-07-07 18:31:24', '2022-07-07 18:31:24');
 
 -- --------------------------------------------------------
 
@@ -463,8 +470,8 @@ CREATE TABLE IF NOT EXISTS `productos_x_empresa` (
 
 INSERT INTO `productos_x_empresa` (`prod_id`, `categoria_id`, `empr_id`, `unidad_id`, `prod_nombre`, `prod_codigo`, `prod_sku`, `prod_ean`, `prod_cantidad`, `prod_precio`, `prod_serie`, `prod_lote`, `prod_comentario`, `prod_stock`, `prod_fecha_vencimiento`, `prod_peso`, `prod_estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (11, NULL, 11, 5, 'PITAJAYA modi', NULL, 'LUVPITMEDD', NULL, NULL, NULL, NULL, NULL, 'COMENTAIOS MODI', 11, NULL, '2', NULL, '2022-04-25 18:17:15', '2022-05-18 15:34:19', NULL),
-(12, NULL, 11, 5, 'GRANADA', NULL, 'LUVGRAMED', NULL, NULL, NULL, NULL, '5412', 'ADD', 35, '2022-04-25', '2', NULL, '2022-04-25 20:29:51', '2022-04-25 20:29:51', NULL),
-(13, NULL, 11, 5, 'PALTA FUERTE GRADE', NULL, 'LUVPALGRA', NULL, NULL, NULL, NULL, '5210', 'ADD PALTA', 33, '2023-02-08', '1', NULL, '2022-04-25 20:31:32', '2022-04-25 20:31:32', NULL),
+(12, NULL, 11, 5, 'GRANADA', NULL, 'LUVGRAMED', NULL, NULL, NULL, NULL, '5412', 'ADD', 20, '2022-04-25', '2', NULL, '2022-04-25 20:29:51', '2022-04-25 20:29:51', NULL),
+(13, NULL, 11, 5, 'PALTA FUERTE GRADE', NULL, 'LUVPALGRA', NULL, NULL, NULL, NULL, '5210', 'ADD PALTA', 30, '2023-02-08', '1', NULL, '2022-04-25 20:31:32', '2022-04-25 20:31:32', NULL),
 (14, NULL, 10, 5, 'Manzana Mediana', NULL, 'F12MANMED', NULL, NULL, NULL, NULL, NULL, 'MANZANA MEDIANA', 0, NULL, '1', NULL, '2022-05-03 18:44:08', '2022-05-03 18:45:49', NULL);
 
 -- --------------------------------------------------------
@@ -561,16 +568,16 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'web', '2022-04-22 14:34:01', '2022-04-22 14:34:01'),
-(2, 'Almacenero', 'web', '2022-04-22 14:34:01', '2022-04-22 14:34:01'),
-(3, 'Empresa', 'web', '2022-04-22 14:34:01', '2022-04-22 14:34:01');
+(1, 'Admin', 'web', '2022-07-07 18:31:24', '2022-07-07 18:31:24'),
+(2, 'Almacenero', 'web', '2022-07-07 18:31:24', '2022-07-07 18:31:24'),
+(3, 'Empresa', 'web', '2022-07-07 18:31:24', '2022-07-07 18:31:24');
 
 -- --------------------------------------------------------
 
@@ -732,25 +739,23 @@ CREATE TABLE IF NOT EXISTS `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Luis', 'saavedraphp@gmail.com', NULL, '$2y$12$P3DK3QkU/VicHL5fj1ZLSOFWyyFie4BouEuyx81ZcBP6Omtqjjs/6', '33x1dvlLcDasonxidyvMpfEBFzNgw7ypo14knngIkDGjKyS9kc6ggSsh1akR', NULL, NULL),
-(2, 'Usuario Demo', 'demo@gmail.com', NULL, '$2y$10$ebXJfHGWbAOXZO9KK029.eES/HkZQKOcMcs.ejkY8zNot.YkhW3yK', 'M12SVMyqRiGYYztYUXpkPLXaFNaUgps1CtAJUtLdsA5W0GYz30RTsE7alVPH', '2021-02-23 03:41:09', '2021-02-23 03:41:09'),
-(3, 'Eduardo', 'egrillo@almagri.com', NULL, '$2y$12$P3DK3QkU/VicHL5fj1ZLSOFWyyFie4BouEuyx81ZcBP6Omtqjjs/6', 'dm6aa1BXVVzvyLm2Nmha3aDiKWrfUom6RV40hznYOmkgdgrFWq1cw2CTQQ2x', '2021-02-26 05:22:30', '2021-03-02 23:18:11'),
-(8, 'Abogados S.A', 'adeconperuventas@gmail.com', NULL, '$2y$10$FoJcwBfziPsKAbQPG4dPC.ANdHHFn8ysO3br4PZQGp4esjOm.aczO', NULL, '2022-03-17 18:31:13', '2022-03-17 18:31:13'),
-(9, 'FOREVER21', 'elizabethcanaquiri@gmail.com', NULL, '$2y$10$LOZmpgbXswvvd6K0ga3tTepin40tsqdRx9TMuMenCnYhhWJAjoRr2', NULL, '2022-03-17 18:42:40', '2022-03-17 18:42:40'),
-(10, 'LUVANET', 'ventas@luevanet.com', NULL, '$2y$10$b2YmFSppkFmBFBmC0pSfruLRbUaQj0MSmJhPH7O7RGl41U.aH.XEG', NULL, '2022-04-22 19:38:33', '2022-04-22 19:38:33'),
-(11, 'prueba', 'canta@gmail.com', NULL, '$2y$10$Qqtp9SRpo4rWTMVGQr0JpuFh2prcd7f4OEms8o1T5wl5ZgkQEluVy', NULL, '2022-06-09 14:42:06', '2022-06-09 14:42:06'),
-(12, 'prueba', 'canta@gmail.com', NULL, '$2y$10$41LdkBs/DjBb0YgJHABXqOJRXZuDf9JeZW80FhUXiRBsF5UAFBYta', NULL, '2022-06-09 14:42:06', '2022-06-09 14:42:06'),
-(13, 'prueba', 'canta@gmail.com', NULL, '$2y$10$5Q06qes/YKX7/XNyFD5Sy.d/4xlhB2a/zJZNY13W.9SEhxVo.hEZ6', NULL, '2022-06-09 14:42:06', '2022-06-09 14:42:06'),
-(14, 'prueba', 'canta@gmail.com', NULL, '$2y$10$aa7hQlNV/fVAqQf8NOX73OTMG2WVMJ7aCvx/i5tSBCEEag1kgiO1u', NULL, '2022-06-09 14:42:07', '2022-06-09 14:42:07'),
-(15, 'Veronica pruen', 'saavedraphp@gmail.com', NULL, '$2y$10$trBT1aPpxrj/SQhim3ZByupRtCf3BS/6lRFtE/SMoazNlXt.Jntci', NULL, '2022-06-09 15:13:58', '2022-06-09 15:13:58');
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'LUIS', 'saavedraphp@gmail.com', NULL, '$2y$10$MnNjH7pF.W2QLhD2NJYbTOv6QIoG4wlq3jxfXHU23/WRwMsCI1UNi', 'BwVxmVFzxkBHjxnqzoGxtO8gFd9TIE7YFVLteAFQBYSD44lobnuCdz7jyQ6r', NULL, '2022-07-04 21:00:40', NULL),
+(3, 'Eduardo modi', 'egrillo@almagri.com', NULL, '$2y$10$04HZ6k.XV3c3hD3/xaCpP.XAWR112Buq2KBQoWQBkjITr44YSZzzS', 'Ur0tBO2qNwsgpMlU0jxMKDrpYncilYD69w1lbiMfO3mZugkjpcHC3SPtt1B8', '2021-02-26 05:22:30', '2022-07-06 20:49:00', NULL),
+(8, 'Abogados S.A', 'adeconperuventas@gmail.com', NULL, '$2y$10$FoJcwBfziPsKAbQPG4dPC.ANdHHFn8ysO3br4PZQGp4esjOm.aczO', NULL, '2022-03-17 18:31:13', '2022-03-17 18:31:13', NULL),
+(9, 'FOREVER21', 'elizabethcanaquiri@gmail.com', NULL, '$2y$10$LOZmpgbXswvvd6K0ga3tTepin40tsqdRx9TMuMenCnYhhWJAjoRr2', NULL, '2022-03-17 18:42:40', '2022-03-17 18:42:40', NULL),
+(10, 'LUVANET', 'ventas@luevanet.com', NULL, '$2y$10$b2YmFSppkFmBFBmC0pSfruLRbUaQj0MSmJhPH7O7RGl41U.aH.XEG', NULL, '2022-04-22 19:38:33', '2022-04-22 19:38:33', NULL),
+(15, 'Veronica pruen', 'saavedraphp@gmail.com', NULL, '$2y$10$trBT1aPpxrj/SQhim3ZByupRtCf3BS/6lRFtE/SMoazNlXt.Jntci', NULL, '2022-06-09 15:13:58', '2022-06-09 15:13:58', NULL),
+(24, 'JESUS modi', 'saavedraphp2@gmail.com', NULL, '$2y$10$mT4gRzP3/6rKJ1prdY/ez.EenwCQThKa7ujb9JAFO2RZpeXTbuiz.', NULL, '2022-07-06 21:38:05', '2022-07-06 21:38:48', NULL),
+(25, 'ALMACENERO 2', 'almacenero@gmil.coM', NULL, '$2y$10$MyhHFcMF3WecxYUctogSquCt7yS55fN16McEfo6SxS4.Xtz0tavlu', NULL, '2022-07-08 21:00:45', '2022-07-08 21:00:45', NULL);
 
 -- --------------------------------------------------------
 

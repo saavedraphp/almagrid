@@ -133,7 +133,7 @@
       <div class="form-group col-md-2" >
         <label for="Productos">&nbsp;</label>
         <br>
-        <button type="button" @click="add_producto"   class="btn btn-primary">Ingresar</button>
+        <button type="button" @click="add_producto"   class="btn btn-primary float-right mr-3">Ingresar</button>
 
       </div>
 
@@ -215,7 +215,7 @@
     
 
 
-    <button type="button" @click="checkForm()"   class="btn btn-primary">Registrar</button>
+    <button type="button" @click="checkForm()"   class="btn btn-primary ">Registrar</button>
     <button type="reset" class="btn btn-danger">Cancelar</button>
     
 

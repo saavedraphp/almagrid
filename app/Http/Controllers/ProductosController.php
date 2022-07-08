@@ -17,6 +17,8 @@ class ProductosController extends Controller
     {
         // LSL PARA LA VALIDACION
         $this->middleware('auth');
+        DB::enableQueryLog();
+
         //$this->foo = $foo;
     }
 

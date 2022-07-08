@@ -80,11 +80,17 @@
                             <div class="dropdown-divider"></div>
  
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                <i class="fas fa-solid fa-user mr-2"></i>Perfil
+                            <a href="/admin/editDatos" class="dropdown-item">
+                                <i class="fas fa-solid fa-user mr-2"></i>Datos Personales
                                 <span class="float-right text-muted text-sm"></span>
                             </a>
+
                             <div class="dropdown-divider"></div>
+                            <a href="/admin/editPassword" class="dropdown-item">
+                                <i class="fas fa-solid fa-user mr-2"></i>Cambiar Contraseña
+                                <span class="float-right text-muted text-sm"></span>
+                            </a>
+
                             
                         </div>
                     </li>
@@ -264,6 +270,48 @@ $producto_count = Producto::all()->count();?>
 
 
 
+                            <li class="{{ (Request::path() == 'admin/sys' or Request::path() == 'admin/users')  ? 'nav-item menu-open' : 'nav-item' }}" >
+                                <a href="/admin/casillas" class="nav-link" >
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    CONFIGURACION
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                                </a>
+
+                                <ul class="nav nav-treeview">
+                                
+                                    <li class="nav-item">
+                                        <a href="/admin/usuarios" class="{{ Request::path() === 'admin/usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+
+                                        <p>Usuarios </p>
+                                         </a>
+                                    </li>
+
+
+
+                                    <li class="nav-item">
+                                        <a href="/admin/roles" class="{{ Request::path() === 'admin/roles' ? 'nav-link active' : 'nav-link' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+             
+                                        <p>Roles </p>
+                                        <span class="right badge badge-danger"></span>
+                                        </a>
+                                    </li>
+
+
+                                    <li class="nav-item">
+                                        <a href="/admin/casillas" class="{{ Request::path() === 'admin/casillas' ? 'nav-link active' : 'nav-link' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+             
+                                        <p>Permisos </p>
+                                        <span class="right badge badge-danger"></span>
+                                        </a>
+                                    </li>                                    
+
+                                </ul>
+                            </li>                            
                             
 
 
