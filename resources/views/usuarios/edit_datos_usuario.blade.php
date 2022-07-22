@@ -42,7 +42,7 @@
   
     <div class="form-group col-md-12">
       <label for="producto">Email</label>
-      <input type="text" class="form-control" v-model="correo" style="text-transform:lowercase;" 
+      <input type="text" class="form-control" readonly v-model="correo" style="text-transform:lowercase;" 
         onkeyup="javascript:this.value=this.value.toLowerCase();" name="correo" id="correo" placeholder="Email" value="{{$usuario->email}}">
     </div>    
   </div>

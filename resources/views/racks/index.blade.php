@@ -8,8 +8,9 @@
 
 <h2>Lista de Racks
 
+  @can('admin.racks.create') 
   <a href="racks/create"> <button type="button" class="btn btn-success float-right mr-3">Adicionar</button></a>  
-
+  @endcan
  </h2>
 
 
@@ -63,9 +64,13 @@
           @method('DELETE')
           @csrf
           
+          @can('admin.racks.edit') 
           <a href="{{route('racks.edit',$fila->rack_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
+          @endcan
+
+          @can('admin.racks.destroy') 
           <a href="javascript:document.getElementById('frm_destroy{{$fila->rack_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->rack_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
-         
+          @endcan
      
         </form>
 

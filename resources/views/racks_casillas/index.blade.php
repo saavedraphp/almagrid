@@ -8,7 +8,9 @@
 
 <h2>Lista de Casillas
 
+  @can('admin.casillas.create') 
   <a href="casillas/create"> <button type="button" class="btn btn-success float-right mr-3">Adicionar</button></a>  
+  @endcan
 
  </h2>
 
@@ -64,9 +66,13 @@
           @method('DELETE')
           @csrf
           
+          @can('admin.casillas.edit') 
           <a href="{{route('casillas.edit',$fila->rc_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
+          @endcan
+
+          @can('admin.casillas.destroy') 
           <a href="javascript:document.getElementById('frm_destroy{{$fila->rc_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->rc_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
-         
+         @endcan
      
         </form>
 

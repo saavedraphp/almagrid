@@ -4,6 +4,20 @@
 
 
 <div class="container">
+@if(Session::get('operacion')=='1')
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{Session::get('message')}}
+</div>
+@endif
+
+@if(Session::get('operacion')=='0')
+  <div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{Session::get('message')}}
+  </div>
+
+@endif
 
 <div class="row">
 <div class="col-md-8">
@@ -18,6 +32,8 @@
     </div>
    @endif
 
+
+      
 <form action="{{route('roles.update',$id)}}" method="POST" id="frm_formulario" @submit="checkForm">
 @method('PATCH')
 
@@ -52,7 +68,7 @@
 
 
 <br>
-  <button type="submit" class="btn btn-primary">Registrar</button>
+  <button type="submit" class="btn btn-primary">Actualizar</button>
   <button type="reset" class="btn btn-danger">Cancelar</button>
 
 </form>

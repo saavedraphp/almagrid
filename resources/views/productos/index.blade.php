@@ -4,7 +4,10 @@
 
 <div class="container">
 <h2>Lista de Productos 
+@can('admin.productos.create') 
+
   <a href="productos/create"> <button type="button" class="btn btn-success float-right" >{{MiConstantes::NUEVO}}</button></a>  
+@endcan  
   <a href="{{route('pdfListaProducto.pdf',($search?$search:'null'))}}"> <button type="button" class="btn btn-success float-right mr-2">Exportar PDF</button></a>
 
 </h2>
@@ -83,10 +86,16 @@
           @csrf
 
 
-
-         <a href="{{route('productos.edit',$producto->prod_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
-         <a href="javascript:document.getElementById('frm_destroy{{$producto->prod_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$producto->prod_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>|
          <a href="{{route('kardexPorIdProducto',$producto->prod_id)}}" title="{{MiConstantes::KARDEX}}"><i class="fa fa-align-justify"></i></a> 
+         @can('admin.productos.edit') 
+         |
+         <a href="{{route('productos.edit',$producto->prod_id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> 
+         @endcan
+         @can('admin.productos.destroy') 
+         |
+         <a href="javascript:document.getElementById('frm_destroy{{$producto->prod_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$producto->prod_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
+         @endcan
+         
          
 
         </form>
@@ -98,7 +107,9 @@
 </table>
 
 <div class="row">
-  <div class="mx-auto">{{$productos->links()}}</div>
+  <div class="mx-auto">
+  
+    {{$productos->appends(["search" => $search])}}</div>
 </div>
 </div>
  @endsection

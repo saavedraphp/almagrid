@@ -8,8 +8,9 @@
 
 <h2>Lista de roles
 
+  @can('admin.roles.create')
   <a href="roles/create"> <button type="button" class="btn btn-success float-right mr-3">Adicionar</button></a>  
-
+  @endcan
  </h2>
 
 
@@ -41,6 +42,7 @@
       <th scope="col">Rack</th>
       
       <th scope="col">Fecha de Creacion</th>      
+      <th scope="col">Accion</th>
     </tr>
   </thead>
   <tbody id="userList">
@@ -58,9 +60,13 @@
           @method('DELETE')
           @csrf
           
+          @can('admin.roles.edit')
           <a href="{{route('roles.edit',$fila->id)}}" title="{{MiConstantes::EDITAR}}"> <i class="far fa-edit" ></i></a> |
+          @endcan
+
+          @can('admin.roles.destroy')
           <a href="javascript:document.getElementById('frm_destroy{{$fila->id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$fila->id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
-         
+          @endcan
      
         </form>
 

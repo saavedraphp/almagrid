@@ -45,8 +45,8 @@
     </div>
    @endif
 
-<?php //dd($producto)?>
-<form action="{{route('productos.update',$producto->prod_id)}}" method="PUT"  id="frm_formulario" @submit="checkForm">
+ 
+<form action="{{route('productos.update',$producto->prod_id)}}" method="POST"  id="frm_formulario" @submit="checkForm">
 @method('PATCH')
 @csrf
 

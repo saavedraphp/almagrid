@@ -18,6 +18,21 @@
     </div>
    @endif
 
+   @if(Session::get('operacion')=='1')
+<div class="alert alert-success alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  {{Session::get('message')}}
+</div>
+@endif
+
+@if(Session::get('operacion')=='0')
+  <div class="alert alert-danger alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{Session::get('message')}}
+  </div>
+
+@endif
+   
 <form action="{{route('usuarios.update',$usuario->id)}}" method="POST" id="frm_formulario" name="frm_formulario">
 @method('PATCH')
 @csrf
@@ -40,7 +55,7 @@
 
   <div class="form-row">
     <div class="form-group col-md-12">
-      <label for="producto">Coreo</label>
+      <label for="producto">Correo</label>
       <input type="text" class="form-control" v-model="email" style="text-transform:lowercase;" 
         onkeyup="javascript:this.value=this.value.toLowerCase();" name="email" id="email" placeholder="email" value="{{$usuario->email}}">
     </div>
@@ -66,14 +81,14 @@
             <select class="form-control" name="cbo_rol" id="cbo_rol" v-model="cbo_rol">
             <option value="">Seleccione un Rol</option>
                 @foreach($roles as $item)
-                <option value="{{$item->id}}" @if($usuario->roles->first()->id ==$item->id) selected @endif>{{$item->name}}</option>
+                <option value="{{$item->id}}" @if(isset($usuario->roles->first()->id) && $usuario->roles->first()->id==$item->id) selected @endif>{{$item->name}}</option>
                 @endforeach
             </select>
         </div>
     </div>
 
 
-  <button type="button" @click="update_user" class="btn btn-primary">Registrar</button>
+  <button type="button" @click="update_user" class="btn btn-primary">Actualizar</button>
   <button type="reset" class="btn btn-danger">Cancelar</button>
 
 </form>

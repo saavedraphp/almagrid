@@ -147,8 +147,8 @@
                                 </a>
                             </li>
 
- 
-
+ <?php  use App\Acta;?>
+                            @canany('admin.recepcion.index','admin.despacho.index') 
                             <li class="{{ (Request::path() == 'admin/recepcion' or Request::path() == 'admin/despacho')  ? 'nav-item menu-open' : 'nav-item' }}" >
                                 <a href="/admin/recepcion" class="nav-link" >
                                 <i class="nav-icon fas fa-edit"></i>
@@ -162,7 +162,7 @@
                                 <li class="nav-item">
                                     <a href="/admin/recepcion" class="{{ Request::path() === 'admin/recepcion' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <?php use App\Acta;
+                                    <?php
                                     $rack_count = Acta::where('tipo_movimiento_codigo','=', 'INGRESO')->count();?>
                                     <p>Recepcion </p>
                                     <span class="right badge badge-danger">{{ $rack_count ?? '0' }}</span>
@@ -184,12 +184,15 @@
 
                                 </ul>
                             </li>
+                            @endcanany
 
 
+                            <?php use App\Empresa;
 
 
+                            $empresa_count = Empresa::all()->count();?>
 
-
+                            @can('admin.clientes.index') 
                             <li class="nav-item">
                                 <a href="/admin/clientes"
                                     class="{{ Request::path() === 'clientes' ? 'nav-link active' : 'nav-link' }}">
@@ -197,19 +200,21 @@
                                     <i class="nav-icon fas fa-university"></i>
                                     <p>
                                         Clientes
-                                        <?php use App\Empresa;
-$empresa_count = Empresa::all()->count();?>
+
                                         <span class="right badge badge-danger">{{ $empresa_count ?? '0' }}</span>
                                     </p>
                                 </a>
                             </li>
-                            
+                            @endcan
+
+
+
                             <?php use App\Producto;
-$producto_count = Producto::all()->count();?>
+                            $producto_count = Producto::all()->count();?>
 
  
 
-                            @can('admin.productos.index')
+                            @can('admin.productos.index') 
                             
                             <li class="nav-item">
                                 <a href="/admin/productos"
@@ -229,8 +234,15 @@ $producto_count = Producto::all()->count();?>
                             
  
 
+                            <?php use App\RackCasillas;
+                            $casillas_count = RackCasillas::all()->count();
 
+                                        
+                            use App\Rack;
+                            $rack_count = Rack::all()->count();
+                            ?>
 
+                            @canany('admin.casillas.index','admin.racks.index' ) 
                             <li class="{{ (Request::path() == 'admin/racks' or Request::path() == 'admin/casillas')  ? 'nav-item menu-open' : 'nav-item' }}" >
                                 <a href="/admin/casillas" class="nav-link" >
                                 <i class="nav-icon fas fa-edit"></i>
@@ -245,8 +257,7 @@ $producto_count = Producto::all()->count();?>
                                     <li class="nav-item">
                                         <a href="/admin/racks" class="{{ Request::path() === 'admin/racks' ? 'nav-link active' : 'nav-link' }}">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <?php use App\Rack;
-                                        $rack_count = Rack::all()->count();?>
+                              
                                         <p>Racks </p>
                                         <span class="right badge badge-danger">{{ $rack_count ?? '0' }}</span>
                                         </a>
@@ -257,8 +268,7 @@ $producto_count = Producto::all()->count();?>
                                     <li class="nav-item">
                                         <a href="/admin/casillas" class="{{ Request::path() === 'admin/casillas' ? 'nav-link active' : 'nav-link' }}">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <?php use App\RackCasillas;
-                                        $casillas_count = RackCasillas::all()->count();?>
+                                       
                                         <p>Casillas </p>
                                         <span class="right badge badge-danger">{{ $casillas_count ?? '0' }}</span>
                                         </a>
@@ -268,9 +278,12 @@ $producto_count = Producto::all()->count();?>
                                 </ul>
                             </li>
 
+                            @endcanany
 
 
-                            <li class="{{ (Request::path() == 'admin/sys' or Request::path() == 'admin/users')  ? 'nav-item menu-open' : 'nav-item' }}" >
+
+                            @canany('admin.usuarios.index','admin.roles.index' ) 
+                            <li class="{{ (Request::path() == 'admin/roles' or Request::path() == 'admin/usuarios')  ? 'nav-item menu-open' : 'nav-item' }}" >
                                 <a href="/admin/casillas" class="nav-link" >
                                 <i class="nav-icon fas fa-edit"></i>
                                 <p>
@@ -301,18 +314,10 @@ $producto_count = Producto::all()->count();?>
                                     </li>
 
 
-                                    <li class="nav-item">
-                                        <a href="/admin/casillas" class="{{ Request::path() === 'admin/casillas' ? 'nav-link active' : 'nav-link' }}">
-                                        <i class="far fa-circle nav-icon"></i>
-             
-                                        <p>Permisos </p>
-                                        <span class="right badge badge-danger"></span>
-                                        </a>
-                                    </li>                                    
-
+ 
                                 </ul>
                             </li>                            
-                            
+                            @endrole
 
 
                             

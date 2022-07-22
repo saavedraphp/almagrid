@@ -22,7 +22,7 @@
  
 
 
-   <form action="{{route('clientes.update',$empresa->empr_id)}}" id="frm_formulario" @submit="checkForm" method="POST">
+   <form action="{{route('clientes.update',$empresa->empr_id)}}" id="frm_formulario"  name="frm_formulario"  method="POST">
     @method('PATCH')
     @csrf
 
@@ -38,6 +38,7 @@
         <label for="inputEmail4">Empresa</label>
         <input type="text" class="form-control" name="nombre" v-model="nombre_id" id="nombre_id" placeholder="Nombre" value="{{$empresa->empr_nombre}}">
         <input type="hidden" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="{{$empresa->empr_id}}">
+        <input type="hidden" class="form-control" name="user_id" v-model="user_id" id="user_id"  value="{{$empresa->user_id}}">
       </div>
       <div class="form-group col-md-6">
         <label for="inputPassword4">DNI / RUC</label>
@@ -52,19 +53,12 @@
       <input type="text" class="form-control" id="inputAddress" placeholder="Direccion" name="direccion" value="{{$empresa->empr_direccion}}">
     </div>
 
-    <div class="form-group">
-      <label for="inputAddress">Correo</label>
-      <input   type="text" class="form-control"   v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
-      value="{{$empresa->empr_correo}}"  @blur="existeEmail" >
-      <span    v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
-    </div>
-
-
     <div class="form-row">
     
     <div class="form-group col-md-6">
         <label for="inputPassword4">Celular</label>
-        <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==9) return false;" class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{$empresa->empr_celular}}">
+        <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==9) return false;" 
+        class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{$empresa->empr_celular}}">
       </div>
 
 
@@ -77,9 +71,20 @@
 
     </div>
 
+    <div class="form-group">
+      <label for="inputAddress">Correo Usuario</label>
+      <input   type="text" class="form-control"  readonly  v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
+      value="{{$empresa->email}}"     >
+      <input   type="hidden"  name="correo_original"  value="{{$empresa->email}}"     >
+
+    </div>
 
 
-      <button type="submit" class="btn btn-primary">Actualizar</button>
+
+
+
+
+      <button type="button" v-on:click="checkForm" class="btn btn-primary">Actualizar</button>
       <button type="reset" class="btn btn-danger">Cancelar</button>
 
 
@@ -130,8 +135,8 @@
             <td>
 
 
-            <a title="{{MiConstantes::ELIMINAR}}"  @click="eliminar_contacto(contacto)"> <i class="fas fa-trash-alt"></i> </a>
-            <a href="#" title="{{MiConstantes::EDITAR}}" @click="obtenerContactoId(contacto)"> <i class="far fa-edit" ></i></a> |
+            <a title="{{MiConstantes::ELIMINAR}}"  @click="eliminar_contacto(contacto)"> <i class="fas fa-trash-alt"></i> </a> |
+            <a href="#" title="{{MiConstantes::EDITAR}}" @click="obtenerContactoId(contacto)"> <i class="far fa-edit" ></i></a>
 
 
             </td>

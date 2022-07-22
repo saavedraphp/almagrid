@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Empresa;
-use App\Constants;
+ use App\Constants;
 
 use App\User;
 
@@ -23,7 +23,8 @@ class EmpresaController extends Controller
     {
         // LSL PARA LA VALIDACION
         $this->middleware('auth');
-        //$this->foo = $foo;
+        DB::enableQueryLog();
+
     }
 
 
@@ -36,12 +37,15 @@ class EmpresaController extends Controller
     {
         if ($request) {
             $query    = trim($request->get('search'));
-            $empresas = DB::table("empresas")->where(function($query) use ($request){
+            $empresas = DB::table("empresas as e")
+            ->Join('users as u','e.user_id','=','u.id')
+            ->select('e.empr_id','e.empr_nombre','empr_ruc','email','empr_telefono')
+            ->where(function($query) use ($request){
                 $query->where('empr_nombre', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('empr_ruc', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('empr_celular', 'LIKE', '%' . $request->search . '%');
                 })
-                ->whereNull('deleted_at')
+                ->whereNull('e.deleted_at')
                 ->orderBy('empr_nombre', 'asc')->paginate(Constants::NRO_FILAS);
 
             return view('empresas.index', ['empresas' => $empresas, 'search' => $query]);
@@ -77,7 +81,7 @@ class EmpresaController extends Controller
                 'password' => Hash::make('123456'),
             ]);
     
-            $user->assignRole('Empresa');
+            $user->assignRole('CLIENTE');
             $id = $user->id;
 
 
@@ -89,8 +93,9 @@ class EmpresaController extends Controller
             $empresa->empr_telefono  = $request->get('telefono');
             $empresa->empr_celular   = $request->get('celular');
             $empresa->empr_contacto  = $request->get('contacto');
-            $empresa->empr_correo    = strtolower($request->get('correo'));
+            $empresa->empr_correo    = strtolower(trim($request->get('correo')));
             
+
             $empresa->save();
     
 
@@ -129,7 +134,15 @@ class EmpresaController extends Controller
     public function edit($id)
     {
 
-        return view('empresas.edit', ['empresa' => Empresa::findOrFail($id)]);
+        $empresa = DB::table('empresas as e')
+        ->join('users as u', 'e.user_id','=','u.id')
+        ->select('e.empr_id','e.empr_nombre','e.user_id','e.empr_ruc','e.empr_direccion','e.empr_celular',
+        'e.empr_telefono','u.email')
+        ->where('e.empr_id',$id)->first();
+        
+        //dd(DB::getQueryLog());
+
+        return view('empresas.edit', ['empresa' => $empresa]);
     }
     
 
@@ -147,18 +160,42 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        try {
+            DB::beginTransaction();        
+        
+        $email          = strtolower(trim($request->get('correo')));
+        $email_original = strtolower(trim($request->get('correo_original')));
+
         $empresa                 = Empresa::findOrFail($id);
         $empresa->empr_nombre    = $request->get('nombre');
         $empresa->empr_ruc     = $request->get('ruc');
         $empresa->empr_direccion     = $request->get('direccion');
         $empresa->empr_telefono = $request->get('telefono');
         $empresa->empr_celular        = $request->get('celular');
-        $empresa->empr_correo        = $request->get('correo');
-        $empresa->empr_contacto  = $request->get('contacto');       
-
+        $empresa->empr_contacto  = $request->get('contacto');
+         if($email != $email_original)
+        {
+            $empresa->empr_correo        = $email;
+            
+            $usuario                 = User::findOrFail($request->get("user_id"));
+            $usuario->email          = $email;
+            $usuario->update();
+    
+        }
+        
         $empresa->update();
+        DB::commit();
 
         return redirect('admin/clientes')->with('message','La operacion se realizo con Exito')->with('operacion','1');
+
+    } catch (Exception $e) {
+        report($e);
+
+        DB::rollBack(); 
+        return redirect('admin/clientes')->with('message','Ocurrio un error inesperado'.$e)->with('operacion','0');        
+    }        
+        
         
 
     }

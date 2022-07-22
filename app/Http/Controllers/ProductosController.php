@@ -8,6 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
 
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductosExportExcel;
+
+
 
 class ProductosController extends Controller
 {
@@ -202,30 +206,35 @@ class ProductosController extends Controller
     }
 
     public function pdfListaProducto( Request $request)
-    {
+    {   
+        //,'p.prod_codigo','m.unid_nombre', 'p.prod_id',  'p.prod_nombre','p.prod_precio', 'p.prod_fecha_vencimiento',
+         //'p.created_at','p.deleted_at'
         if($request->search=='null')
         $request->search ="";
+
+        
+    
         $productos = DB::table('productos_x_empresa  as p')
         ->join('empresas as e','p.empr_id','=','e.empr_id')
         ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
-        ->select('p.prod_sku', 'p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre',
-         'p.prod_stock','p.prod_precio', 'e.empr_nombre','p.prod_fecha_vencimiento',
-        'p.created_at','p.deleted_at')
+        ->select('p.prod_id','p.prod_sku', 'p.prod_nombre',DB::raw('IFNULL(p.prod_stock,0) AS prod_stock'),'e.empr_nombre')
         ->where(function($consulta) use ($request){
             $consulta->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
             ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')
             ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
             })
         ->whereNull('p.deleted_at')
-        ->orderBy('p.created_at', 'asc')
-        ->paginate(25);
+        ->orderBy('p.created_at', 'asc')->get();
 
-        $pdf = PDF::loadView('pdf.productos',['productos'=>$productos,'consulta'=>$request->search]);
+        //$pdf = PDF::loadView('pdf.productos',['productos'=>$productos,'consulta'=>$request->search]);
+        //return $pdf->download('Productos-'.rand(1,1000).'.pdf');
+
+        return Excel::download(new ProductosExportExcel($productos),'Reporte-'.rand(1,1000).'.xlsx');
+
         
-        
-        return $pdf->download('Productos-'.rand(1,1000).'.pdf');
         
     }
+
 
 
 

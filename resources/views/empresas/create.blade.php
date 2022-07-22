@@ -19,7 +19,7 @@
     </div>
    @endif
 
-<form action="/admin/clientes" method="POST"  id="frm_formulario" @submit="checkForm">
+<form action="/admin/clientes" method="POST"  id="frm_formulario" name="frm_formulario">
 @csrf
 
 <p v-if="errors.length>0">
@@ -35,6 +35,8 @@
       <label for="inputEmail4">Nombre / Empresa</label>
       <input type="text" class="form-control" v-model="nombre_id" name="nombre" id="nombre_id" placeholder="Nombre" value="">
       <input type="hidden" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="">
+      <input type="hidden" class="form-control" name="user_id" v-model="user_id" id="user_id"  value="">
+
 
     </div>
     <div class="form-group col-md-6">
@@ -49,14 +51,6 @@
     <label for="inputAddress">Direccion</label>
     <input type="text" class="form-control" id="inputAddress" placeholder="Direccion" name="direccion" value="{{old('direccion')}}">
   </div>
-
-  <div class="form-group">
-    <label for="inputAddress">Correo</label>
-    <input   type="text" class="form-control"   v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
-    value="{{old('correo')}}"  @blur="existeEmail" >
-    <span    v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
-  </div>
-
 
   <div class="form-row">
 
@@ -73,9 +67,19 @@
 
   </div>
 
+
+  <div class="form-group">
+    <label for="inputAddress">Correo(Para la creacion de usuario)</label>
+    <input   type="text" class="form-control"   v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
+    value="{{old('correo')}}"   >
+    <span    v-if="encontroEmail" class="alert alert-danger">El correo existe en nuestra base de datos</span>
+  </div>
+
+
+
  
 
-  <button type="submit" class="btn btn-primary">Registrar</button>
+  <button type="button" class="btn btn-primary" v-on:click="checkForm">Registrar</button>
   <button type="reset" class="btn btn-danger">Cancelar</button>
 
 </form>

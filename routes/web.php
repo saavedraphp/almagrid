@@ -15,6 +15,32 @@ Route::get('/', 'HomeController@index');
 
 //MODULO AUTENTIFICACION    
 Route::resource('/admin/configuracion', 'ConfiguracionController');
+Route::resource('/admin/usuarios', 'UserController');
+
+// ROLES
+Route::resource('/admin/roles', 'RoleController');                  
+
+
+
+
+//PRODUCTO
+Route::resource('admin/productos', 'ProductosController');
+
+//RECEPCION - DESPACHO
+Route::resource('admin/recepcion', 'RecepcionController');
+Route::resource('admin/despacho', 'DespachoController');
+
+//CLINTES
+Route::resource('admin/clientes', 'EmpresaController');
+
+//RACKS - CASILLAS
+Route::resource('admin/racks', 'RackController');
+Route::resource('admin/casillas', 'RackCasillaController');
+
+
+
+
+
 Route::get('/admin/editDatos', 'ConfiguracionController@edit');
 Route::get('/admin/updatePassword', 'ConfiguracionController@updatePassword')->name('updatePassword');
 Route::get('/admin/editPassword', 'ConfiguracionController@editPassword');
@@ -23,13 +49,13 @@ Route::get('validarPassword/', 'ConfiguracionController@validarPassword');
 
 
 //MODULO USUARIOS
-Route::resource('/admin/usuarios', 'UserController');
 Route::get('existeEmail/', 'UserController@existeEmail');
 Route::get('validarModificacionEmail/', 'UserController@validarModificacionEmail');
+Route::get('cambiar_estado_usurio_id/{user_id}', 'UserController@cambiar_estado_usurio_id')->name('cambiar_estado_usurio_id');
 
 
-// ROLES
-Route::resource('/admin/roles', 'RoleController');
+
+
 
 
 
@@ -51,14 +77,12 @@ Route::get('admin/inventario/producto/{id}', 'InventarioController@kardexPorProd
 Route::get('admin/actas/create-despacho', 'ActaController@create_despacho');
 Route::post('admin/actas/store-despacho', 'ActaController@store_despacho');
 
-Route::resource('admin/recepcion', 'RecepcionController');
-Route::resource('admin/despacho', 'DespachoController');
+
 
 //Route::resource('admin/clientes', 'ClienteController');
 
 
 
-Route::resource('admin/clientes', 'EmpresaController');
 
 
 /******************  EMPRESAS **************** */
@@ -79,9 +103,7 @@ Route::delete('/admin/empresas/eliminarCasillaEmpresaId/{idCliente}/{idCasilla}'
 
 
 
-Route::resource('admin/productos', 'ProductosController');
-Route::resource('admin/racks', 'RackController');
-Route::resource('admin/casillas', 'RackCasillaController');
+
 
 Route::get('usuario/kardex/', 'KardexController@index');
 

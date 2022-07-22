@@ -58,7 +58,7 @@ class RoleController extends Controller
         try
         {
             $role = new Role();
-            $role->name = $request->get("nombre");
+            $role->name = strtoupper($request->get("nombre"));
             $role->save();
 
             $role->permissions()->sync($request->chk_permiso);
@@ -116,7 +116,10 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $role = Role::findOrFail($id);
-        $role->update($request->all());
+        $requestData = $request->all();
+        $requestData['name'] = strtoupper($request->get('name'));
+        
+        $role->update($requestData);
         $role->permissions()->sync($request->chk_permiso);
 
 

@@ -8,15 +8,18 @@ const app2 = new Vue({
       celular_id:  document.getElementById("celular_id").value,
 //      contacto:  document.getElementById("contacto").value,
       empresa_id:document.getElementById("empresa_id").value,
+      user_id:document.getElementById("user_id").value,
       msg:[],
       //data:[],
       encontroEmail: false,
+      resultado:"",
+
     },
     methods:{
  
+      async checkForm () {
 
-      checkForm: function (e) {
- 
+  
         this.errors = [];
   
         if (!this.nombre_id) {
@@ -38,7 +41,20 @@ const app2 = new Vue({
             this.errors.push('El correo electrónico debe ser válido.');
         }
 
-        
+    console.log("valor empresa"+parseInt(this.user_id));
+
+        if(parseInt(this.user_id)==0)
+            await this.existeEmail();
+        else
+            await this.validarModificacionEmail();
+
+
+
+        if(this.resultado>0)
+        {
+            this.errors.push('El Correo Existe en nuesta Base Datos');
+        } 
+
 
         if (!this.celular_id) {
             this.errors.push('El Celular es obligatoria.');
@@ -46,11 +62,11 @@ const app2 = new Vue({
   
          
           if (!this.errors.length) {
-            return true;
-          }
+            document.frm_formulario.submit();
 
-        e.preventDefault();
-        
+            return true;
+        }
+         
       },
 
       validEmail: function (email) {
@@ -59,18 +75,51 @@ const app2 = new Vue({
       },
 
 
-      existeEmail() {
- 
-         this.msg['email']="El correo existe en nuestra base de datos";
-         this.encontroEmail = false;
-      //  axios.get(url+`/existeEmail`, {params: {email: email} }).then((response) => {
-      //  if(response.data==1)
-      //  {
 
-      //  }
+      async existeEmail()
+      {  
+          
+          try{
+              let response =   await axios.get(`/existeEmail`, 
+              {params: {email:this.correo_id } }).then((response) => {
+                  console.log('Resultado => '+ response.data);
+                  this.resultado =  response.data;
+              });
+              
+          }
+              catch(error) {
+              console.log(error);
+          }
 
-        //});
+
       },
+
+
+
+ 
+        /***********VALIDAR SI EXISTE EMAIL <> DEL EL PARA MODIFICAR   */
+        async validarModificacionEmail()
+        {  
+            
+            try{
+                let response =   await axios.get(`/validarModificacionEmail`, 
+                {params: {email:this.correo_id,id:this.user_id } }).then((response) => {
+                    console.log('Resultado => '+ response.data);
+                    this.resultado =  response.data;
+
+                });
+
+                
+            }
+                catch(error) {
+                console.log(error);
+            }
+
+
+        },
+
+
+
 
 
       esNumerico: function(evt) {

@@ -53,7 +53,7 @@ body
     <table width="90%" border="0">
       <tbody>
         <tr>
-          <td width="27%" class="tituloBoldLeft">{{MiConstantes::TITULO}}</td>
+          <td width="27%" class="tituloBoldLeft"><img src="{{ public_path('/dist/img/logo-trimas.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" width="80" height="40" ></td>
           <td width="50%"><p class="tituloBoldLeft">LISTA DE PRODUCTOS</p></td>
           <td width="23%"><table width="200" border="0">
             <tbody>

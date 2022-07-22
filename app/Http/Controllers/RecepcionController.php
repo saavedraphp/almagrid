@@ -657,6 +657,8 @@ class RecepcionController extends Controller
         ->orderBy('p.created_at', 'asc')->get();
  
         
+  
+
 
         $pdf = PDF::loadView('pdf.recepcion',['acta'=>$acta,'detalles'=>$detalles]);
         

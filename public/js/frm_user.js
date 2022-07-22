@@ -81,7 +81,7 @@ const app2 = new Vue({
         
         if(this.resultado>0)
         {
-            this.errors.push('El Correo Existe');
+            this.errors.push('El Correo Existe en nuesta Base Datos');
         }    
 
         if(this.chk_password==true)
@@ -125,9 +125,7 @@ const app2 = new Vue({
                 {params: {email:this.email } }).then((response) => {
                     console.log('Resultado => '+ response.data);
                     this.resultado =  response.data;
-
                 });
-
                 
             }
                 catch(error) {

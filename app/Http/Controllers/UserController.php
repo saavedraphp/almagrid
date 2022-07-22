@@ -27,7 +27,7 @@ class UserController extends Controller
 
      public function create()
      {
-        $roles = Role::all();
+        $roles = Role::where("name","!=","Cliente")->orderBy("name")->get();
         return view("users.create",["roles" => $roles]);
      }
  
@@ -44,7 +44,14 @@ class UserController extends Controller
         $users =  User::with('roles')->orderBy('created_at', 'asc')
         ->paginate(Constants::NRO_FILAS);
         $query    = trim($request->get('search'));
-        return view("Users.index",['users' =>$users,'search' => $query]);
+
+        $user = User::findOrFail(1);
+        $permissionNames = $user->getPermissionNames(); // collection of name strings
+        $permissions = $user->permissions; 
+        //dd($permissions);
+        
+        
+        return view("users.index",['users' =>$users,'search' => $query]);
     }
 
  
@@ -68,6 +75,27 @@ class UserController extends Controller
         }
         
     }
+
+
+    public function cambiar_estado_usurio_id($id)
+    {
+        try
+        {   
+          $user = User::findOrFail($id);
+          $user->estado = ($user->estado=='ACTI'?'DESA':'ACTI');
+          $resultado = $user->update();
+
+            //dd($resultado);
+            return redirect("admin/usuarios")->with('message','La operacion se realizo con Exito')->with('operacion','1');
+
+        } catch (Throwable $e) {
+            return redirect("admin/usuarios")->with('message','Ocurrio un error inesperado')->with('operacion','0');
+
+        }
+        
+    }
+
+
 
 
 
@@ -128,7 +156,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::all();
+        $roles = Role::where("name","!=","Cliente")->orderBy("name")->get();
 
         $usuario = User::findOrFail($id);
 

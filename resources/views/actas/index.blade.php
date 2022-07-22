@@ -7,8 +7,9 @@
  
 
 <h2>Lista de Recepcion
+@can('admin.recepcion.create')
  <a href="recepcion/create"> <button type="button" class="btn btn-success float-right mr-3">{{MiConstantes::NUEVO}}</button></a>  
-
+ @endcan
  </h2>
 
 
@@ -146,8 +147,9 @@
 
          <a href="{{route('recepcion.show',$acta->acta_id)}}" title="{{MiConstantes::VER}}"><i class="far fa-eye"></i></a> |
          <a href="{{route('reporteRecepcion.pdf',$acta->acta_id)}}" title="{{MiConstantes::REPORTE}}"><i class="far fa-file-pdf"></i></a> |
+         @can('admin.recepcion.destroy')
          <a href="javascript:document.getElementById('frm_destroy{{$acta->acta_id}}').submit();" onclick="return confirm('Estas Seguro de Borrar el Registro Id:{{$acta->acta_id}}');" title="{{MiConstantes::ELIMINAR}}"><i class="fas fa-trash-alt"></i></a>
-         
+         @endcan
      
         </form>
 
