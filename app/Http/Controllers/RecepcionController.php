@@ -668,6 +668,36 @@ class RecepcionController extends Controller
     }
 
 
+    public function reporte_guia($id=10)
+    {
+        $data = [
+            'titulo' => 'Styde.net'
+        ];
+        
+ 
+            $acta = DB::table('actas  as a')
+            ->join('empresas as e', 'a.empr_id', '=', 'e.empr_id')
+            ->leftJoin('tipo_documentos as t', 't.tipo_docu_id', '=', 'a.tipo_docu_id')
+            ->select('a.acta_id','a.created_at','e.empr_nombre','t.tipo_docu_nombre','a.acta_numero_ingr_sali',
+            'a.tipo_movimiento_codigo')
+            ->where('a.acta_id', '=',$id )->get();
+            
+
+            $detalles = DB::table('productos_x_empresa  as p')
+            ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
+            ->leftJoin('unidad_medida as um', 'um.id', '=', 'p.unidad_id')        
+            ->select('um.unid_nombre','um.unid_codigo', 'p.prod_id','p.unidad_id', 'p.prod_nombre',  'p.prod_lote','prod_serie','prod_sku',
+            'prod_codigo','p.prod_stock', 'p.prod_fecha_vencimiento', 'k.kard_cantidad', 'p.prod_stock as total')
+            ->where('k.acta_id', '=',$id )
+            ->orderBy('p.created_at', 'asc')->get();
+
+
+
+        $pdf = PDF::loadView('pdf.guia-salida',['acta'=>$acta,'detalles'=>$detalles,'data'=>$data]);
+        return $pdf->download('Acta-'.$acta[0]->tipo_movimiento_codigo.'-'.$id.'.pdf');
+
+            
+    }
 
 
 
