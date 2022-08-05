@@ -687,7 +687,7 @@ class RecepcionController extends Controller
             ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
             ->leftJoin('unidad_medida as um', 'um.id', '=', 'p.unidad_id')        
             ->select('um.unid_nombre','um.unid_codigo', 'p.prod_id','p.unidad_id', 'p.prod_nombre',  'p.prod_lote','prod_serie','prod_sku',
-            'prod_codigo','p.prod_stock', 'p.prod_fecha_vencimiento', 'k.kard_cantidad', 'p.prod_stock as total')
+            'prod_codigo','p.prod_stock', 'p.prod_fecha_vencimiento','p.prod_peso', 'k.kard_cantidad', 'p.prod_stock as total')
             ->where('k.acta_id', '=',$id )
             ->orderBy('p.created_at', 'asc')->get();
 
@@ -699,6 +699,9 @@ class RecepcionController extends Controller
             
     }
 
-
+    public function demo()
+    {
+        return view('pdf.guia-salida');
+    }
 
 }
