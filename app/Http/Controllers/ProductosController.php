@@ -34,21 +34,46 @@ class ProductosController extends Controller
             $query    = trim($request->get('search'));
             
 
-            $productos = DB::table('productos_x_empresa  as p')
-            ->join('empresas as e','p.empr_id','=','e.empr_id')
-            ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
-            ->select('p.prod_sku', 'p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre',
-             'p.prod_stock','p.prod_precio', 'e.empr_nombre','p.prod_fecha_vencimiento',
-            'p.created_at','p.deleted_at')
-            ->where(function($query) use ($request){
-                $query->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
-                })
-            ->whereNull('p.deleted_at')
-            ->orderBy('p.created_at', 'asc')
-            ->paginate(Constants::NRO_FILAS);
+            
         
+            // EXISTE EN LA TABLA EMPRESA
+            if((int)session('empresa_id')>0 )
+            {
+                $productos = DB::table('productos_x_empresa  as p')
+                ->join('empresas as e','p.empr_id','=','e.empr_id')
+                ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
+                ->select('p.prod_sku', 'p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre',
+                 'p.prod_stock','p.prod_precio', 'e.empr_nombre','p.prod_fecha_vencimiento',
+                'p.created_at','p.deleted_at')
+                ->where(function($query) use ($request){
+                    $query->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
+                    })
+                ->where('e.empr_id','=',session('empresa_id') )             
+                ->whereNull('p.deleted_at')
+                ->orderBy('p.created_at', 'asc')
+                ->paginate(Constants::NRO_FILAS);     
+
+            }else
+            {
+
+                $productos = DB::table('productos_x_empresa  as p')
+                ->join('empresas as e','p.empr_id','=','e.empr_id')
+                ->leftJoin('unidad_medida as m','p.unidad_id','=','m.id')
+                ->select('p.prod_sku', 'p.prod_codigo','m.unid_nombre','p.prod_nombre', 'p.prod_id',  'p.prod_nombre',
+                 'p.prod_stock','p.prod_precio', 'e.empr_nombre','p.prod_fecha_vencimiento',
+                'p.created_at','p.deleted_at')
+                ->where(function($query) use ($request){
+                    $query->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')
+                    ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
+                    })
+                ->whereNull('p.deleted_at')
+                ->orderBy('p.created_at', 'asc')
+                ->paginate(Constants::NRO_FILAS);                
+            }
+
             //dd(DB::getQueryLog());
             
 

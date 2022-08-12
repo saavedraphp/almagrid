@@ -1,8 +1,8 @@
 <?php
  
 namespace App\Http\Controllers;
- 
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,7 +24,22 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        //$request->user()->authorizeRoles(['user', 'admin']);
+        if(!session()->has('empresa_id'))
+        {
+            $empresa = \App\Empresa::find(Auth::id());
+//            dd($empresa);   
+
+            if(!is_null($empresa));
+            { 
+                session(['empresa_id' => isset($empresa->empr_id)?$empresa->empr_id:'']) ;
+                
+                //echo 'EMPRESA_ID '.$_SESSION['session']['empresa_id'];
+    
+            }
+            
+            
+            
+        }
 
         return view('home');
     }

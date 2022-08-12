@@ -8,7 +8,7 @@
 
   <a href="productos/create"> <button type="button" class="btn btn-success float-right" >{{MiConstantes::NUEVO}}</button></a>  
 @endcan  
-  <a href="{{route('pdfListaProducto.pdf',($search?$search:'null'))}}"> <button type="button" class="btn btn-success float-right mr-2">Exportar PDF</button></a>
+  <a href="{{route('pdfListaProducto.pdf',($search?$search:'null'))}}"> <button type="button" class="btn btn-success float-right mr-2">Exportar Excel</button></a>
 
 </h2>
  

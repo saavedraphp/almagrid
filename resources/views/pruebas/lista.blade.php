@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-
+<?php
+echo 76 <=> '76 trombones';
+?>
 
 <div class="col-md-12"   id="tasks">
 

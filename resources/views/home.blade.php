@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+{{ session('empresa_id') }}
 <div class="container">
 @if(Session::get('operacion')=='1')
 <div class="alert alert-success alert-dismissible" role="alert">

@@ -221,7 +221,7 @@
             </tr>
             <tr style="height: 20;">
                 <td  colspan="2">
-                    <span  class="font3bold" style="width:200px ; background-color: white; display: inline-block;">Fecha de Emision: <?php echo date('m/d/Y')?></span> 
+                    <span  class="font3bold" style="width:200px ; background-color: white; display: inline-block;">Fecha de Emision: <?php echo date('d/m/Y')?></span> 
                     <span  class="font3bold">Fecha de Traslado: __ __ ____ / __ __ ____ </span>
                 </td>
                 
@@ -234,7 +234,7 @@
 
             <td width=40%  style="vertical-align: top;line-height: 30px;">
                 <div  id="head1-d" class="fontbold2" >
-                     <div>R.U.C 2060474111</div>
+                     <div>R.U.C 20607444111</div>
                     <div style="background-color:#D4D2D2 ;">GUIA DE REMISION REMITENTE</div>
                     <div>0001- N° 000500</div>
      
