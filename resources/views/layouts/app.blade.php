@@ -209,8 +209,8 @@
 
 
 
-                            <?php use App\Producto;
-                            $producto_count = Producto::all()->count();?>
+                            <?php //use App\Producto;
+                            //$producto_count = Producto::all()->count();?>
 
  
 
@@ -224,7 +224,7 @@
                                     <p>
                                         Productos
 
-                                        <span class="right badge badge-danger">{{ $producto_count ?? '0' }}</span>
+                                        <span class="right badge badge-danger"></span>
                                     </p>
                                 </a>
                             </li>

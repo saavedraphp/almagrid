@@ -24,26 +24,36 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if(!session()->has('empresa_id'))
-        {
-            $empresa = \App\Empresa::find(Auth::id());
-//            dd($empresa);   
+        
+        /*SI EL USUARIO ES TIPO EMPRESA  => GUARDA SESSION*/
+        /* modificaciones */
+        if(!session()->exists('empresa_id'))
+            $this->esEmpresa(Auth::id());
+        
 
-            if(!is_null($empresa));
-            { 
-                session(['empresa_id' => isset($empresa->empr_id)?$empresa->empr_id:'']) ;
-                
-                //echo 'EMPRESA_ID '.$_SESSION['session']['empresa_id'];
-    
-            }
-            
-            
-            
-        }
 
         return view('home');
     }
 
+
+    public function esEmpresa($usuario_id)
+    {
+        try {
+            $empresa = \App\Empresa::where('user_id',$usuario_id)->first();
+            //dd($empresa);   
+            
+            if(isset($empresa))
+            { session(['empresa_id' => $empresa->empr_id]) ;
+    
+            }
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }
+        
+            
+
+    }
 
     public function login_empresa()
     {
