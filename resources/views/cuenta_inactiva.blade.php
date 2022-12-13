@@ -1,8 +1,7 @@
-@extends('layouts.app')
+@extends('layouts.login_app')
 
 @section('content')
 {{--'valor session'.session('empresa_id') --}}
-{{--' dd(Auth::user()) --}}
 <div class="container">
 @if(Session::get('operacion')=='1')
 <div class="alert alert-success alert-dismissible" role="alert">
@@ -21,7 +20,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Panel Principal</div>
+                <div class="card-header">CUENTA DESACTIVADA</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -30,7 +29,9 @@
                         </div>
                     @endif
 
-                    Tu estas Logeado
+                    Tu Cuenta no esta activa, por favor comunicate con el administrador
+                    <a href="" class="btn btn-primary">Login</a> 
+
                 </div>
             </div>
         </div>

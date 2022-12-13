@@ -1,9 +1,14 @@
 <?php
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Auth\LoginUserController;
 
 
 Auth::routes();
+
+Route::post('login',[LoginUserController::class,'authentication']);
+
+ 
+ 
 
 
 Route::get('/register', 'Auth\RegisterController@register')->name('register');
@@ -11,6 +16,8 @@ Route::post('/register', 'Auth\RegisterController@create');
 
 
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
+
 
 //MODULO AUTENTIFICACION    
 Route::resource('/admin/configuracion', 'ConfiguracionController');

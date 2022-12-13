@@ -58,12 +58,13 @@
 </form>
 <br>
 
-<table class="table table-hover" >
+<table class="table table-hover"  id="tablacursos">
   <thead>
     <tr>
       <th scope="col">ID</th>
       <th scope="col">SKU</th>
       <th scope="col">Producto</th>
+      <th scope="col">Ubicación</th>
       <th scope="col">Total</th>
        <th scope="col">Empresa</th>
     </tr>
@@ -75,6 +76,7 @@
       <th > {{ $producto->prod_id }} </th>
       <th > {{ $producto->prod_sku }} </th>
       <td title="{{$producto->created_at}}">{{$producto->prod_nombre}}</td>
+      <td >{{$producto->racks_casillas}}</td>
       <td>{{$producto->prod_stock}}</td>
        <td >{{$producto->empr_nombre}}</td>
 
@@ -109,7 +111,32 @@
 <div class="row">
   <div class="mx-auto">
   
-    {{$productos->appends(["search" => $search])}}</div>
+    {{$productos->appends(["search" => $search])}}
+  </div>
 </div>
 </div>
+ @endsection
+
+ @section('css')
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    
+ <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+ @endsection
+
+ @section('scripts')
+ <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+ <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+ <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+
+
+ <script>
+     $(document).ready(function() {
+         $('#tablacursos').dataTable({
+             "searching": true,
+             "language": {
+                 "url": "https://cdn.datatables.net/plug-ins/1.10.21/i18n/Spanish.json"
+             }
+         });
+     });
+ </script>
  @endsection

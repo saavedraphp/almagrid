@@ -361,7 +361,8 @@
             <!-- /.control-sidebar -->
         </div>
     </div>
-    @yield('scripts')
+    @yield('csss')
+    @yield('scriptss')
 <!-- jQuery -->
  
 <!-- overlayScrollbars -->
