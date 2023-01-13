@@ -31,6 +31,10 @@ Route::resource('/admin/roles', 'RoleController');
 
 //PRODUCTO
 Route::resource('admin/productos', 'ProductosController');
+Route::get('existeSKU/', 'ProductosController@existeSKU');
+Route::get('existeSKU_Edit/', 'ProductosController@existeSKU_Edit');
+
+
 
 //RECEPCION - DESPACHO
 Route::resource('admin/recepcion', 'RecepcionController');

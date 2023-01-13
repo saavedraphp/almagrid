@@ -86,7 +86,7 @@
 
        <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control">
         <option value="">Selecciona un producto</option>
-        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_nombre+' - '+producto.prod_stock}}</option>
+        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_sku+'-'+producto.prod_nombre+' - '+producto.prod_stock}}</option>
         </select>
      </div>
 

@@ -5,8 +5,7 @@
 @inject('presentaciones','App\Services\Presentaciones')
 
 @section('scripts')
-
-
+<script src="{{asset('js/productos.js') }}" ></script>
 
 <!-- Include Date Range Picker -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
@@ -32,7 +31,7 @@
 
 
 <div class="container">
- 
+
 <div class="row">
 <div class="col-md-8">
     @if ($errors->any())
@@ -63,11 +62,10 @@
     <div class="form-group col-md-6">
       <label for="producto">Producto</label>
       <input type="text" class="form-control" v-model="producto" name="producto" id="producto" placeholder="Nombre" value="{{$producto->prod_nombre}}">
-     </div>
+    </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">P. Inventario</label>
-      <input type="text" class="form-control"  v-model="sku" name="sku" id="sku_id" placeholder="SKU" 
-      value="{{$producto->prod_sku}}"  v-on:blur="existeSKU_Edit({{$producto->prod_id}})">
+      <input type="text" class="form-control"  v-model="sku" name="sku" id="sku_id" placeholder="SKU" value="{{$producto->prod_sku}}">
     </div>
   </div>
 
@@ -142,8 +140,6 @@
 </div>
 </div>
 </div>
-<script src="{{asset('js/productos.js') }}" ></script>
-
 @endsection
- 
- 
+@section('scripts')
+@endsection

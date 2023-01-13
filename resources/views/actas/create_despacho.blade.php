@@ -194,25 +194,23 @@
 </div>
 
 </form>
-
-
-
-@endsection
-@section('scripts')
 <script>
-function grabarActa()
-{
+  function grabarActa()
+  {
+  
+    document.frm_actas.action = '/admin/actas/store-despacho';
+    document.frm_actas.submit();
+  
+  
+  }
+  
+   
+    const url = '{{ env('MY_URL') }}';
+    alert(url);
+  </script>
+  <script src="{{ asset('js/lista_productos.js') }}" ></script>
+   
+   
 
-  document.frm_actas.action = '/admin/actas/store-despacho';
-  document.frm_actas.submit();
 
-
-}
-
- 
-  const url = '{{ env('MY_URL') }}';
-  alert(url);
-</script>
-<script src="{{ asset('js/lista_productos.js') }}" ></script>
- 
 @endsection

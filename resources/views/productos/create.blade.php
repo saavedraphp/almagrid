@@ -59,10 +59,13 @@
     <div class="form-group col-md-6">
       <label for="producto">Producto *</label>
       <input type="text" class="form-control" v-model="producto" name="producto" id="producto" placeholder="Nombre" value="{{old('producto')}}">
+      
+
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">P. Inventario</label>
-      <input type="text" class="form-control" v-model="sku" name="sku" id="sku_id" placeholder="SKU" value="{{old('sku')}}">
+      <input type="text" class="form-control" v-model="sku" name="sku" id="sku_id" placeholder="SKU" 
+      v-on:blur="existe_sku()" value="{{old('sku')}}">
     </div>
   </div>
 

@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
+use Exception;
+
+
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductosExportExcel;
@@ -22,7 +25,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class ProductosController extends Controller
 {
 
- 
+
     public function __construct()
     {
         // LSL PARA LA VALIDACION
@@ -111,11 +114,11 @@ class ProductosController extends Controller
 
             //dd($productos);
 
-            
+
             foreach ($productos as $key => $value) {
-                $racks_x_producto ="";
+                $racks_x_producto = "";
                 //echo $value->prod_id.'<br>';
-                
+
                 if ($value->prod_stock > 0) {
                     $qury_racks = DB::select(DB::raw("select k.prod_id, r.rack_id, r.rack_nombre, k.rc_id, rc.rc_nombre FROM kardex k
                     inner join racks_casillas rc on k.rc_id = rc.rc_id
@@ -124,23 +127,18 @@ class ProductosController extends Controller
                     k.deleted_at is  null
                     group by k.prod_id, r.rack_id, r.rack_nombre, k.rc_id, rc.rc_nombre"));
                     //dd($qury_racks);
-                    
+
                     $coma = "";
                     foreach ($qury_racks as $key_r => $value_r) {
-                        $racks_x_producto .= $coma.$value_r->rack_nombre.' - '.$value_r->rc_nombre;
+                        $racks_x_producto .= $coma . $value_r->rack_nombre . ' - ' . $value_r->rc_nombre;
                         $coma = " ,";
                     }
-                   // dd($value->prod_id.' - '.$racks_x_producto);
+                    // dd($value->prod_id.' - '.$racks_x_producto);
                     //echo $value->prod_id.' - '.$racks_x_producto."<br>";
                     $value->racks_casillas = $racks_x_producto;
-
-                }
-                else
+                } else
                     //echo $value->prod_id.' racks= '.$racks_x_producto."<br>";
                     $value->racks_casillas = "";
-
-
-                    
             }
             //dd($productos);
             //exit;
@@ -164,31 +162,38 @@ class ProductosController extends Controller
 
     public function store(Request $request)
     {
-        $producto                   = new Producto();
-
-        $producto->prod_nombre      = $request->get('producto');
-        $producto->prod_sku         = $request->get('sku');
-        $producto->unidad_id        = $request->get('cbo_presentacion');
-
-        $producto->prod_peso        = (float)$request->get('peso');
-        $producto->empr_id          = $request->get('cbo_empresa');
-        $producto->prod_lote         = $request->get('lote');
-
-        $producto->prod_fecha_vencimiento         = $request->get('fecha_vencimiento');
-        $producto->prod_comentario  = $request->get('comentario');
+        try {
+            DB::beginTransaction();
+            $encontro = Producto::where("prod_sku", $request->get("sku"))->count();
+            if ($encontro > 0) {
+                return redirect('admin/productos')->with('message', 'El SKU' . $request->get("sku") . ' existe en la Base de Datos')->with('operacion', '0');
+            } else {
 
 
-        /*
 
-        
-        $producto->prod_serie       = $request->get('serie');
-        $producto->prod_precio  =   (float)$request->get('precio');
-        
-        */
-        $producto->save();
+                $producto                   = new Producto();
 
-        //return redirect('admin/productos');
-        return redirect('admin/productos')->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
+                $producto->prod_nombre      = $request->get('producto');
+                $producto->prod_sku         = $request->get('sku');
+                $producto->unidad_id        = $request->get('cbo_presentacion');
+
+                $producto->prod_peso        = (float)$request->get('peso');
+                $producto->empr_id          = $request->get('cbo_empresa');
+                $producto->prod_lote         = $request->get('lote');
+
+                $producto->prod_fecha_vencimiento         = $request->get('fecha_vencimiento');
+                $producto->prod_comentario  = $request->get('comentario');
+
+                $producto->save();
+                DB::commit();
+            }
+
+            return redirect('admin/productos')->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
+        } catch (Exception $e) {
+            DB::rollBack();
+            report($e);
+            return redirect('admin/productos')->with('message', '- Se encontro un error inesperado en la operación <br> - El Codigo SKU ya existe en la Base de Datos<br>')->with('operacion', '0');
+        }
     }
 
 
@@ -201,36 +206,46 @@ class ProductosController extends Controller
 
     public function update(Request $request, $id)
     {
-        $producto                   = Producto::findOrFail($id);
 
-        $producto->prod_nombre      = $request->get('producto');
-        $producto->prod_sku         = $request->get('sku');
-        $producto->unidad_id        = $request->get('cbo_presentacion');
+        try {
+            DB::beginTransaction();
+            $encontro = Producto::where("prod_sku", $request->get("sku"))
+            ->where("prod_id", "!=", $id)->count();
 
-        $producto->prod_peso        = (float)$request->get('peso');
-        $producto->empr_id          = $request->get('cbo_empresa');
-        $producto->prod_lote         = $request->get('lote');
-
-        $producto->prod_fecha_vencimiento         = $request->get('fecha_vencimiento');
-        $producto->prod_comentario  = $request->get('comentario');
+            if ($encontro > 0) {
+                return redirect('admin/productos')->with('message', 'El SKU' . $request->get("sku") . ' existe en la Base de Datos')->with('operacion', '0');
+            } else {
 
 
+                $producto                   = Producto::findOrFail($id);
 
+                $producto->prod_nombre      = $request->get('producto');
+                $producto->prod_sku         = $request->get('sku');
+                $producto->unidad_id        = $request->get('cbo_presentacion');
 
-        /*
-        $producto->prod_sku         = $request->get('sku');
-        $producto->prod_ean         = $request->get('ean');
-        $producto->pres_id          = $request->get('cbo_presentacion');
-        $producto->prod_serie       = $request->get('serie');
-        $producto->prod_lote         = $request->get('lote');
-        $producto->prod_precio  =   $request->get('precio');
-        */
+                $producto->prod_peso        = (float)$request->get('peso');
+                $producto->empr_id          = $request->get('cbo_empresa');
+                $producto->prod_lote         = $request->get('lote');
 
-        $producto->update();
+                $producto->prod_fecha_vencimiento  = $request->get('fecha_vencimiento');
+                $producto->prod_comentario  = $request->get('comentario');
 
-        //return redirect('admin/productos');
+                $producto->update();
+
+                DB::commit();
+            }
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            report($e);
+            return redirect('admin/productos')->with('message', '- Se encontro un error inesperado en la operación <br> - El Codigo SKU ya existe en la Base de Datos<br>')->with('operacion', '0');
+        }
+
         return redirect('admin/productos')->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
+
     }
+
+
 
 
     public function destroy($id)
@@ -249,6 +264,7 @@ class ProductosController extends Controller
         $productos = DB::table('productos_x_empresa  as p')
 
             ->select(
+                'p.prod_sku',
                 'p.prod_id',
                 'p.unidad_id',
                 'p.prod_nombre',
@@ -339,4 +355,29 @@ class ProductosController extends Controller
 
         return Excel::download(new ProductosExportExcel($productos), 'Reporte-' . rand(1, 1000) . '.xlsx');
     }
+
+
+    public function existeSKU(Request $request)
+    {
+        try {
+            $encontro = Producto::where("prod_sku", $request->get("sku"))->count();
+            return $encontro;
+        } catch (Throwable $e) {
+            return response()->json(['errors' => $e, 'status' => 400], 400);
+        }
+    }
+
+
+    public function existeSKU_Edit(Request $request)
+    {
+        try {
+            $encontro = Producto::where("prod_sku", $request->get("sku"))
+            ->where("prod_id", "!=", $request->get("producto_id"))->count();
+            return $encontro;
+        } catch (Throwable $e) {
+            return response()->json(['errors' => $e, 'status' => 400], 400);
+        }
+    }
+    
+    
 }

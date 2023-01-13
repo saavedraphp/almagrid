@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\User;
 use App\Constants;
 use Exception;
@@ -21,17 +22,16 @@ class UserController extends Controller
         // LSL PARA LA VALIDACION
         $this->middleware('auth');
         DB::enableQueryLog();
+    }
 
-     }
+
+    public function create()
+    {
+        $roles = Role::where("name", "!=", "Cliente")->orderBy("name")->get();
+        return view("users.create", ["roles" => $roles]);
+    }
 
 
-     public function create()
-     {
-        $roles = Role::where("name","!=","Cliente")->orderBy("name")->get();
-        return view("users.create",["roles" => $roles]);
-     }
- 
-     
 
 
     /**
@@ -39,22 +39,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request )
+    public function index(Request $request)
     {
         $users =  User::with('roles')->orderBy('created_at', 'asc')
-        ->paginate(Constants::NRO_FILAS);
+            ->paginate(Constants::NRO_FILAS);
         $query    = trim($request->get('search'));
 
         $user = User::findOrFail(1);
         $permissionNames = $user->getPermissionNames(); // collection of name strings
-        $permissions = $user->permissions; 
+        $permissions = $user->permissions;
         //dd($permissions);
-        
-        
-        return view("users.index",['users' =>$users,'search' => $query]);
+
+
+        return view("users.index", ['users' => $users, 'search' => $query]);
     }
 
- 
+
 
 
 
@@ -63,36 +63,28 @@ class UserController extends Controller
 
     public function existeEmail(Request $request)
     {
-        try
-        {  
-          $encontro = User::where("email",$request->get("email"))->count();
-        //dd($encontro);
+        try {
+            $encontro = User::where("email", $request->get("email"))->count();
+            //dd($encontro);
             return $encontro;
-
         } catch (Throwable $e) {
             return response()->json(['errors' => $e, 'status' => 400], 400);
-
         }
-        
     }
 
 
     public function cambiar_estado_usurio_id($id)
     {
-        try
-        {   
-          $user = User::findOrFail($id);
-          $user->estado = ($user->estado=='ACTI'?'DESA':'ACTI');
-          $resultado = $user->update();
+        try {
+            $user = User::findOrFail($id);
+            $user->estado = ($user->estado == 'ACTI' ? 'DESA' : 'ACTI');
+            $resultado = $user->update();
 
             //dd($resultado);
-            return redirect("admin/usuarios")->with('message','La operacion se realizo con Exito')->with('operacion','1');
-
+            return redirect("admin/usuarios")->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
         } catch (Throwable $e) {
-            return redirect("admin/usuarios")->with('message','Ocurrio un error inesperado')->with('operacion','0');
-
+            return redirect("admin/usuarios")->with('message', 'Ocurrio un error inesperado')->with('operacion', '0');
         }
-        
     }
 
 
@@ -102,20 +94,16 @@ class UserController extends Controller
 
     public function validarModificacionEmail(Request $request)
     {
-        try
-        {  
-          $encontro = User::where("email",$request->get("email"))
-                          ->where('id','!=',$request->get('id'))->count();
-        //dd($encontro);
+        try {
+            $encontro = User::where("email", $request->get("email"))
+                ->where('id', '!=', $request->get('id'))->count();
+            //dd($encontro);
             return $encontro;
-
         } catch (Throwable $e) {
             return response()->json(['errors' => $e, 'status' => 400], 400);
-
         }
-        
-    }    
-    
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -125,16 +113,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $user = New User();
+        $user = new User();
         $user->name = trim($request->get("nombre"));
         $user->email = trim($request->get("email"));
         $user->password =  bcrypt(trim($request->get("password")));
-        
+
         $user->save();
         $user->roles()->sync($request->get("cbo_rol"));
 
-        
-        return redirect("admin/usuarios")->with('message','La operacion se realizo con Exito')->with('operacion','1');
+
+        return redirect("admin/usuarios")->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
     }
 
     /**
@@ -156,11 +144,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::where("name","!=","Cliente")->orderBy("name")->get();
+        $roles = Role::where("name", "!=", "Cliente")->orderBy("name")->get();
 
         $usuario = User::findOrFail($id);
 
-        return view("users.edit",['usuario' =>$usuario,"roles" => $roles]);
+        return view("users.edit", ['usuario' => $usuario, "roles" => $roles]);
     }
 
     /**
@@ -173,33 +161,29 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
-        try{
+        try {
             DB::beginTransaction();
-    
+
             $user = User::findOrFail($id);
             $user->name = $request->get("nombre");
             $user->email = $request->email;
-            
-            if($request->get("chk_password"))
+
+            if ($request->get("chk_password"))
                 $user->password =  bcrypt(trim($request->password));
-            
-                
+
+
             $user->update();
-            
+
             $user->roles()->sync($request->get("cbo_rol"));
             DB::commit();
 
-            return redirect("admin/usuarios")->with('message','La operacion se realizo con Exito')->with('operacion','1');
-            
-
+            return redirect("admin/usuarios")->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
         } catch (Exception $e) {
-            DB::rollBack();    
+            DB::rollBack();
             report($e);
 
-            return redirect("admin/usuarios")->with('message','Ocurrio un error inesperado')->with('operacion','0');
-
-        }        
-
+            return redirect("admin/usuarios")->with('message', 'Ocurrio un error inesperado')->with('operacion', '0');
+        }
     }
 
 
@@ -212,11 +196,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
+
         User::destroy($id);
 
-        return redirect("admin/usuarios")->with('message','La operacion se realizo con Exito')->with('operacion','1');
-
-
+        return redirect("admin/usuarios")->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
     }
 }
