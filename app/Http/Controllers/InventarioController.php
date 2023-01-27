@@ -67,7 +67,7 @@ class InventarioController extends Controller
             //return (new KardexExport($kardex))->download('kardexProducto.tsv', \Maatwebsite\Excel\Excel::TSV);
 
 
-            return Excel::download(new KardexExport($kardex),'kardex-'.$producto->prod_nombre.'-'.$producto->prod_id.date('Y-m-d').'.xlsx');
+            return Excel::download(new KardexExport($kardex),'kardex - '.$producto->prod_sku.'-'.$producto->prod_nombre.'-'.date('Y-m-d').'.xlsx');
  
 
  

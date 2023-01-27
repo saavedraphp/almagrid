@@ -28,7 +28,7 @@
     <div class="form-group">
     
       <label for="inputAddress">Empresa</label>
-        <select v-model="selected_empresa"  @change="obtenerProductos"  ref="r_empresa" id="empresa_id" data-old="{{old('cbo_empresa')}}"
+        <select v-model="selected_empresa"  v-on:change="obtenerProductos"   ref="r_empresa" id="empresa_id" data-old="{{old('cbo_empresa')}}"
         name="cbo_empresa"  class="form-control">
         {{$guion  =""}};
           @foreach ($empresas->get() as $index => $value)
@@ -42,104 +42,91 @@
 
 
 
- 
-    <div class="form-group">
-      <label for="inputEmail4">Usuario</label>
-      <input type="text" class="form-control"  v-model="acta_sub_cliente_id" name="sub_cliente" id="acta_sub_cliente_id" placeholder="Sub Cliente"
-       value="{{old('acta_sub_cliente')}}" >
+    <div class="form-row">
+      <label for="inputAddress">Datos de la persona que trae los productos(Cliente)</label>
+
+      <div class="input-group">
+
+        <input type="text" class="form-control" name="nro_documento_frm" v-model="nro_documento_frm"
+        id="nro_documento_frm" placeholder="Ingrese el Numero de documento a buscar" ref="nro_documento_frm">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" v-on:click="buscarPersona">Buscar</button>
+          <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Nuevo</button>
+        </div>
+      </div>
+
     </div>
- 
- 
+
 
 
 
     <div class="form-row">
       <div class="form-group col-md-6">
           <label for="inputAddress">Tipo de Documento</label>
-          <select  v-model="tipo_documento_id" id="tipo_documento_id" data-old="{{old('cbo_empresa')}}"
-          name="tipo_documento"  class="form-control">
-          {{$guion  =""}};
+          <select  v-model="tipo_documento_id" id="tipo_documento_id" name="tipo_documento"  class="form-control">
+          {{$guion  =""}}
             @foreach ($documentos->get() as $index => $value)
             
               <option value="{{$index}}"  >{{$index.$guion.$value}}</option>
-                {{$guion  =" - "}};
+                {{$guion  =" - "}}
             @endforeach
           </select>
       </div>
 
       <div class="form-group col-md-6">
-          <label for="inputAddress">Nro Documento</label>
-          <input type="text" class="form-control" name="nro_documento" id="nro_documento_id" placeholder="Nro Documento" 
-          value="{{old('codigo_producto')}}">
+          <label for="inputAddress">Sub Cliente</label>
+          <input type="text" class="form-control"  v-model="acta_sub_cliente_id" name="sub_cliente" id="acta_sub_cliente_id"
+          placeholder="Sub Cliente"
+         value="{{old('acta_sub_cliente')}}" >
       </div>
     </div>
-
-
+    
+ 
 
 
  
-
-    
     <div class="form-row">
       <div class="form-group col-md-6">
       <label for="Productos">Productos</label>
 
-       <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control">
+       <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control" >
         <option value="">Selecciona un producto</option>
-        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_sku+'-'+producto.prod_nombre+' - '+producto.prod_stock}}</option>
+        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_nombre+' - '+producto.prod_stock}}</option>
         </select>
      </div>
 
-
- 
  
 
-      <div class="form-group col-md-6">
+      <div class="form-group col-md-2">
           <label for="inputAddress">Cantidad</label>
           <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
           value="" v-model="v_cantidad">
       </div>
 
- 
-    </div>
 
-
-
-    <div class="form-row">
-
-      <div class="form-group col-md-6">
-              <label for="producto">Rack *</label>
-              <select  v-model="selected_rack" name="rack" id="rack_id"  ref="r_rack" @change="obtenerCasillasRackId($event.target.value)" class="form-control" >
-                  @foreach ($racks->get() as $index => $value)
-                    <option value={{$index}}>{{$value}}</option>
-                  @endforeach
-                </select>
-      </div>
-
-
-
+      
       <div class="form-group col-md-4">
-       <label for="Productos">Casillas</label>
+        <label for="inputAddress">Cassilla</label>
 
-       <select v-model="selected_casilla" id="casilla_id"  ref="r_casilla"   name="casilla" class="form-control">
-        <option value="">Seleccione una casilla</option>
-        <option v-for="casilla  in casillas" v-bind:value="casilla" >@{{casilla.rc_nombre}}</option>
-        </select>
-     </div>
+        <div class="input-group-append">
 
+          <select v-model="selected_casilla" id="casilla_id"  ref="r_casilla"   name="casilla" class="form-control">
+            <option value="">Seleccione una casilla</option>
+            <option v-for="casilla  in casillas" v-bind:value="casilla" >@{{casilla.rack_nombre + ' - '+casilla.rc_nombre}}</option>
+            </select>
 
- 
-
-      <div class="form-group col-md-2" >
-        <label for="Productos">&nbsp;</label>
-        <br>
-        <button type="button" @click="add_producto"   class="btn btn-primary float-right mr-3">Ingresar</button>
-
+            <button type="button" v-on:click="add_producto"   class="btn btn-primary">Ingresar</button>
+        </div>
       </div>
 
 
+ 
+ 
     </div>
-    
+
+ 
+
+     
     
 
     <select  v-model="lote" id="lote" data-old="{{old('lote')}}"
@@ -244,18 +231,82 @@
 
 </div>
 
+
+<!-- inicio Modal-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Registrar Persona</h5>
+        <button type="button" id="close_id" class="close" data-dismiss="modal" aria-label="Close" v-on:click="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+           <div class="form-row">
+            <div class="form-group col-md-4">
+            <label for="recipient-name" class="col-form-label">Nombre:</label>
+            </div>
+            <div class="form-group col-md-8">
+              <input type="text" class="form-control" id="nombre_sub_cliente" v-model="nombre_sub_cliente" name="nombre_sub_cliente">
+              <label for="recipient-name"  v-if="msg_nombre_sub_cliente" class="col-form-label" style="color: red;">Este campo es requerido.
+             </label>
+           </div>
+
+           
+            
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+            <label for="recipient-name" class="col-form-label">Tipo Documento:</label>
+            </div>
+            <div class="form-group col-md-8">
+              <select  v-model="tipo_documento_id_modal" id="tipo_documento_id_modal"
+              name="tipo_documento_id_modal"  class="form-control">
+              {{$guion  =""}};
+                @foreach ($documentos->get() as $index => $value)
+                
+                  <option value="{{$index}}"  >{{$index.$guion.$value}}</option>
+                    {{$guion  =" - "}};
+                @endforeach
+              </select>
+              <label for="recipient-name"  v-if="msg_tipo_documento_id" class="col-form-label" style="color: red;">Este campo es requerido.
+
+            </div>
+            
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+            <label for="recipient-name" class="col-form-label">Número Documento:</label>
+            </div>
+            <div class="form-group col-md-8">
+              <input type="text" class="form-control" id="nro_documento" name="nro_documento" v-model="nro_documento">
+              <label for="recipient-name"  v-if="msg_nro_documento" class="col-form-label" style="color: red;">Este campo es requerido.
+            </div>
+            
+          </div>         
+ 
+       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="close" ref="myBtn">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="adicionar_persona()" >Grabar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin modal-->
+
+
 </form>
 
-
-
-@endsection
-@section('scripts')
-
 <script>
-  const url = '{{ env("MY_URL") }}';
+const url = '{{ env("MY_URL") }}';
   
- </script>
+</script>
 
 <script src="{{ asset('js/lista_productos.js') }}" ></script>
- 
 @endsection
+ 

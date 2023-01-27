@@ -155,10 +155,12 @@ class RackCasillaController extends Controller
     {   //dd($request->rack_id);
         //$data = RackCasillas::where('rack_id', $request->rack_id)->orderBy('rc_nombre', 'asc')->get();
         $data = DB::table('racks_casillas as rc')
+        ->leftJoin('racks as r', 'r.rack_id', 'rc.rack_id')
         ->leftJoin('casillas_empresas as ce', 'rc.rc_id', 'ce.rc_id') 
         ->leftJoin('empresas as e', 'e.empr_id', 'ce.empr_id')
+
         ->where('rc.rack_id',$request->rack_id)
-        ->select('rc.rc_id','rc.rc_nombre','ce.empr_id', 'ce.deleted_at','e.empr_nombre')->orderBy('rc_nombre','asc')->get();  
+        ->select('r.rack_nombre','rc.rc_id','rc.rc_nombre','ce.empr_id', 'ce.deleted_at','e.empr_nombre')->orderBy('rc_nombre','asc')->get();  
         //dd(DB::getQueryLog());
 
         return $data;

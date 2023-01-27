@@ -88,12 +88,12 @@ body
           <td width="71%">{{$acta[0]->empr_nombre}}</td>
         </tr>
         <tr>
-          <td class="tituloBoldLeft">TIPO DE DOCUMENTO</td>
-          <td>{{$acta[0]->tipo_docu_nombre}}</td>
+          <td class="tituloBoldLeft">NOMBRE</td>
+          <td>{{$acta[0]->acta_sub_cliente}}</td>
         </tr>
         <tr>
-          <td class="tituloBoldLeft">NRO DOCUMENTO</td>
-          <td>{{$acta[0]->acta_numero_ingr_sali}}</td>
+          <td class="tituloBoldLeft">DOCUMENTO</td>
+          <td>{{$acta[0]->tipo_docu_nombre.' - '.$acta[0]->acta_numero_ingr_sali}}</td>
         </tr>
         <tr>
           <td>&nbsp;</td>

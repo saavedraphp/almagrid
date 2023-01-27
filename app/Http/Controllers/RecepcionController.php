@@ -307,9 +307,8 @@ class RecepcionController extends Controller
         $acta->tipo_movimiento_codigo =                  'INGRESO';  // ALMACENAMIENTO  $request->get('tipo_servicio');
         $acta->acta_sub_cliente =              $request->get('sub_cliente');
         $acta->tipo_docu_id =           $request->get('tipo_documento');
-        $acta->acta_numero_ingr_sali =         $request->get('nro_documento');
-        $acta->acta_numero_ingr_sali =         $request->get('nro_documento');
-        //  $acta->acta_encargado_id =        $request->get('cbo_empresa');
+        $acta->acta_numero_ingr_sali =         $request->get('nro_documento_frm');
+         //  $acta->acta_encargado_id =        $request->get('cbo_empresa');
         //  $acta->acta_supervisor_id =        $request->get('cbo_empresa');
         $acta->acta_comentario =        $request->get('comentario');
         $acta->estado_asignacion =        'REALIZADO';        
@@ -477,15 +476,18 @@ class RecepcionController extends Controller
     {
        $acta = DB::table('actas as a')
        ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
+       ->select('a.acta_id','a.created_at','a.empr_id', 'a.acta_sub_cliente', 'a.acta_numero_ingr_sali','a.acta_comentario',
+       'a.tipo_movimiento_codigo','a.tipo_docu_id')
        ->where('a.acta_id', '=',$id)->first();
        
-      // dd($acta);
+       //dd($acta);
        
        $detalles = DB::table('productos_x_empresa  as p')
        ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
        ->leftJoin('racks_casillas as rc', 'k.rc_id', '=', 'rc.rc_id')
-       ->select('p.prod_id','p.unidad_id', 'p.prod_nombre',  'k.lote_id','p.prod_stock', 'p.prod_fecha_vencimiento',
-       'k.kard_cantidad', 'p.prod_stock as total', 'rc.rc_nombre')
+       ->leftJoin('racks as r', 'rc.rack_id', '=', 'r.rack_id')
+       ->select('p.prod_id', 'p.prod_sku','p.unidad_id', 'p.prod_nombre',  'k.lote_id','p.prod_stock', 'p.prod_fecha_vencimiento',
+       'k.kard_cantidad', 'p.prod_stock as total', 'rc.rc_nombre','r.rack_nombre')
        ->where('k.acta_id', '=',$id )
        ->orderBy('p.created_at', 'asc')->get();
 
@@ -644,7 +646,7 @@ class RecepcionController extends Controller
         ->join('empresas as e', 'a.empr_id', '=', 'e.empr_id')
         ->leftJoin('tipo_documentos as t', 't.tipo_docu_id', '=', 'a.tipo_docu_id')
         ->select('a.acta_id','a.created_at','e.empr_nombre','t.tipo_docu_nombre','a.acta_numero_ingr_sali',
-        'a.tipo_movimiento_codigo')
+        'a.tipo_movimiento_codigo','a.acta_sub_cliente')
         ->where('a.acta_id', '=',$id )->get();
         
  

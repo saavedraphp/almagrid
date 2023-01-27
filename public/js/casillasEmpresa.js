@@ -41,9 +41,9 @@ const app = new Vue({
 
 
      obtenerCasillas(rack_id) {
- 
+
             axios.get(url+`/racks/obtenerCasillas`, {params: {rack_id: rack_id} }).then((response) => {
-              this.casillas = response.data;
+              this.casillas_rack = response.data;
               if(response.data.length==0)
             {
               alert('No existe celdas en este Rack')
@@ -71,7 +71,7 @@ const app = new Vue({
     });
 
       if(existeElemento ==false)
-         this.casillas_empresa.push({'rc_id': data.rc_id, 'rc_nombre': data.rc_nombre })
+         this.casillas_empresa.push({'rack_nombre':data.rack_nombre ,'rc_id': data.rc_id, 'rc_nombre': data.rc_nombre })
     
       console.log(this.casillas_empresa);
 

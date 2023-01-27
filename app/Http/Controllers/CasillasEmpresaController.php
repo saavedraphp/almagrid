@@ -62,12 +62,34 @@ class CasillasEmpresaController extends Controller
         ->leftJoin('racks_casillas as rc', 'ce.rc_id','=','rc.rc_id')
         ->leftJoin('racks as r', 'rc.rack_id' ,'=', 'r.rack_id')
         ->where('ce.empr_id',$request->empresa_id)->whereNull('ce.deleted_at')->get();
-        //dd($casillas_x_empresa);
+          //dd(DB::getQueryLog($casillas_x_empresa));
  
-        return $casillas_x_empresa;
+        return ($casillas_x_empresa->count()>0?$casillas_x_empresa:"0");
     }    
     
 
+
+    public function obtenerUbicacionProductoId(Request $request)
+    {
+     
+        $casillas_x_empresa = DB::table('casillas_empresas as ce')
+        ->join('racks_casillas as rc','ce.rc_id','=','rc.rc_id')
+        ->join('racks as r','rc.rack_id', '=', 'r.rack_id')
+        ->join('kardex as k', 'k.rc_id', '=', 'rc.rc_id')
+        ->select('rc.rc_id', 'k.prod_id', 'r.rack_nombre','rc.rc_nombre', \DB::raw('sum(kard_cantidad)as total'))
+        ->where('k.prod_id',$request->prod_id)
+        ->whereNull('k.deleted_at')
+        ->groupBy('rc.rc_id', 'k.prod_id','r.rack_nombre','rc.rc_nombre')
+        ->get();
+        
+        
+          //dd(DB::getQueryLog($casillas_x_empresa));
+
+        return ($casillas_x_empresa->count()>0?$casillas_x_empresa:"0");
+    }      
+
+
+    
 
     public function lista_casillas_asignadas($id)
     {

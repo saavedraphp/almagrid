@@ -43,7 +43,7 @@
     <div class="form-group col-md-6">
     <input name="id_empresa" type="hidden" value="{{$empresa->empr_id}}" id="id_empresa"  v-model="id_empresa">
       <label for="inputEmail4">Empresa</label>
-      {{$empresa->empr_nombre}}  -  {{$empresa->empr_ruc}}
+      {{$empresa->empr_id.' - '.$empresa->empr_nombre}}  -  {{$empresa->empr_ruc}}
     </div>
   </div>
 
@@ -57,7 +57,7 @@
   <div class="form-group col-md-4">
       <button type="button" class="list-group-item list-group-item-action active"> Racks </button>
       @foreach($racks as $rack)
-      <button type="button" class="list-group-item list-group-item-action" @click="obtenerCasillas({{$rack->rack_id}})" >{{$rack->rack_nombre}}</button>
+      <button type="button" class="list-group-item list-group-item-action" v-on:click="obtenerCasillas({{$rack->rack_id}})" >{{$rack->rack_nombre}}</button>
       @endforeach
   </div>
 
@@ -69,7 +69,7 @@
           <li  class="list-group-item"  v-for="option in casillas_rack" v-bind:value="option.value" 
               :class="{ 'disabled': option.empr_nombre }"  >@{{ option.rc_nombre }} - @{{ (option.empr_nombre?option.empr_nombre:'DISPONIBLE') }}
             
-              <a href="#"  @click="asignarCasilla(option)"><i class="fas fa-plus-circle" style="font-size: 12px;"></i></a>
+              <a href="#"  v-on:click="asignarCasilla(option)"><i class="fas fa-plus-circle" style="font-size: 12px;"></i></a>
         
           </li>
 
@@ -82,8 +82,8 @@
   <div class="form-group col-md-4">
   <ul class="list-group" id="casillas_id">
           <li class="list-group-item active" aria-current="true">Celdas a Asignar</li>
-          <li class="list-group-item"  v-for="(option, index) in casillas_empresa" v-bind:value="option.value"  >@{{ option.rc_nombre }} - 
-          <a href="#"  @click="quitarCasilla(index)"><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></li>
+          <li class="list-group-item"  v-for="(option, index) in casillas_empresa" v-bind:value="option.value"  >@{{ option.rack_nombre+' - '+option.rc_nombre }} - 
+          <a href="#"  v-on:click="quitarCasilla(index)"><i class="fas fa-minus-circle" style="font-size: 12px;"></i></a></li>
       </ul>
     
   </div>
@@ -100,8 +100,6 @@
 </div>
 </div>
 </div>
-@endsection
-@section('scripts')
 
 <script>
   const url = '{{ env("MY_URL") }}';
@@ -109,5 +107,4 @@
 </script>
 
 <script src="{{asset('js/casillasEmpresa.js') }}" ></script>
-
 @endsection

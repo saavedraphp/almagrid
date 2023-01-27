@@ -152,7 +152,7 @@ class DespachoController extends Controller
                          'prod_id' => $value,
                          'lote_id' => $lote[$key],
                          'tipo_movimiento' => 'DESPACHO',
-                         'kard_cantidad' => $cantidad[$key],
+                         'kard_cantidad' => -$cantidad[$key],
                          'created_at' => date('Y-m-d H:i:s')
     
                          ];

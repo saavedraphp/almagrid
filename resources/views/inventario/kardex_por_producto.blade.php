@@ -59,7 +59,7 @@
         </tr>
 
         <tr>
-            <td class="bold1">PRODUCTO: {{$producto->prod_nombre}} - Total = {{$producto->prod_stock}}</td>
+            <td class="bold1">SKU PRODUCTO: {{$producto->prod_sku.' - '.$producto->prod_nombre}} - Total = {{$producto->prod_stock}}</td>
             <td></td>
             <td></td>
             <td></td>

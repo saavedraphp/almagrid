@@ -28,8 +28,9 @@
     <div class="form-group">
     
       <label for="inputAddress">Empresa</label>
-        <select v-model="selected_empresa"  @change="obtenerProductos" id="empresa_id" data-old="{{old('cbo_empresa')}}"
+        <select v-model="selected_empresa"  v-on:change="obtenerProductos" ref="r_empresa"   id="empresa_id" data-old="{{old('cbo_empresa')}}"
         name="cbo_empresa"  class="form-control">
+
         {{$guion  =""}};
           @foreach ($empresas->get() as $index => $value)
           
@@ -42,38 +43,45 @@
 
 
 
- 
-    <div class="form-group">
-      <label for="inputEmail4">Usuario</label>
-      <input type="text" class="form-control"  v-model="acta_sub_cliente_id" name="sub_cliente" id="acta_sub_cliente_id" placeholder="Sub Cliente"
-       value="{{old('acta_sub_cliente')}}" >
+    <div class="form-row">
+      <label for="inputAddress">Datos de la persona que trae los productos(Cliente)</label>
+
+      <div class="input-group">
+
+        <input type="text" class="form-control" name="nro_documento_frm" v-model="nro_documento_frm"
+        id="nro_documento_frm" placeholder="Nro Documento" ref="nro_documento_frm">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" v-on:click="buscarPersona">Buscar</button>
+          <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Nuevo Cliente</button>
+        </div>
+      </div>
+
     </div>
- 
- 
-
-
+    
+    
 
     <div class="form-row">
       <div class="form-group col-md-6">
           <label for="inputAddress">Tipo de Documento</label>
-          <select  v-model="tipo_documento_id" id="tipo_documento_id" data-old="{{old('cbo_empresa')}}"
-          name="tipo_documento"  class="form-control">
-          {{$guion  =""}};
+          <select  v-model="tipo_documento_id" id="tipo_documento_id" name="tipo_documento"  class="form-control">
+          {{$guion  =""}}
             @foreach ($documentos->get() as $index => $value)
             
               <option value="{{$index}}"  >{{$index.$guion.$value}}</option>
-                {{$guion  =" - "}};
+                {{$guion  =" - "}}
             @endforeach
           </select>
       </div>
 
       <div class="form-group col-md-6">
-          <label for="inputAddress">Nro Documento</label>
-          <input type="text" class="form-control" name="nro_documento" id="nro_documento_id" placeholder="Nro Documento" 
-          value="{{old('codigo_producto')}}">
+          <label for="inputAddress">Sub Cliente</label>
+          <input type="text" class="form-control"  v-model="acta_sub_cliente_id" name="sub_cliente" id="acta_sub_cliente_id"
+          placeholder="Sub Cliente"
+         value="{{old('acta_sub_cliente')}}" >
       </div>
     </div>
 
+ 
 
 
 
@@ -84,9 +92,9 @@
       <div class="form-group col-md-6">
       <label for="Productos">Productos</label>
 
-       <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control">
+       <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control" v-on:change="obtenerUbicacionProductoId()">
         <option value="">Selecciona un producto</option>
-        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_sku+'-'+producto.prod_nombre+' - '+producto.prod_stock}}</option>
+        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_sku+' - '+producto.prod_nombre+' - '+producto.prod_stock}}</option>
         </select>
      </div>
 
@@ -94,21 +102,34 @@
  
  
 
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-2">
           <label for="inputAddress">Cantidad</label>
           <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
-          value="" @keyup.enter="add_producto()" v-model="v_cantidad">
+          value="" v-model="v_cantidad">
       </div>
 
-      <div class="form-group col-md-2" >
-        <label for="Productos">&nbsp;</label>
-        <br>
-        <button type="button" @click="add_producto"   class="btn btn-primary float-right mr-3">Ingresar</button>
 
+      
+      <div class="form-group col-md-4">
+        <label for="inputAddress">Cassilla</label>
+
+        <div class="input-group-append">
+
+          <select v-model="selected_casilla" id="casilla_id"  ref="r_casilla"   name="casilla" class="form-control">
+            <option value="" selected>Seleccione una casilla</option>
+            <option v-for="casilla  in casillas" v-bind:value="casilla" >@{{casilla.rack_nombre + ' - '+casilla.rc_nombre +'  ('+casilla.total+')'}}</option>
+            </select>
+
+            <button type="button" v-on:click="add_producto"   class="btn btn-primary">Ingresar</button>
+        </div>
       </div>
 
-    
+
+ 
+ 
     </div>
+
+
 
 
  
@@ -128,10 +149,11 @@
           <table class="table table-hover"  >
             <thead>
               <tr>
-                <th scope="col">#ID Producto</th>
+                <th scope="col">#ID</th>
                 <th scope="col">Producto</th>
                  <th scope="col">Stock</th>
                 <th scope="col">Salida</th>
+                <th scope="col">Casilla</th>
                 <th scope="col">Accion</th>
               </tr>
             </thead>
@@ -150,6 +172,7 @@
                           
 
                 </td>
+                <td>@{{producto.rc_nombre}}</td>
 
               <td><button type="button" class="btn btn-default" @click="removeItem(producto)">Remove</button></td>  
               </tr>

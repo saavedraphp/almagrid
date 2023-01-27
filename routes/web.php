@@ -136,6 +136,7 @@ Route::get('adicionarContacto', 'ContactosEmpresaController@adicionarContacto');
 Route::get('eliminar_contacto_id', 'ContactosEmpresaController@eliminar_contacto_id');
 Route::get('editarContactoId', 'ContactosEmpresaController@editarContactoId');
 Route::get('obtenerCasillasEmpresaId/', 'CasillasEmpresaController@obtenerCasillasEmpresaId');
+Route::get('obtenerUbicacionProductoId/', 'CasillasEmpresaController@obtenerUbicacionProductoId');
 
 
 
@@ -155,6 +156,12 @@ Route::get('demo/', 'RecepcionController@demo');
 
 Route::get('asignarProductosCeldas/{id}', 'RecepcionController@asignarProductosCeldas')->name('asignarProductosCeldas');
 Route::post('grabarAsignacionProductosCasillas', 'RecepcionController@grabarAsignacionProductosCasillas')->name('grabarAsignacionProductosCasillas');
+
+
+
+
+Route::get('adicionarPersona', 'EntidadController@adicionarPersona');
+Route::get('buscarPersona', 'EntidadController@buscarPersona');
 
 
 

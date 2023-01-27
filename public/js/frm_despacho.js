@@ -4,6 +4,10 @@ const app = new Vue({
     data: {
         producto: document.getElementById("producto_id").value,
         v_cantidad: document.getElementById("cantidad_id").value,
+        nro_documento_frm: document.getElementById("nro_documento_frm").value,
+        selected_casilla: document.getElementById("casilla_id").value,
+
+
 
 
         total_productos: 0,
@@ -14,6 +18,7 @@ const app = new Vue({
 
         data: [],
         productos_acta: [],
+        casillas: [],
 
 
 
@@ -64,8 +69,7 @@ const app = new Vue({
         async add_producto() {
 
             let existeProductoLote = false;
-            let stock_excede = false;
-            console.log('valor de producto ' + this.producto.prod_nombre);
+            let stock_excede = true;
 
             if (this.selected_empresa == "") {
                 alert("Seleccione una Empresa");
@@ -84,25 +88,43 @@ const app = new Vue({
 
             console.log('valor cantidad ' + this.producto.prod_stock);
 
+
             if (this.v_cantidad == "" || this.v_cantidad <= 0) {
                 alert("Ingrese una Cantidad");
                 this.v_cantidad = "";
                 this.$refs.r_cantidad.focus();
                 return;
 
-            }
-            else if (this.v_cantidad > this.producto.prod_stock) {
 
-                alert("La cantidad solicitada excede al Stock");
-                this.v_cantidad = "";
-                this.$refs.r_cantidad.focus();
+
+            }
+
+
+            if (typeof this.selected_casilla.rc_id == 'undefined' || this.selected_casilla.rc_id == "") {
+                alert("Seleccione una Casilla");
+                this.$refs.r_casilla.focus();
                 return;
+
+            } else {
+
+
+                console.log(this.v_cantidad + '>' + this.selected_casilla.total)
+
+                if (parseInt(this.v_cantidad) > parseInt(this.selected_casilla.total)) {
+
+                    console.log(this.selected_casilla.rc_id);
+                    alert('No puede retirar mas productos de lo que existe en la casilla');
+                    this.v_cantidad = "";
+                    this.$refs.r_cantidad.focus();
+                    return;
+                }
             }
 
 
 
 
-            if (this.v_cantidad > 0) {
+
+            if (parseInt(this.v_cantidad) > 0) {
 
 
 
@@ -113,23 +135,35 @@ const app = new Vue({
 
                 //let array = response.data; array.forEach(element => console.log(element.nombre));
 
+                // VALIDA SI EXISTE PRODUCTO (ID Y LOTE) EN LISTA => SUMA
+                existeProductoLote = false;
+                stock_excede = false;
+
                 const newArray = this.productos_acta.filter((elemento, index) => {
                     console.log('prod_id :' + elemento.prod_id + ' = ' + this.producto.prod_id + '   LoteID :' + elemento.prod_lote + ' = ' + this.lote);
                     console.log('index =>' + index);
-                    if (elemento.prod_id === this.producto.prod_id && elemento.prod_lote === this.lote) {
+                    if (elemento.prod_id === this.producto.prod_id && elemento.prod_lote === this.lote &&
+                        elemento.rc_id == this.selected_casilla.rc_id) {
+
                         total = parseInt(elemento.cantidad) + parseInt(this.v_cantidad);
-                        
+
                         if (total > this.producto.prod_stock) {
-                            console.log("valor del total "+total);
                             stock_excede = true;
-                            alert('La cantidad solicitada de este producto: '+this.producto.prod_sku+' excede al stock')
-                            
+                            console.log("valor del total " + total);
+                            alert('La cantidad solicitada de este producto: ' + this.producto.prod_sku + ' excede al stock')
+
                         }
                         else {
-                            elemento.cantidad = total;
-                            existeProductoLote = true;
-                            stock_excede = false;
+                            console.log(total +'>'+  this.selected_casilla.total);
+
+                            if (total >  this.selected_casilla.total) {
+                                alert('Usted esta intentando retirar una cantidad mayor a lo que tiene la casilla');
+                            } else {
+                                elemento.cantidad = total;
+                            }
                         }
+
+                        existeProductoLote = true;
                     }
                     console.log('Existe LoteXProducto');
                 });
@@ -148,13 +182,26 @@ const app = new Vue({
 
                 );*/
 
-                if (existeProductoLote == false && stock_excede == false) {
-                    this.productos_acta.push({
-                        prod_id: this.producto.prod_id, prod_nombre: this.producto.prod_nombre,
-                        prod_lote: this.lote, stock_x_lote: this.totalProductos_x_Lotes, cantidad: this.v_cantidad,
-                        total: this.producto.prod_stock + this.cantidad
-                    });
+
+
+                if (this.v_cantidad > this.producto.prod_stock) {
+                    console.log("valor del total " + this.producto.prod_stock);
+                    alert('La cantidad solicitada de este producto: ' + this.producto.prod_sku + ' excede al stock solicitado')
+
+
+                } else {
+
+                    if (existeProductoLote == false) {
+                        this.productos_acta.push({
+                            prod_id: this.producto.prod_id, prod_nombre: this.producto.prod_sku + ' - ' + this.producto.prod_nombre,
+                            prod_lote: this.lote, stock_x_lote: this.totalProductos_x_Lotes, cantidad: this.v_cantidad,
+                            total: this.producto.prod_stock + this.cantidad, casilla_id: this.selected_casilla.rc_id,
+                            rc_id: this.selected_casilla.rc_id,
+                            rc_nombre: this.selected_casilla.rack_nombre + ' - ' + this.selected_casilla.rc_nombre
+                        });
+                    }
                 }
+
 
                 this.$refs.r_producto.focus();
 
@@ -211,7 +258,6 @@ const app = new Vue({
                 document.frm_formulario.submit();
                 return true;
 
-
             }
 
             //e.preventDefault();
@@ -222,16 +268,32 @@ const app = new Vue({
 
         obtenerProductos() {
 
-
             axios.get(url + `/productos/empresa`, { params: { empresa_id: this.selected_empresa } }).then((response) => {
                 this.data = response.data;
 
             });
+            this.v_cantidad = "";
+
+
 
 
         },
 
 
+
+        obtenerUbicacionProductoId() {
+
+
+            axios.get(url + `/obtenerUbicacionProductoId`, { params: { prod_id: this.producto.prod_id } }).then((response) => {
+                this.casillas = response.data;
+                console.log(this.casillas);
+
+            });
+
+            this.v_cantidad = "";
+
+
+        },
 
 
         modificarStock: function (producto) {
@@ -285,16 +347,59 @@ const app = new Vue({
 
 
 
-        }
+        },
+
+        async buscarPersona() {
+            if (!this.nro_documento_frm) {
+                alert('Ingrese un numero de documento');
+                this.$refs.nro_documento_frm.focus();
+                return false;
+            }
+
+
+
+            try {
+
+                await axios.get(url + `/buscarPersona`, { params: { nro_documento: this.nro_documento_frm } }).then((response) => {
+                    this.array_sub_cliente = response.data;
+
+                    this.acta_sub_cliente_id = "";
+                    this.tipo_documento_id = "";
+                    this.nro_documento_frm = "";
+
+                    if (response.data == "0") {
+                        alert('El usuario no existe por favor registrelo');
+                    }
+                    else {
+                        this.acta_sub_cliente_id = this.array_sub_cliente.nombre;
+                        this.tipo_documento_id = this.array_sub_cliente.tipo_documento;
+                        this.nro_documento_frm = this.array_sub_cliente.nro_documento;
+                    }
+
+                });
+                console.log(this.nro_documento_frm);
 
 
 
 
 
-    },
+            } catch (error) {
+                console.log(error);
+
+            }
+
+        },
 
 
-    // end method
+
+
+
+    }, // END METHOS
+
+
+
+
+
 
 
 });

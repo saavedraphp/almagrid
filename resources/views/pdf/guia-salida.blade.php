@@ -302,7 +302,7 @@
 
    <table  width="100%"  class="tableProductos">
     <tr class="headTable">
-        <th>CODIGO</th>
+        <th>ITEM</th>
         <th>DESCRIPCION</th>
         <th>CANT</th>
         <th>MEDIDA</th>
@@ -310,24 +310,27 @@
     </tr>
     
         <?php
-        $productos = array(
-            array("id"=>"A102051","descripcion"=>"Cebolla en Polvo Onion Powder"),
-            array("id"=>"A102052","descripcion"=>"Papel Toalla Interfoliado SUPREMO"),
-            array("id"=>"A102053","descripcion"=>"Pimienta Roja Cayenne Pepper BADIA"),
-            array("id"=>"A102054","descripcion"=>"Tapas Envases Salseros CMG"),
-            array("id"=>"A102055","descripcion"=>"Envase Hamburguesa Ct4 ECOESTRATEGIA"),
-            array("id"=>"A102056","descripcion"=>"Pasta Nicolini Codo Rayado NICOLINI"),
-            array("id"=>"A102057","descripcion"=>"Vasos Descartables Transparentes NN"),
-            array("id"=>"A102058","descripcion"=>"Estropajo para Limpieza CARMELITAS"),
-            array("id"=>"A102059","descripcion"=>"Mayonesa ALPESA"),
-            array("id"=>"A102060","descripcion"=>"Inca Kola ZERO	")
+        /*
+        $detalles = array(
+            array("prod_sku"=>"A102051","prod_nombre"=>"Teclado Americano 14 pulgadas marca","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102052","prod_nombre"=>"Papel Toalla Interfoliado SUPREMO","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102053","prod_nombre"=>"Pimienta Roja Cayenne Pepper BADIA","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102054","prod_nombre"=>"Tapas Envases Salseros CMG","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102055","prod_nombre"=>"Envase Hamburguesa Ct4 ECOESTRATEGIA","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102056","prod_nombre"=>"Pasta Nicolini Codo Rayado NICOLINI","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102057","prod_nombre"=>"Vasos Descartables Transparentes NN","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102058","prod_nombre"=>"Estropajo para Limpieza CARMELITAS","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102059","prod_nombre"=>"Mayonesa ALPESA","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20"),
+            array("prod_sku"=>"A102060","prod_nombre"=>"Inca Kola ZERO	","kard_cantidad" =>"1","unid_nombre"=>"BLSD","prod_peso"=>"20")
             
             
             
         );
- 
+        
+*/
 
-        $columna1 = 12;
+
+        $columna1 = 5;
         $columna2 = 64;
         $columna3 = 10;
         $columna4 = 15;
@@ -337,9 +340,9 @@
         foreach ($detalles as $producto)
         { $conta++;
             echo '<tr class="font3">
-            <td  width="'.$columna1.'%" >'.$producto->prod_sku.' </td>
-            <td width="'.$columna2.'%">'.$producto->prod_nombre.'</td>
-            <td width="'.$columna3.'%" class="tdCenter">'.$producto->kard_cantidad.'</td>
+            <td  width="'.$columna1.'%" class="tdCenter">'.($conta<10?'0'.$conta:$conta).' </td>
+            <td width="'.$columna2.'%">'.$producto->prod_sku.' - '.$producto->prod_nombre.'</td>
+            <td width="'.$columna3.'%" class="tdCenter">'.abs($producto->kard_cantidad).'</td>
             <td width="'.$columna4.'%" class="tdCenter">'.$producto->unid_nombre.'</td>
             <td width="'.$columna5.'%" class="tdCenter">'.$producto->prod_peso.'</td>
             </tr>';

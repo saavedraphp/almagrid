@@ -28,13 +28,20 @@
     @csrf
 
 
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputAddress">Acta Id: {{$acta->acta_id}}</label>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="inputAddress">Fecha de Registro: {{date('M d Y h:i', strtotime($acta->created_at))}}</label>
+      </div>      
+    </div>
 
 
-
-    
-    <div class="form-group">
-    
-      <label for="inputAddress">Empresa</label>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="inputAddress">Empresa</label>
         <select  id="empresa_id" name="cbo_empresa"  class="form-control" disabled>
         {{$guion  =""}};
           @foreach ($empresas->get() as $index => $value)
@@ -43,18 +50,17 @@
               {{$guion  =" - "}};
           @endforeach
         </select>
-   
+      </div>
+
+      <div class="form-group col-md-6">
+          <label for="inputAddress">Sub Cliente</label>
+          <input type="text" class="form-control" name="sub_cliente" id="acta_sub_cliente_id" placeholder="Sub Cliente"
+          value="{{$acta->acta_sub_cliente}}" disabled>
+      </div>
     </div>
+    
 
 
-
- 
-    <div class="form-group">
-      <label for="inputEmail4">Sub Cliente</label>
-      <input type="text" class="form-control" name="sub_cliente" id="acta_sub_cliente_id" placeholder="Sub Cliente"
-       value="{{$acta->acta_sub_cliente}}" disabled>
-    </div>
- 
  
 
 
@@ -133,14 +139,12 @@
                <td class="item-{{$index}}" scope="row">{{$item->prod_id}}
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </td>
-                <td>{{$item->prod_nombre}}</td>
+                <td>{{$item->prod_sku.' - '.$item->prod_nombre}}</td>
                 
                 <td > <span style="text-align: center;" >{{abs($item->kard_cantidad)}}</span></td>
 
-                @if($acta->tipo_movimiento_codigo!='DESPACHO')
-                <td > <span style="text-align: center;" >{{$item->rc_nombre}}</span></td>
-                @endif
-
+                 <td > <span style="text-align: center;" >{{$item->rack_nombre.' - '.$item->rc_nombre}}</span></td>
+ 
               </tr>
             @endforeach  
             
