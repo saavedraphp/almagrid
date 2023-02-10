@@ -65,7 +65,7 @@
     <div class="form-group col-md-6">
       <label for="inputPassword4">P. Inventario</label>
       <input type="text" class="form-control" v-model="sku" name="sku" id="sku_id" placeholder="SKU" 
-      v-on:blur="existe_sku()" value="{{old('sku')}}">
+      v-on:blur="validar_si_existe" value="{{old('sku')}}">
     </div>
   </div>
 

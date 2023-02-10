@@ -48,7 +48,9 @@ class EntidadController extends Controller
             return "OK";
 
         } catch (Exception $e) {
-            return $entidad;
+            report($e);
+            return response()->json(['errors' => $e->getMessage(), 'status' => 400], 400);
+
 
         }
         
@@ -58,9 +60,7 @@ class EntidadController extends Controller
 
     public function buscarPersona(Request $request)
     {
-       // $entidad = Entidad::find($request->nro_documento);
-
-        try {
+ 
 
     
             $entidad = Entidad::where('nro_documento',$request->nro_documento)->first();
@@ -68,13 +68,7 @@ class EntidadController extends Controller
                 return $entidad;
             else
                 return "0";
-
-
-
-        } catch (Exception $e) {
-            return $e;
-
-        }
+ 
         
  
 

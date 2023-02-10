@@ -274,6 +274,7 @@ class ProductosController extends Controller
                 'p.prod_stock as total'
             )
             ->where('p.empr_id', '=', $request->empresa_id)
+            ->whereNull('deleted_at')
             ->orderBy('p.prod_nombre', 'asc')->get();
 
 

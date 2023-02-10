@@ -2,12 +2,13 @@ const app = new Vue({
     el: '#frm_formulario',
 
     data: {
+        rack_add: '',
+        casilla_add:'',
+        
         producto: document.getElementById("producto_id").value,
         v_cantidad: document.getElementById("cantidad_id").value,
-         selected_casilla: document.getElementById("casilla_id").value,
-
         selected_casilla: document.getElementById("casilla_id").value,
-        nro_documento_frm:document.getElementById("nro_documento_frm").value,
+        nro_documento_frm: document.getElementById("nro_documento_frm").value,
 
 
         total_productos: 0,
@@ -19,6 +20,7 @@ const app = new Vue({
         data: [],
         productos_acta: [],
         casillas: [],
+        casillas_add: [],
 
 
 
@@ -36,22 +38,31 @@ const app = new Vue({
         msg_nombre_sub_cliente: false,
         msg_nro_documento: false,
         msg_tipo_documento_id: false,
+        
+        msg_empresa:false,
+        msg_rack_add:false,
+        msg_casilla_add:false,
+
 
         array_sub_cliente: [],
 
+    },
+    mounted(){
+        this.casilla_add=0;
+        console.log('inicio');
     },
 
 
     methods: {
 
-
         obtenerCasillasRackId(rack_id) {
-            console.log(rack_id);
+            //console.log(rack_id);
             try {
                 axios.get(url + `/racks/obtenerCasillas`, { params: { rack_id: rack_id } }).then((response) => {
-                    this.casillas = response.data;
-                    console.log('Cassillas ' + this.casillas);
-                    this.selected_casilla = document.getElementById("casilla_id").value;
+                    this.casillas_add = response.data;
+                    this.casilla_add=0;
+                    //console.log('Cassillas ' + this.casillas_add);
+                    
 
                 });
 
@@ -64,7 +75,82 @@ const app = new Vue({
         },
 
 
+       async adicionar_casillaEmpresaId()
+        {
+ 
+            let validacion = true;
 
+            this.msg_empresa = false;
+            this.msg_rack_add = false;
+            this.msg_casilla_add = false;
+
+
+            if (!this.selected_empresa) {
+                alert('Seleccion un Empresa');
+                this.msg_empresa = true;
+                validacion = false;
+            }
+
+
+            if (!this.rack_add) {
+                this.msg_rack_add = true;
+                validacion = false;
+            }
+
+            if (!this.casilla_add) {
+                this.msg_casilla_add = true;
+                validacion = false;
+            }
+
+ 
+
+            /**SI PASA LAS VALIDACIONES */
+            if (validacion == true) {
+                console.log('submit');
+                try {
+
+                   let respuesta =  await axios.get(url + `/adicionarCasillaIdEmpresaId`, {
+                        params: {
+                            casilla_id: this.casilla_add.rc_id,
+                            empresa_id: this.selected_empresa
+                        }
+                    }).then((response) => {
+                        console.log(response.data);
+                    });
+
+                    /**************************ACTUALIZAR EL OBJETO SELECTED CASILLAS DE LA EMPRESA */
+                    axios.get(url + `/obtenerCasillasEmpresaId`, { params: { empresa_id: this.selected_empresa } }).then((response) => {
+                        this.casillas = response.data;
+        
+                    });
+
+                    /*********** INICIAR LOS OBJETOS ADD CASILLAS******************/
+                    this.rack_add =  '';
+                    this.casilla_add =  0;
+                    this.casillas_add = '';
+
+
+                    
+                    //this.buscarPersona();
+                    console.log('agrego correctamente la casilla'+this.casilla_add);
+                    const elem = this.$refs.myBtn
+                    elem.click()
+
+
+
+                } catch (error) {
+                    alert(error.response.data.errors);
+                    console.log(error.response.data.errors);
+
+
+
+
+                }
+
+            }
+
+
+        },
 
 
         async getCantidadPoductoPorLote(producto_id, lote_id) {
@@ -146,7 +232,6 @@ const app = new Vue({
 
 
 
-
                 await this.getCantidadPoductoPorLote(this.producto.prod_id, this.lote);
                 //console.log('Paso 2 => '+this.totalProductos_x_Lotes)
 
@@ -157,7 +242,7 @@ const app = new Vue({
                     console.log('index =>' + index);
                     if (elemento.prod_id === this.producto.prod_id && elemento.prod_lote === this.lote &&
                         elemento.rc_id == this.selected_casilla.rc_id) {
-                        
+
                         elemento.cantidad = parseInt(elemento.cantidad) + parseInt(this.v_cantidad);
                         elemento.rc_id = this.selected_casilla.rc_id;
                         elemento.rc_nombre = this.selected_casilla.rack_nombre + this.selected_casilla.rc_nombre;
@@ -188,10 +273,13 @@ const app = new Vue({
                         rc_nombre: this.selected_casilla.rack_nombre + this.selected_casilla.rc_nombre
                     });
                 }
-                this.$refs.r_producto
-                this.$refs.r_producto.focus();
 
+                this.$refs.r_producto.focus();
                 this.v_cantidad = "";
+                this.producto = 0;
+                this.selected_casilla = 0;
+
+
                 //console.log(this.productos_acta);
                 /*
                 this.calcularTotal();
@@ -206,14 +294,13 @@ const app = new Vue({
 
 
 
-
         },
 
 
 
 
         checkForm: function (e) {
-            console.log('valor de lista => ' + this.productos_acta.length);
+            console.log('Total Productos de DetalleActa => ' + this.productos_acta.length);
 
             this.errors = [];
 
@@ -234,8 +321,8 @@ const app = new Vue({
 
 
 
-            if (this.verificar_cambios() == false) {
-                this.errors.push('Por favor tiene adicionar  algún producto para generar la Acta');
+            if (this.productos_acta.length == 0) {
+                this.errors.push('Por favor tiene que adicionar  algún producto para generar la Acta');
             }
 
 
@@ -252,20 +339,21 @@ const app = new Vue({
         },
 
 
+ 
 
         obtenerProductos() {
-            
-            this.acta_sub_cliente_id = "";  
+
+            this.acta_sub_cliente_id = "";
             this.tipo_documento_id = "";
             this.nro_documento_frm = "";
 
-            this.productos_acta = [];   
+            this.productos_acta = [];
 
             axios.get(url + `/productos/empresa`, { params: { empresa_id: this.selected_empresa } }).then((response) => {
                 this.data = response.data;
 
             });
-            this.v_cantidad ="";
+            this.v_cantidad = "";
 
 
             axios.get(url + `/obtenerCasillasEmpresaId`, { params: { empresa_id: this.selected_empresa } }).then((response) => {
@@ -275,8 +363,8 @@ const app = new Vue({
                     alert('El cliente no tiene casillas asignadas');
 
             });
-         
- 
+
+
 
         },
 
@@ -319,48 +407,35 @@ const app = new Vue({
 
         },//END modificarStock
 
-        verificar_cambios() {
-
-            for (i = 0; i < document.getElementsByName('cantidad[]').length; i++) {
-                if (document.getElementsByName('cantidad[]')[i].value > 0) {
-
-                    return true;
-
-                }
-
-            }
-            return false;
-
-
-
-
-        },
+ 
 
 
         async adicionar_persona() {
-            let validacion = true;
-    
+            console.log('adicionar_persona');
+            let validacion = false;
+
             if (!this.nombre_sub_cliente) {
                 this.msg_nombre_sub_cliente = true;
-                validacion = false;
+                validacion = true;
             }
-    
+
             if (!this.tipo_documento_id_modal) {
                 this.msg_tipo_documento_id = true;
-                validacion = false;
+                validacion = true;
             }
-    
-    
+
+
             if (!this.nro_documento) {
                 this.msg_nro_documento = true;
-                validacion = false;
+                validacion = true;
             }
-    
+            console.log('valor validacion '+validacion);
+
             /**SI PASA LAS VALIDACIONES */
-            if (validacion == true) {
+            if (validacion == false) {
                 console.log('submit');
                 try {
-    
+
                     await axios.get(url + `/adicionarPersona`, {
                         params: {
                             nombre_sub_cliente: this.nombre_sub_cliente,
@@ -370,65 +445,81 @@ const app = new Vue({
                     }).then((response) => {
                         console.log(response.data);
                     });
-    
+
                     this.nro_documento_frm = this.nro_documento;
                     this.buscarPersona();
                     console.log('agrego correctamente');
-                    const elem = this.$refs.myBtn
-                    elem.click()
-    
-    
-    
+                    document.getElementById('btnPersonaClose').click();
+
+                    //const elem = this.$refs.myBtnCasilla
+                    //elem.click()
+
+
+
                 } catch (error) {
-                    console.log(error);
-    
+                   
+                    console.log(error.response.data.errors);
+
+
                 }
-    
+
             }
-    
-    
+
+
         },
-    
-    
-    
-    
+
+
+
+
         close() {
             this.reiniciar();
             this.$emit('close');
         },
-    
-        reiniciar() {
+
+
+        close_modelPersona() {
             
             this.nombre_sub_cliente = "";
             this.tipo_documento_id_modal = "";
-            this.nro_documento = "";
-    
+            this.nro_documento = ""; 
+
+            this.msg_empresa = false;
+            this.msg_rack_add = false;
+            this.msg_casilla_add = false;            
+            document.getElementById('btnPersonaClose').click();
+            
+            //this.$emit('close');
+        },
+
+
+        
+        reiniciar() {
+
             this.msg_nombre_sub_cliente = false;
             this.msg_nro_documento = false;
             this.msg_tipo_documento_id = false;
-    
-        },
-    
-    
-    
+       },
+
+
+
         async buscarPersona() {
             if (!this.nro_documento_frm) {
                 alert('Ingrese un numero de documento');
                 this.$refs.nro_documento_frm.focus();
                 return false;
             }
-    
-    
-    
+
+
+
             try {
-    
+
                 await axios.get(url + `/buscarPersona`, { params: { nro_documento: this.nro_documento_frm } }).then((response) => {
                     this.array_sub_cliente = response.data;
-    
+
                     this.acta_sub_cliente_id = "";
                     this.tipo_documento_id = "";
                     this.nro_documento_frm = "";
-    
+
                     if (response.data == "0") {
                         alert('El usuario no existe por favor registrelo');
                     }
@@ -437,23 +528,25 @@ const app = new Vue({
                         this.tipo_documento_id = this.array_sub_cliente.tipo_documento;
                         this.nro_documento_frm = this.array_sub_cliente.nro_documento;
                     }
-    
+                    console.log('buscarPersona Nro:: '+this.nro_documento_frm);
+
                 });
-                console.log(this.nro_documento_frm);
-    
-    
-    
-    
-    
+
+
+
+
+
             } catch (error) {
                 console.log(error);
-    
+
             }
-    
+
         },
-    
+
+
+
         reniciar_acta() {
-    
+
             if (confirm("Desea cancelar el proceso de registro"))
                 window.location.href = "../recepcion";
             else
@@ -467,10 +560,10 @@ const app = new Vue({
             this.array_sub_cliente = [];
             */
         }
-    
-    
-    
-        
+
+
+
+
 
 
 
@@ -478,6 +571,6 @@ const app = new Vue({
     }, //END METHOD
 
 
-    
+
 
 });

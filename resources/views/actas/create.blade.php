@@ -76,7 +76,7 @@
       <div class="form-group col-md-6">
           <label for="inputAddress">Sub Cliente</label>
           <input type="text" class="form-control"  v-model="acta_sub_cliente_id" name="sub_cliente" id="acta_sub_cliente_id"
-          placeholder="Sub Cliente"
+          placeholder="Nombre Sub Cliente"
          value="{{old('acta_sub_cliente')}}" >
       </div>
     </div>
@@ -90,32 +90,33 @@
       <label for="Productos">Productos</label>
 
        <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control" >
-        <option value="">Selecciona un producto</option>
-        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_nombre+' - '+producto.prod_stock}}</option>
+        <option value="0">Selecciona un producto</option>
+        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_sku+'-'+producto.prod_nombre+' - '+producto.prod_stock}}</option>
         </select>
      </div>
 
  
 
-      <div class="form-group col-md-2">
+      <div class="form-group col-md-1">
           <label for="inputAddress">Cantidad</label>
-          <input type="number" class="form-control" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="Cantidad" 
+          <input  type="number"   class="form-control input-lg" name="cantidad" id="cantidad_id" ref="r_cantidad" placeholder="0" 
           value="" v-model="v_cantidad">
       </div>
 
 
       
-      <div class="form-group col-md-4">
+      <div class="form-group col-md-5">
         <label for="inputAddress">Cassilla</label>
-
         <div class="input-group-append">
 
+
           <select v-model="selected_casilla" id="casilla_id"  ref="r_casilla"   name="casilla" class="form-control">
-            <option value="">Seleccione una casilla</option>
+            <option value="0">Seleccione una casilla</option>
             <option v-for="casilla  in casillas" v-bind:value="casilla" >@{{casilla.rack_nombre + ' - '+casilla.rc_nombre}}</option>
             </select>
 
             <button type="button" v-on:click="add_producto"   class="btn btn-primary">Ingresar</button>
+            <button class="btn btn-outline-secondary" type="button"   data-toggle="modal" data-target="#modalCasillas" data-whatever="@mdo">Add+</button>
         </div>
       </div>
 
@@ -239,12 +240,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Registrar Persona</h5>
-        <button type="button" id="close_id" class="close" data-dismiss="modal" aria-label="Close" v-on:click="close">
+        <button type="button" id="close_id" class="close" data-dismiss="modal" aria-label="Close" v-on:click="close_modelPersona">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      
+      
       <div class="modal-body">
-           <div class="form-row">
+          
+          <div class="form-row">
             <div class="form-group col-md-4">
             <label for="recipient-name" class="col-form-label">Nombre:</label>
             </div>
@@ -253,10 +257,8 @@
               <label for="recipient-name"  v-if="msg_nombre_sub_cliente" class="col-form-label" style="color: red;">Este campo es requerido.
              </label>
            </div>
-
-           
-            
           </div>
+
 
           <div class="form-row">
             <div class="form-group col-md-4">
@@ -273,26 +275,29 @@
                 @endforeach
               </select>
               <label for="recipient-name"  v-if="msg_tipo_documento_id" class="col-form-label" style="color: red;">Este campo es requerido.
-
             </div>
-            
           </div>
+
 
           <div class="form-row">
             <div class="form-group col-md-4">
-            <label for="recipient-name" class="col-form-label">Número Documento:</label>
+            <label for="recipient-name" class="col-form-label">Nro de Documento:</label>
             </div>
             <div class="form-group col-md-8">
-              <input type="text" class="form-control" id="nro_documento" name="nro_documento" v-model="nro_documento">
+              <input type="text" class="form-control" id="nro_documento" v-model="nro_documento" name="nro_documento">
               <label for="recipient-name"  v-if="msg_nro_documento" class="col-form-label" style="color: red;">Este campo es requerido.
-            </div>
-            
-          </div>         
+             </label>
+           </div>
+          </div>
+
+
+          
+
  
        </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="close" ref="myBtn">Close</button>
-        <button type="button" class="btn btn-primary" v-on:click="adicionar_persona()" >Grabar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="close_modelPersona" ref="myBtnCasilla" id="btnPersonaClose">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="adicionar_persona" >Grabar</button>
       </div>
     </div>
   </div>
@@ -300,6 +305,71 @@
 <!--fin modal-->
 
 
+
+<!-- inicio Modal casillas-->
+<div class="modal fade" id="modalCasillas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+ aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Adicionar Casilla</h5>
+        <button type="button" id="close_id" class="close" data-dismiss="modal" aria-label="Close" v-on:click="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+      </div>
+      <div class="modal-body">
+          
+ 
+
+          <div class="form-row">
+            <div class="form-group col-md-2">
+            <label for="recipient-name" class="col-form-label">Rack:</label>
+            </div>
+            <div class="form-group col-md-10">
+              <select  v-model="rack_add" id="rack_add" name="rack_add"  class="form-control"  v-on:change="obtenerCasillasRackId(rack_add)" >
+              {{$guion  =""}};
+                @foreach ($racks->get() as $index => $value)
+                
+                  <option value="{{$index}}"  >{{$index.$guion.$value}}</option>
+                    {{$guion  =" - "}};
+                @endforeach
+              </select>
+              <label for="recipient-name"  v-if="msg_rack_add" class="col-form-label" style="color: red;">Este campo es requerido.
+
+            </div>
+            
+          </div>
+
+          
+
+          
+          <div class="form-row">
+
+            <div class="form-group col-md-2">
+              <label for="inputAddress">Cassilla</label>
+            </div>
+            <div class="form-group col-md-10">
+    
+    
+              <select v-model="casilla_add" id="casilla_add"  ref="casilla_add"   name="casilla_add" class="form-control">
+                <option value="0"  selected>Seleccione una casilla</option>
+                <option v-for="casilla  in casillas_add" v-bind:value="casilla" selected>@{{casilla.rack_nombre + ' - '+casilla.rc_nombre}}</option>
+                </select>
+                <label for="recipient-name"  v-if="msg_casilla_add" class="col-form-label" style="color: red;">Este campo es requerido.
+                
+            </div>
+          </div>           
+ 
+       </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" v-on:click="close" ref="myBtnCasilla">Close</button>
+        <button type="button" class="btn btn-primary" v-on:click="adicionar_casillaEmpresaId" >Adicionar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin modal-->
 </form>
 
 <script>

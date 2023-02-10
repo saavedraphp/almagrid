@@ -160,6 +160,7 @@ const app = new Vue({
                                 alert('Usted esta intentando retirar una cantidad mayor a lo que tiene la casilla');
                             } else {
                                 elemento.cantidad = total;
+                                
                             }
                         }
 
@@ -204,8 +205,10 @@ const app = new Vue({
 
 
                 this.$refs.r_producto.focus();
-
                 this.v_cantidad = "";
+                this.producto = 0;
+                this.selected_casilla = 0;
+
                 //console.log(this.productos_acta);
                 /*
                 this.calcularTotal();
@@ -272,9 +275,13 @@ const app = new Vue({
                 this.data = response.data;
 
             });
+            
             this.v_cantidad = "";
-
-
+            this.data = [];
+            this.casillas = [];
+            
+            this.producto = 0;
+            this.selected_casilla = 0;
 
 
         },
@@ -291,6 +298,9 @@ const app = new Vue({
             });
 
             this.v_cantidad = "";
+            this.casillas = [];
+
+            this.selected_casilla = 0;
 
 
         },

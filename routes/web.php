@@ -39,6 +39,8 @@ Route::get('existeSKU_Edit/', 'ProductosController@existeSKU_Edit');
 //RECEPCION - DESPACHO
 Route::resource('admin/recepcion', 'RecepcionController');
 Route::resource('admin/despacho', 'DespachoController');
+Route::get('adicionarCasillaIdEmpresaId/', 'CasillasEmpresaController@save_addCasillaIdEmpresaId');
+
 
 //CLINTES
 Route::resource('admin/clientes', 'EmpresaController');
@@ -84,9 +86,7 @@ Route::get('admin/inventario/downloadKardexProductoId/{id}', 'InventarioControll
 Route::get('admin/inventario/producto/{id}', 'InventarioController@kardexPorProductoId')->name('kardexPorIdProducto');
 
 
-Route::get('admin/actas/create-despacho', 'ActaController@create_despacho');
-Route::post('admin/actas/store-despacho', 'ActaController@store_despacho');
-
+  
 
 
 //Route::resource('admin/clientes', 'ClienteController');

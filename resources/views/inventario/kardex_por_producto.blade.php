@@ -51,7 +51,7 @@
  <table class="table table-hover">
       <tbody>
         <tr>
-            <td class="bold1">EMPRESA: {{$empresa->empr_nombre}}</td>
+            <td class="bold1">EMPRESA: {{$empresa->empr_id.' - '.$empresa->empr_nombre}}</td>
             <td></td>
             <td></td>
             <td></td>

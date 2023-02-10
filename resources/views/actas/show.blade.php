@@ -127,9 +127,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Producto</th>
                  <th scope="col">Cantidad</th>
-                 @if($acta->tipo_movimiento_codigo!='DESPACHO')
                  <th scope="col">Casilla</th>
-                 @endif
                </tr>
             </thead>
 

@@ -93,7 +93,7 @@
       <label for="Productos">Productos</label>
 
        <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control" v-on:change="obtenerUbicacionProductoId()">
-        <option value="">Selecciona un producto</option>
+        <option value="0">Selecciona un producto</option>
         <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_sku+' - '+producto.prod_nombre+' - '+producto.prod_stock}}</option>
         </select>
      </div>
@@ -116,7 +116,7 @@
         <div class="input-group-append">
 
           <select v-model="selected_casilla" id="casilla_id"  ref="r_casilla"   name="casilla" class="form-control">
-            <option value="" selected>Seleccione una casilla</option>
+            <option value="0" selected>Seleccione una casilla</option>
             <option v-for="casilla  in casillas" v-bind:value="casilla" >@{{casilla.rack_nombre + ' - '+casilla.rc_nombre +'  ('+casilla.total+')'}}</option>
             </select>
 
@@ -172,7 +172,9 @@
                           
 
                 </td>
-                <td>@{{producto.rc_nombre}}</td>
+                <td>@{{producto.rc_nombre}}
+                  <input v-model="producto.rc_id" type="hidden" size="3"name="rc_id[]" > 
+                </td>
 
               <td><button type="button" class="btn btn-default" @click="removeItem(producto)">Remove</button></td>  
               </tr>
