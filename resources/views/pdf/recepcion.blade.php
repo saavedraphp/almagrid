@@ -118,28 +118,26 @@ $col_large_l = "40%";
             <td width="{{$col_small}}">Item</td>
             <td width="{{$col_large_l}}" align="left">Descripcion</td>
             <td width="{{$col_small_l}}">Medida</td>
-             <td width="{{$col_small_l}}" align="center">SKU</td>
-            <td width="{{$col_small}}" align="center">Cantidad</td>
+             <td width="{{$col_small_l}}" align="center">Cantidad</td>
+            <td width="{{$col_small}}" align="center">Ubicación</td>
  
           </tr>
 
-          <?php $x=1?>
+          <?php $conta=1?>
           @foreach($detalles as $detalle)
-         
-         
-         
-         
-      
             
             <tr>
-              <td align="center" width="{{$col_small}}">{{$x++}}</td>
-              <td width="{{$col_large_l}}">{{$detalle->prod_id}} - {{$detalle->prod_nombre}}</td>
+              <td align="center" width="{{$col_small}}">{{($conta<10?'0'.$conta:$conta)}}</td>
+              <td width="{{$col_large_l}}">{{$detalle->prod_sku}} - {{$detalle->prod_nombre}}</td>
               <td width="{{$col_small_l}}" align="center">{{$detalle->unid_codigo}}<</td>
-               <td width="{{$col_small_l}}" align="center">{{$detalle->prod_sku}}</td>
-              <td width="{{$col_small}}" align="center">{{abs($detalle->kard_cantidad)}}</td>
-    
-   
+               <td width="{{$col_small}}" align="center">{{abs($detalle->kard_cantidad)}}</td>
+              <td width="{{$col_small_l}}" align="center">{{$detalle->rack_nombre.' - '.$detalle->rc_nombre}}</td>
             </tr>
+            <?php
+            $conta++;
+            ?>
+            
+
           @endforeach  
         </tbody>
       </table>

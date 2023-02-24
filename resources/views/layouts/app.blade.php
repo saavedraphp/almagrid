@@ -362,7 +362,7 @@
         </div>
     </div>
     @yield('csss')
-    @yield('scriptss')
+    @yield('scripts')
 <!-- jQuery -->
  
 <!-- overlayScrollbars -->

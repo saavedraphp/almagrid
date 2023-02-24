@@ -51,7 +51,7 @@
   
   </div>
  
-  <h2 class="h3">Lista de Permisos</h2>
+  <h2 class="h3">Seleccione los Permisos que va a tener</h2>
   @foreach($permisos as $permiso)
         <div>
             <label for="">

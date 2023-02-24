@@ -281,7 +281,8 @@ class ProductosController extends Controller
 
 
 
-        // $productos = Producto::where('empr_id', $request->empresa_id)->get();
+         $productos = Producto::where('empr_id', $request->empresa_id)->get();
+           //dd($productos);
 
         return $productos;
     }

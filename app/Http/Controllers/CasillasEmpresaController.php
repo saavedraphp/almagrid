@@ -27,33 +27,26 @@ class CasillasEmpresaController extends Controller
     }
 
 
-    public function eliminarCasillaEmpresaId($idCliente, $idCasilla)
+    public function eliminarCasillaEmpresaId($idCliente, $id)
     {
 
-        //,'message'=>'La operacion se realizo con Exito'
-        //dd($idCasilla);
-        //CasillasEmpresa::destroy($idCasilla);
-        DB::table('casillas_empresas')->where('id', $idCasilla)->delete();
+        $casillas_x_empresa = CasillasEmpresa::find($id);
+       //dd('valor'.$casillaID);
 
 
-
-        $casillas_x_empresa = DB::table('casillas_empresas as ce')
-            ->leftJoin('racks_casillas as rc', 'ce.rc_id', '=', 'rc.rc_id')
-            ->leftJoin('racks as r', 'rc.rack_id', '=', 'r.rack_id')
-            ->where('ce.empr_id', $idCliente)->whereNull('ce.deleted_at')->paginate(Constants::NRO_FILAS);
-
-
-        //dd(DB::getQueryLog($casillas_x_empresa));
-        //        $this->lista_casillas_asignadas($idCliente);
-        //return redirect('lista_casillas_asignadas')->with('message','La operacion se realizo con Exito')->with('operacion','1');
-        return redirect()->route('lista_casillas_asignadas', ['id' => $idCliente])->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');;
-
-
-        //return view('empresas.lista_celdas_asignadas', ['empresa' => Empresa::findOrFail($idCliente),'casillas_x_empresa' => $casillas_x_empresa])->with('message','La operacion se realizo con Exito')->with('operacion','1');;
-
-
-
+        if ($this->existeProductosCasillaId($casillas_x_empresa->rc_id) > 0) {
+            return redirect()->route('lista_casillas_asignadas', ['id' => $idCliente])->with('message', 'No se puede eliminar esta casilla por que tiene productos')->with('operacion', '0');;
+        } else {
+            //DB::table('casillas_empresas')->where('id',  $id)->update('');
+            $casillas_x_empresa->delete($id);
+            return redirect()->route('lista_casillas_asignadas', ['id' => $idCliente])->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
+        }
     }
+
+
+
+
+
 
 
     public function obtenerCasillasEmpresaId(Request $request)
@@ -63,10 +56,26 @@ class CasillasEmpresaController extends Controller
             ->leftJoin('racks_casillas as rc', 'ce.rc_id', '=', 'rc.rc_id')
             ->leftJoin('racks as r', 'rc.rack_id', '=', 'r.rack_id')
             ->where('ce.empr_id', $request->empresa_id)->whereNull('ce.deleted_at')
-            ->orderBy('rack_nombre','asc')->get();
-       // dd(DB::getQueryLog($casillas_x_empresa));
+            ->orderBy('rack_nombre', 'asc')->get();
+        // dd(DB::getQueryLog($casillas_x_empresa));
 
         return ($casillas_x_empresa->count() > 0 ? $casillas_x_empresa : "0");
+    }
+
+
+
+    public function existeProductosCasillaId(int $casilla_id)
+    {
+
+
+        $total_productos = DB::table('kardex as k')
+            ->select('k.rc_id',  \DB::raw('sum(kard_cantidad)as total'))
+            ->where('k.rc_id', $casilla_id)
+            ->whereNull('k.deleted_at')
+            ->groupBy('k.rc_id')
+            ->get();
+
+         return ($total_productos->count() > 0 ? $total_productos->count() : "0");
     }
 
 
@@ -156,9 +165,9 @@ class CasillasEmpresaController extends Controller
         try {
             $existeCasillaId = DB::table("casillas_empresas")
                 ->where('rc_id', (int)$request->get('casilla_id'))
-                    ->where('empr_id', (int)$request->get('empresa_id'))->count();
+                ->where('empr_id', (int)$request->get('empresa_id'))->count();
 
-            if ($existeCasillaId>0)
+            if ($existeCasillaId > 0)
                 throw new Exception('Esta Casilla ya se encuentra registrada para usted');
 
             $casillas_empresa = new CasillasEmpresa();

@@ -306,7 +306,7 @@
         <th>DESCRIPCION</th>
         <th>CANT</th>
         <th>MEDIDA</th>
-        <th>PESO</th>
+        <th>UBICACIÓN</th>
     </tr>
     
         <?php
@@ -333,8 +333,8 @@
         $columna1 = 5;
         $columna2 = 64;
         $columna3 = 10;
-        $columna4 = 15;
-        $columna5 = 10;
+        $columna4 = 10;
+        $columna5 = 15;
         //for ($conta=0; $conta <8 ; $conta++) { 
         $conta = 0;
         foreach ($detalles as $producto)
@@ -343,8 +343,8 @@
             <td  width="'.$columna1.'%" class="tdCenter">'.($conta<10?'0'.$conta:$conta).' </td>
             <td width="'.$columna2.'%">'.$producto->prod_sku.' - '.$producto->prod_nombre.'</td>
             <td width="'.$columna3.'%" class="tdCenter">'.abs($producto->kard_cantidad).'</td>
-            <td width="'.$columna4.'%" class="tdCenter">'.$producto->unid_nombre.'</td>
-            <td width="'.$columna5.'%" class="tdCenter">'.$producto->prod_peso.'</td>
+            <td width="'.$columna4.'%" class="tdCenter">'.$producto->unid_codigo.'</td>
+            <td width="'.$columna5.'%" class="tdCenter">'.$producto->rack_nombre.' - '.$producto->rc_nombre.'</td>
             </tr>';
 
         }

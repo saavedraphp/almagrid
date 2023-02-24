@@ -245,7 +245,7 @@ const app = new Vue({
 
                         elemento.cantidad = parseInt(elemento.cantidad) + parseInt(this.v_cantidad);
                         elemento.rc_id = this.selected_casilla.rc_id;
-                        elemento.rc_nombre = this.selected_casilla.rack_nombre + this.selected_casilla.rc_nombre;
+                        elemento.rc_nombre = this.selected_casilla.rack_nombre +' - '+ this.selected_casilla.rc_nombre;
                         existeProductoLote = true;
                     }
                     console.log('Existe LoteXProducto');
@@ -270,7 +270,7 @@ const app = new Vue({
                         prod_id: this.producto.prod_id, prod_nombre: this.producto.prod_nombre,
                         prod_lote: this.lote, stock_x_lote: this.totalProductos_x_Lotes, cantidad: this.v_cantidad,
                         total: this.producto.prod_stock + this.cantidad, rc_id: this.selected_casilla.rc_id,
-                        rc_nombre: this.selected_casilla.rack_nombre + this.selected_casilla.rc_nombre
+                        rc_nombre: this.selected_casilla.rack_nombre +' - '+ this.selected_casilla.rc_nombre
                     });
                 }
 

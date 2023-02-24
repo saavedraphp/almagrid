@@ -1,12 +1,18 @@
 const app2 = new Vue({
     el: '#frm_formulario',
     data: {
-      errors: [],
       nombre: document.getElementById("nombre").value,
-      
+      errors: [],
+       existeErrores:false,
+    
 
     },
+
+
+
     methods:{
+ 
+
       checkForm: function (e) {
  
   
@@ -14,6 +20,7 @@ const app2 = new Vue({
   
         if (!this.nombre) {
           this.errors.push('El Nombre es obligatorio.');
+          this.existeErrores = true;
         }
  
          

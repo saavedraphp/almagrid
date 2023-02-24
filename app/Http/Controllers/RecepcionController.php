@@ -662,6 +662,8 @@ class RecepcionController extends Controller
         $detalles = DB::table('productos_x_empresa  as p')
             ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
             ->leftJoin('unidad_medida as um', 'um.id', '=', 'p.unidad_id')
+            ->leftJoin('racks_casillas as rc', 'rc.rc_id', '=', 'k.rc_id')
+            ->leftJoin('racks as r', 'r.rack_id', '=', 'rc.rack_id')            
             ->select(
                 'um.unid_nombre',
                 'um.unid_codigo',
@@ -675,10 +677,12 @@ class RecepcionController extends Controller
                 'p.prod_stock',
                 'p.prod_fecha_vencimiento',
                 'k.kard_cantidad',
-                'p.prod_stock as total'
+                'p.prod_stock as total',
+                'rc.rc_nombre',
+                'r.rack_nombre'
             )
             ->where('k.acta_id', '=', $id)
-            ->orderBy('p.created_at', 'asc')->get();
+            ->orderBy('k.created_at', 'asc')->get();
 
 
 
@@ -691,7 +695,7 @@ class RecepcionController extends Controller
     }
 
 
-    public function reporte_guia($id = 10)
+    public function reporte_guia($id)
     {
         $data = [
             'titulo' => 'Styde.net'
@@ -715,6 +719,8 @@ class RecepcionController extends Controller
         $detalles = DB::table('productos_x_empresa  as p')
             ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
             ->leftJoin('unidad_medida as um', 'um.id', '=', 'p.unidad_id')
+            ->leftJoin('racks_casillas as rc', 'rc.rc_id', '=', 'k.rc_id')
+            ->leftJoin('racks as r', 'r.rack_id', '=', 'rc.rack_id')
             ->select(
                 'um.unid_nombre',
                 'um.unid_codigo',
@@ -729,10 +735,12 @@ class RecepcionController extends Controller
                 'p.prod_fecha_vencimiento',
                 'p.prod_peso',
                 'k.kard_cantidad',
-                'p.prod_stock as total'
+                'p.prod_stock as total',
+                'rc.rc_nombre',
+                'r.rack_nombre'
             )
             ->where('k.acta_id', '=', $id)
-            ->orderBy('p.created_at', 'asc')->get();
+            ->orderBy('k.created_at', 'asc')->get();
 
 
 
