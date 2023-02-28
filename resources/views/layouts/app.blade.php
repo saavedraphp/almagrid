@@ -182,6 +182,18 @@
                                 </li>
 
 
+                                <li class="nav-item">
+                                    <a href="/admin/cambio-ubicacion" class="{{ Request::path() === 'admin/cambio-ubicacion' ? 'nav-link active' : 'nav-link' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <?php
+                                    $cant_cam_ubi = Acta::where('tipo_movimiento_codigo','=', 'CAMBIOUBICACION')->count();?>
+                                    <p>Movimiento de Ubicación </p>
+                                    <span class="right badge badge-danger">{{ $cant_cam_ubi ?? '0' }}</span>
+                                    </a>
+                                </li>
+
+
+
                                 </ul>
                             </li>
                             @endcanany

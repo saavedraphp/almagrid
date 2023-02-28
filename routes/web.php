@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginUserController;
+use \App\Http\Controllers\InventarioController;
 
 
 Auth::routes();
@@ -40,6 +41,9 @@ Route::get('existeSKU_Edit/', 'ProductosController@existeSKU_Edit');
 Route::resource('admin/recepcion', 'RecepcionController');
 Route::resource('admin/despacho', 'DespachoController');
 Route::get('adicionarCasillaIdEmpresaId/', 'CasillasEmpresaController@save_addCasillaIdEmpresaId');
+
+Route::resource('admin/cambio-ubicacion', 'CambioUbicacionController');
+
 
 
 //CLINTES
@@ -82,8 +86,8 @@ Route::get('/usuario', 'HomeController@login_empresa')->name('homex');
 /** INVENTARIO  */
 
 
-Route::get('admin/inventario/downloadKardexProductoId/{id}', 'InventarioController@downloadKardexProductoId')->name('downloadKardexProductoId');
-Route::get('admin/inventario/producto/{id}', 'InventarioController@kardexPorProductoId')->name('kardexPorIdProducto');
+Route::get('admin/inventario/downloadKardexProductoId/{id}', [InventarioController::class,'downloadKardexProductoId'])->name('downloadKardexProductoId');
+Route::get('admin/inventario/producto/{id}', [InventarioController::class,'kardexPorProductoId'])->name('kardexPorIdProducto');
 
 
   

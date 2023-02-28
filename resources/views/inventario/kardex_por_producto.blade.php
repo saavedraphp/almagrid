@@ -96,18 +96,25 @@
       <th scope="col">Movimiento</th>
        <th scope="col">Entrada</th>
       <th scope="col">Salida</th>
+      <th scope="col">Ubicación</th>
+      
       <th scope="col">Comentario</th>
     </tr>
   </thead>
+  <?php
+  setlocale(LC_TIME,"es_ES");
+  ?>
   <tbody id="userList">
   	@foreach($kardex as $item)
       
     <tr v-for>
-      <th scope="row"> {{ $item->kard_id }} </th>
+      <th scope="row"> {{ $item->kard_id }}</th>
       <td>{{ date('M d Y h:i', strtotime($item->created_at)) }}</td>
       <td>{{$item->tipo_movimiento}}</td>
        <td><?php echo ($item->tipo_movimiento=='INGRESO'?$item->kard_cantidad:'0')?></td>
       <td><?php echo ($item->tipo_movimiento=='DESPACHO'?$item->kard_cantidad:'0')?></td>
+      <td>{{$item->rack_nombre.' - '.$item->rc_nombre}}</td>
+      
       <td title="{{$item->acta_comentario}}">{{substr($item->acta_comentario, 0, 8)}}</td>
       
     </tr>

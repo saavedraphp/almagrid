@@ -48,6 +48,7 @@ class KardexExport implements FromCollection,WithHeadings, WithStyles,WithTitle 
             'ID',
             'TIPO MOVIMIENTO',
             'CANTIDAD',
+            'UBICACION',
             'FECHA'
             
         ];
