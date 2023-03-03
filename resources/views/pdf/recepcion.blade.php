@@ -55,7 +55,7 @@ body
         <tr>
           <td width="27%" class="tituloBoldLeft">
            <img src="{{ public_path('/dist/img/logo-trimas.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" width="80" height="40" ></td>
-          <td width="50%"><p class="tituloBoldLeft">ACTA DE {{strtoupper($acta[0]->tipo_movimiento_codigo)}} NRO: {{$acta[0]->acta_id}}</p></td>
+          <td width="50%"><p class="tituloBoldLeft">ACTA DE {{strtoupper($acta[0]->tm_nombre)}} NRO: {{$acta[0]->acta_id}}</p></td>
           <td width="23%"><table width="200" border="0">
             <tbody>
               <tr>

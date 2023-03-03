@@ -109,8 +109,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Empresa</th>
-      <th scope="col">Tipo Movimiento</th>
-      <th scope="col">Nombre</th>
+       <th scope="col">Nombre</th>
        <th scope="col">Fecha de Creacion</th>      
        <th scope="col">Asignacion</th>      
       <th scope="col">Acciones</th>
@@ -122,8 +121,7 @@
     <tr v-for>
       <th scope="row"> {{ $acta->acta_id }} </th>
       <td>{{$acta->empr_nombre}}</td>
-      <td>{{$acta->tipo_movimiento_codigo}}</td>
-      <td>{{$acta->acta_sub_cliente}}</td>
+       <td>{{$acta->acta_sub_cliente}}</td>
        <td>{{ date('M d Y h:i', strtotime($acta->created_at)) }}</td>
        <td>
        @if($acta->estado_asignacion=='REALIZADO')

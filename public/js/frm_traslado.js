@@ -82,6 +82,16 @@ const app = new Vue({
 
             }
 
+
+            if (typeof this.selected_casilla.rc_id == 'undefined' || this.selected_casilla.rc_id == "") {
+                alert("Seleccione una Casilla Origen");
+                this.$refs.r_casilla.focus();
+                return;
+
+            }  
+
+            
+
             console.log('valor cantidad ' + this.producto.prod_stock);
 
 
@@ -96,26 +106,19 @@ const app = new Vue({
             }
 
 
-            if (typeof this.selected_casilla.rc_id == 'undefined' || this.selected_casilla.rc_id == "") {
-                alert("Seleccione una Casilla Origen");
-                this.$refs.r_casilla.focus();
+
+
+            console.log(this.v_cantidad + '>' + this.selected_casilla.total)
+
+            if (parseInt(this.v_cantidad) > parseInt(this.selected_casilla.total)) {
+
+                console.log(this.selected_casilla.rc_id);
+                alert('No puede retirar mas productos de lo que existe en la casilla');
+                this.v_cantidad = "";
+                this.$refs.r_cantidad.focus();
                 return;
-
-            } else {
-
-
-                console.log(this.v_cantidad + '>' + this.selected_casilla.total)
-
-                if (parseInt(this.v_cantidad) > parseInt(this.selected_casilla.total)) {
-
-                    console.log(this.selected_casilla.rc_id);
-                    alert('No puede retirar mas productos de lo que existe en la casilla');
-                    this.v_cantidad = "";
-                    this.$refs.r_cantidad.focus();
-                    return;
-                }
             }
-
+       
 
 
             if (typeof this.selected_casilla_destino.rc_id == 'undefined' || this.selected_casilla_destino.rc_id == "") {
@@ -145,7 +148,7 @@ const app = new Vue({
 
                 //let array = response.data; array.forEach(element => console.log(element.nombre));
 
-                // VALIDA SI EXISTE PRODUCTO (ID Y LOTE) EN LISTA => SUMA
+                /*******************************  VALIDA SI EXISTE PRODUCTO (ID Y LOTE) EN LISTA => SUMA ************/
                 existeProductoLote = false;
                 stock_excede = false;
 
@@ -153,7 +156,7 @@ const app = new Vue({
                     console.log('prod_id :' + elemento.prod_id + ' = ' + this.producto.prod_id + '   LoteID :' + elemento.prod_lote + ' = ' + this.lote);
                     console.log('index =>' + index);
                     if (elemento.prod_id === this.producto.prod_id && elemento.prod_lote === this.lote &&
-                        elemento.rc_id == this.selected_casilla.rc_id) {
+                        elemento.rc_id == this.selected_casilla.rc_id && elemento.rc_id_destino == this.selected_casilla_destino.rc_id) {
 
                         total = parseInt(elemento.cantidad) + parseInt(this.v_cantidad);
 
@@ -209,6 +212,7 @@ const app = new Vue({
                             total: this.producto.prod_stock + this.cantidad, casilla_id: this.selected_casilla.rc_id,
                             rc_id: this.selected_casilla.rc_id,
                             rc_nombre: this.selected_casilla.rack_nombre + ' - ' + this.selected_casilla.rc_nombre,
+                            rc_id_destino: this.selected_casilla_destino.rc_id,                            
                             rc_destino: this.selected_casilla_destino.rack_nombre + ' - ' + this.selected_casilla_destino.rc_nombre,
                             
                         });
@@ -275,6 +279,7 @@ const app = new Vue({
 
         obtenerProductos() {
 
+
             axios.get(url + `/productos/empresa`, { params: { empresa_id: this.selected_empresa } }).then((response) => {
                 this.data = response.data;
 
@@ -288,13 +293,16 @@ const app = new Vue({
             });
 
 
+            this.productos_acta = [];
             
             this.v_cantidad = "";
             this.data = [];
             this.casillas = [];
             
+
             this.producto = 0;
             this.selected_casilla = 0;
+            this.selected_casilla_destino = 0;
 
 
         },
@@ -314,6 +322,7 @@ const app = new Vue({
             this.casillas = [];
 
             this.selected_casilla = 0;
+            this.selected_casilla_destino = 0;
 
 
         },

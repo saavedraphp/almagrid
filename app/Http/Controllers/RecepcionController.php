@@ -69,7 +69,7 @@ class RecepcionController extends Controller
     {
 
         $acta = DB::table('actas as a')
-            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
             ->where('a.acta_id', '=', $id)->first();
 
 
@@ -101,8 +101,8 @@ class RecepcionController extends Controller
 
 
 
-        switch ($acta->tipo_movimiento_codigo) {
-            case 'INGRESO':
+        switch ($acta->tm_codigo) {
+            case 'RECEPCION':
                 $array_titulos = [
                     'CABECERA' => 'Asignacion de productos a racks',
                     'TAB'   => 'Registro de Productos'
@@ -117,6 +117,9 @@ class RecepcionController extends Controller
                 ];
 
                 break;
+
+            default:
+                $array_titulos = [];
         }
 
 
@@ -144,7 +147,6 @@ class RecepcionController extends Controller
         $busqueda = "";
         if ($request) {
 
-
             $query    = trim($request->get('search'));
 
 
@@ -152,7 +154,7 @@ class RecepcionController extends Controller
                 $actas = DB::table('actas  as a')
                     ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                     ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
-                    ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+                    ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
                     ->select(
                         'a.acta_id',
                         'a.tipo_docu_id',
@@ -161,13 +163,13 @@ class RecepcionController extends Controller
                         'td.tipo_docu_nombre',
                         'a.acta_costo',
                         'a.acta_numero_ingr_sali',
-                        'a.tipo_movimiento_codigo',
+                        'a.tm_codigo',
                         'tm.tm_codigo',
                         'a.acta_sub_cliente',
                         'estado_asignacion',
                         'a.created_at'
                     )
-                    ->where('tm.tm_codigo', '=', 'INGRESO')
+                    ->where('tm.tm_codigo', '=', 'RECEPCION')
                     ->where(function ($query) use ($request) {
                         $query->where('empr_nombre', 'LIKE', '%' . $request->search . '%')
                             ->orWhere('a.acta_sub_cliente', 'LIKE', '%' . $request->search . '%')
@@ -176,12 +178,13 @@ class RecepcionController extends Controller
                     ->whereNull('a.deleted_at')
                     ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                 $busqueda = 'nombre';
+
             } else {
 
                 $actas = DB::table('actas  as a')
                     ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                     ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
-                    ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+                    ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
                     ->select(
                         'a.acta_id',
                         'a.tipo_docu_id',
@@ -190,22 +193,24 @@ class RecepcionController extends Controller
                         'td.tipo_docu_nombre',
                         'a.acta_costo',
                         'acta_numero_ingr_sali',
-                        'a.tipo_movimiento_codigo',
+                        'a.tm_codigo',
                         'estado_asignacion',
-                        'tm.tm_codigo',
+                        'tm.tm_nombre',
                         'a.acta_sub_cliente',
                         'a.created_at'
                     )
-                    ->where('tm.tm_codigo', '=', 'INGRESO')
+                    ->where('tm.tm_codigo', '=', 'RECEPCION')
                     ->whereNull('a.deleted_at')
                     ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
+                     //dd(DB::getQueryLog());
+
 
                 switch ($request->get('rbo_lista')) {
                     case 'DESPAC':
                         $actas = DB::table('actas  as a')
                             ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                             ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
-                            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+                            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
                             ->select(
                                 'a.acta_id',
                                 'a.tipo_docu_id',
@@ -232,7 +237,7 @@ class RecepcionController extends Controller
                         $actas = DB::table('actas  as a')
                             ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                             ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
-                            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+                            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
                             ->select(
                                 'a.acta_id',
                                 'a.tipo_docu_id',
@@ -258,7 +263,7 @@ class RecepcionController extends Controller
                         $actas = DB::table('actas  as a')
                             ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                             ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
-                            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+                            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
                             ->select(
                                 'a.acta_id',
                                 'a.tipo_docu_id',
@@ -267,7 +272,7 @@ class RecepcionController extends Controller
                                 'td.tipo_docu_nombre',
                                 'a.acta_costo',
                                 'acta_numero_ingr_sali',
-                                'a.tipo_movimiento_codigo',
+                                'a.tm_codigo',
                                 'a.acta_sub_cliente',
                                 'estado_asignacion',
                                 'tm.tm_codigo',
@@ -282,10 +287,11 @@ class RecepcionController extends Controller
                 $nro_documento = trim($request->get('nro_documento'));
 
                 if (strlen($nro_documento) > 0) {
+
                     $actas = DB::table('actas  as a')
                         ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                         ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
-                        ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+                        ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
                         ->select(
                             'a.acta_id',
                             'a.tipo_docu_id',
@@ -294,25 +300,24 @@ class RecepcionController extends Controller
                             'td.tipo_docu_nombre',
                             'a.acta_costo',
                             'a.acta_numero_ingr_sali',
-                            'a.tipo_movimiento_codigo',
+                            'a.tm_codigo',
                             'tm.tm_codigo',
                             'a.acta_sub_cliente',
                             'estado_asignacion',
                             'a.created_at'
                         )
-                        ->where('tm.tm_codigo', '=', 'INGRESO')
+                        ->where('tm.tm_codigo', '=', 'RECEPCION')
                         ->where('a.acta_numero_ingr_sali', '=', $nro_documento)
                         ->whereNull('a.deleted_at')
                         ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                     $busqueda = 'nro_documento';
                     $query = $request->get('nro_documento');
-                    //dd($actas->toSql());
 
 
                 }
             }
+            //dd('aaaaaaaa'.$busqueda);
             //echo $actas;  
-            //dd(DB::getQueryLog());
 
 
             //dd($actas);
@@ -328,7 +333,7 @@ class RecepcionController extends Controller
      */
     public function create()
     {
-        
+
 
         $lotes = DB::table('lotes')->get();
         //var_dump($lotes);
@@ -363,7 +368,7 @@ class RecepcionController extends Controller
 
             $acta = new Acta();
             $acta->empr_id =                  $request->get('cbo_empresa');
-            $acta->tipo_movimiento_codigo =                  'INGRESO';  // ALMACENAMIENTO  $request->get('tipo_servicio');
+            $acta->tm_codigo =                  'RECEPCION';  // ALMACENAMIENTO  $request->get('tipo_servicio');
             $acta->acta_sub_cliente =              $request->get('sub_cliente');
             $acta->tipo_docu_id =           $request->get('tipo_documento');
             $acta->acta_numero_ingr_sali =         $request->get('nro_documento_frm');
@@ -394,7 +399,6 @@ class RecepcionController extends Controller
                             'acta_id' => $acta->acta_id,
                             'prod_id' => $value,
                             'lote_id' => $lote[$key],
-                            'tipo_movimiento' => 'INGRESO', // INGRESO
                             'kard_cantidad' => $cantidad[$key],
                             'rc_id' => $rc[$key],
                             'created_at' => date('Y-m-d H:i:s')
@@ -448,7 +452,7 @@ class RecepcionController extends Controller
     public function show($id)
     {
         $acta = DB::table('actas as a')
-            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tipo_movimiento_codigo')
+            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
             ->select(
                 'a.acta_id',
                 'a.created_at',
@@ -456,7 +460,7 @@ class RecepcionController extends Controller
                 'a.acta_sub_cliente',
                 'a.acta_numero_ingr_sali',
                 'a.acta_comentario',
-                'a.tipo_movimiento_codigo',
+                'a.tm_codigo',
                 'a.tipo_docu_id'
             )
             ->where('a.acta_id', '=', $id)->first();
@@ -486,10 +490,10 @@ class RecepcionController extends Controller
         //dd($detalles);
 
 
-        switch ($acta->tipo_movimiento_codigo) {
-            case 'INGRESO':
+        switch ($acta->tm_codigo) {
+            case 'RECEPCION':
                 $array_titulos = [
-                    'CABECERA' => 'Registro de Ingreso',
+                    'CABECERA' => 'Registro de Recepcion',
                     'TAB'   => 'Registro de Productos'
                 ];
 
@@ -502,6 +506,30 @@ class RecepcionController extends Controller
                 ];
 
                 break;
+
+
+            case 'CAMUBISALI':
+                $array_titulos = [
+                    'CABECERA' => 'Registro  Cambio Ubicación -  [ SALIDA ]',
+                    'TAB'   => 'Traslado de Productos'
+                ];
+
+                break;
+
+
+            case 'CAMUBIINGR':
+                $array_titulos = [
+                    'CABECERA' => 'Registro  Cambio Ubicación - [ INGRESO ]',
+                    'TAB'   => 'Ingreso de Productos'
+                ];
+
+                break;
+
+            default:
+                $array_titulos = [
+                    'CABECERA' => 'No encontro el tipo de movimiento',
+                    'TAB'   => 'Registro de Productos'
+                ];
         }
 
 
@@ -568,26 +596,26 @@ class RecepcionController extends Controller
      */
     public function destroy($id)
     {
-        
+
 
         try {
 
             DB::beginTransaction();
 
-            
+
 
             $kardexs = Kardex::where('acta_id', '=', $id)->get();
 
             $producto_stock = 0;
 
             foreach ($kardexs as $kardex) {
-                $producto_stock = $this->validarStockProductoIdCasillaId($kardex->prod_id,$kardex->rc_id);
+                $producto_stock = $this->validarStockProductoIdCasillaId($kardex->prod_id, $kardex->rc_id);
 
                 if ((int)$producto_stock < (int)$kardex->kard_cantidad)
-                throw new Exception('errors','Unos de los productos no cuenta no cuenta con el stock suficiente. Por favor verifique');
+                    throw new Exception('errors', 'Unos de los productos no cuenta no cuenta con el stock suficiente. Por favor verifique');
 
-                    /**************** ACTUALIZO EL TOTAL DE PRODUCTO_X_EMPRESA*****************/
-                    $query_prod = "update productos_x_empresa set prod_stock = (prod_stock - " . $kardex->kard_cantidad . ") where  prod_id = " . $kardex->prod_id;
+                /**************** ACTUALIZO EL TOTAL DE PRODUCTO_X_EMPRESA*****************/
+                $query_prod = "update productos_x_empresa set prod_stock = (prod_stock - " . $kardex->kard_cantidad . ") where  prod_id = " . $kardex->prod_id;
                 DB::update($query_prod);
 
 
@@ -602,7 +630,7 @@ class RecepcionController extends Controller
 
                 /**************** ELIMINACION LOGICA DE LOS REGISTROS DEL KARDEX ***********/
                 $kardex->destroy($kardex->kard_id);
-                
+
                 $producto_stock = 0;
             }
 
@@ -622,13 +650,12 @@ class RecepcionController extends Controller
     public function validarStockProductoIdCasillaId(int $producto_id, $casilla_id)
     {
         $producto_stock = DB::table('kardex')
-        ->where('prod_id', $producto_id)
-        ->where('rc_id', $casilla_id)
-        ->whereNull('deleted_at')
-        ->sum('kard_cantidad');
+            ->where('prod_id', $producto_id)
+            ->where('rc_id', $casilla_id)
+            ->whereNull('deleted_at')
+            ->sum('kard_cantidad');
 
         return (int)$producto_stock;
-
     }
 
 
@@ -647,13 +674,15 @@ class RecepcionController extends Controller
         $acta = DB::table('actas  as a')
             ->join('empresas as e', 'a.empr_id', '=', 'e.empr_id')
             ->leftJoin('tipo_documentos as t', 't.tipo_docu_id', '=', 'a.tipo_docu_id')
+            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
             ->select(
                 'a.acta_id',
                 'a.created_at',
                 'e.empr_nombre',
                 't.tipo_docu_nombre',
                 'a.acta_numero_ingr_sali',
-                'a.tipo_movimiento_codigo',
+                'a.tm_codigo',
+                'tm.tm_nombre',
                 'a.acta_sub_cliente'
             )
             ->where('a.acta_id', '=', $id)->get();
@@ -663,7 +692,7 @@ class RecepcionController extends Controller
             ->join('kardex as k', 'k.prod_id', '=', 'p.prod_id')
             ->leftJoin('unidad_medida as um', 'um.id', '=', 'p.unidad_id')
             ->leftJoin('racks_casillas as rc', 'rc.rc_id', '=', 'k.rc_id')
-            ->leftJoin('racks as r', 'r.rack_id', '=', 'rc.rack_id')            
+            ->leftJoin('racks as r', 'r.rack_id', '=', 'rc.rack_id')
             ->select(
                 'um.unid_nombre',
                 'um.unid_codigo',
@@ -691,7 +720,7 @@ class RecepcionController extends Controller
         $pdf = PDF::loadView('pdf.recepcion', ['acta' => $acta, 'detalles' => $detalles]);
 
 
-        return $pdf->download('Acta-' . $acta[0]->tipo_movimiento_codigo . '-' . $id . '.pdf');
+        return $pdf->download('Acta-' . $acta[0]->tm_nombre . '-' . $id . '.pdf');
     }
 
 
@@ -705,13 +734,15 @@ class RecepcionController extends Controller
         $acta = DB::table('actas  as a')
             ->join('empresas as e', 'a.empr_id', '=', 'e.empr_id')
             ->leftJoin('tipo_documentos as t', 't.tipo_docu_id', '=', 'a.tipo_docu_id')
+            ->leftJoin('tipo_movimiento as tm', 'tm.tm_codigo', '=', 'a.tm_codigo')
             ->select(
                 'a.acta_id',
                 'a.created_at',
                 'e.empr_nombre',
                 't.tipo_docu_nombre',
                 'a.acta_numero_ingr_sali',
-                'a.tipo_movimiento_codigo'
+                'a.tm_codigo',
+                'tm.tm_nombre'
             )
             ->where('a.acta_id', '=', $id)->get();
 
@@ -745,7 +776,7 @@ class RecepcionController extends Controller
 
 
         $pdf = PDF::loadView('pdf.guia-salida', ['acta' => $acta, 'detalles' => $detalles, 'data' => $data]);
-        return $pdf->download('Acta-' . $acta[0]->tipo_movimiento_codigo . '-' . $id . '.pdf');
+        return $pdf->download('Acta-' . $acta[0]->tm_nombre . '-' . $id . '.pdf');
     }
 
     public function demo()

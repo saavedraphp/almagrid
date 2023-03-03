@@ -2,6 +2,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginUserController;
 use \App\Http\Controllers\InventarioController;
+use \App\Http\Controllers\CambioUbicacionController;
+
 
 
 Auth::routes();

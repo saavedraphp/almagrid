@@ -194,7 +194,7 @@ const app = new Vue({
 
                     if (existeProductoLote == false) {
                         this.productos_acta.push({
-                            prod_id: this.producto.prod_id, prod_nombre: this.producto.prod_sku + ' - ' + this.producto.prod_nombre,
+                            prod_id: this.producto.prod_id, producto_nombre: this.producto.producto_nombre,
                             prod_lote: this.lote, stock_x_lote: this.totalProductos_x_Lotes, cantidad: this.v_cantidad,
                             total: this.producto.prod_stock + this.cantidad, casilla_id: this.selected_casilla.rc_id,
                             rc_id: this.selected_casilla.rc_id,
@@ -207,7 +207,11 @@ const app = new Vue({
                 this.$refs.r_producto.focus();
                 this.v_cantidad = "";
                 this.producto = 0;
+                
+                this.casillas = [];
                 this.selected_casilla = 0;
+                
+                
 
                 //console.log(this.productos_acta);
                 /*
@@ -271,10 +275,13 @@ const app = new Vue({
 
         obtenerProductos() {
 
+
             axios.get(url + `/productos/empresa`, { params: { empresa_id: this.selected_empresa } }).then((response) => {
                 this.data = response.data;
 
             });
+            
+            this.productos_acta = [];            
             
             this.v_cantidad = "";
             this.data = [];
@@ -298,8 +305,8 @@ const app = new Vue({
             });
 
             this.v_cantidad = "";
-            this.casillas = [];
 
+            this.casillas = [];
             this.selected_casilla = 0;
 
 

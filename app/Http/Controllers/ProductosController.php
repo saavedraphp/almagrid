@@ -31,8 +31,7 @@ class ProductosController extends Controller
         // LSL PARA LA VALIDACION
         $this->middleware('auth');
         DB::enableQueryLog();
-
-        //$this->foo = $foo;
+ 
     }
 
 
@@ -264,6 +263,7 @@ class ProductosController extends Controller
         $productos = DB::table('productos_x_empresa  as p')
 
             ->select(
+                DB::raw("CONCAT(prod_sku,' - ',prod_nombre ) as producto_nombre"),
                 'p.prod_sku',
                 'p.prod_id',
                 'p.unidad_id',
@@ -274,14 +274,13 @@ class ProductosController extends Controller
                 'p.prod_stock as total'
             )
             ->where('p.empr_id', '=', $request->empresa_id)
-            ->whereNull('deleted_at')
-            ->orderBy('p.prod_nombre', 'asc')->get();
+            ->whereNull('deleted_at')->get();
 
 
 
 
 
-         $productos = Producto::where('empr_id', $request->empresa_id)->get();
+         //$productos = Producto::where('empr_id', $request->empresa_id)->get();
            //dd($productos);
 
         return $productos;

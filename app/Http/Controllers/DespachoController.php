@@ -41,9 +41,9 @@ class DespachoController extends Controller
             $actas = DB::table('actas  as a')
             ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
             ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
-            ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
+            ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tm_codigo')
             ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre',
-            'a.acta_costo','a.acta_numero_ingr_sali', 'a.tipo_movimiento_codigo', 'tm.tm_codigo', 
+            'a.acta_costo','a.acta_numero_ingr_sali', 'a.tm_codigo', 'tm.tm_codigo','tm.tm_nombre', 
             'a.acta_sub_cliente', 'a.created_at')
             ->where('tm.tm_codigo', '=', 'DESPACHO')
             ->where(function($query) use ($request){
@@ -65,9 +65,9 @@ class DespachoController extends Controller
         $actas = DB::table('actas  as a')
         ->leftJoin('tipo_documentos as td','a.tipo_docu_id','=','td.tipo_docu_id')
         ->leftJoin('empresas as e','a.empr_id','=','e.empr_id')
-        ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tipo_movimiento_codigo')
+        ->leftJoin('tipo_movimiento as tm','tm.tm_codigo','=','a.tm_codigo')
         ->select('a.acta_id', 'a.tipo_docu_id',  'a.empr_id', 'e.empr_nombre','td.tipo_docu_nombre','a.acta_costo',
-        'acta_numero_ingr_sali', 'a.tipo_movimiento_codigo',
+        'acta_numero_ingr_sali', 'a.tm_codigo','tm.tm_nombre',
         'tm.tm_codigo', 'a.acta_sub_cliente', 'a.created_at')
         ->where('tm.tm_codigo', '=', 'DESPACHO')
         ->whereNull('a.deleted_at')
@@ -119,7 +119,7 @@ class DespachoController extends Controller
     
             $acta = new Acta();
             $acta->empr_id =                  $request->get('cbo_empresa');
-            $acta->tipo_movimiento_codigo =                  'DESPACHO';  // DESPACHO
+            $acta->tm_codigo =                  'DESPACHO';  // DESPACHO
             $acta->acta_sub_cliente =              $request->get('sub_cliente');
             $acta->tipo_docu_id =           $request->get('tipo_documento');
             $acta->acta_numero_ingr_sali =         $request->get('nro_documento');

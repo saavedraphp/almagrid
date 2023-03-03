@@ -7,7 +7,7 @@
 @inject('presentaciones','App\Services\Presentaciones')
 @inject('racks','App\Services\Racks')
 
-<h2>[Nuevo] </h2>
+<h2>Recepción [ Nuevo ] </h2>
  
 
 <form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/recepcion" >
@@ -19,7 +19,7 @@
     </ul>
   </p>
 
-<div class="tab-content col-md-10" id="crud">
+<div class="tab-content col-md-12" id="crud">
 
 
   <div   id="home">
@@ -146,6 +146,7 @@
           <table class="table table-hover"  >
             <thead>
               <tr>
+                <th scope="col">#</th>
                 <th scope="col">#ID</th>
                 <th scope="col">Producto</th>
                  <th scope="col">Stock</th>
@@ -156,11 +157,12 @@
             </thead>
 
             <tbody id="userList">
-              <tr v-for="producto in productos_acta"   >
+              <tr v-for="(producto, conta) in productos_acta"   >
+                <th>@{{conta+1}}</th>
                 <th class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </th>
-                <td>@{{producto.prod_nombre}}
+                <td>@{{producto.producto_nombre}}
                   <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" > 
                   <input v-model="producto.rc_id" type="hidden" size="3"name="rc_id[]" > 
                 </td>

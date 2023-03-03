@@ -126,6 +126,7 @@
           <table class="table table-hover"  >
             <thead>
               <tr>
+                <th scope="col">#</th>
                 <th scope="col">#ID</th>
                 <th scope="col">Producto</th>
                  <th scope="col">Origen</th>
@@ -136,12 +137,18 @@
             </thead>
 
             <tbody id="userList">
-              <tr v-for="producto in productos_acta"   >
+              <tr v-for="(producto, conta) in productos_acta"   >
+                <td>@{{conta+1}}</td>
                 <td class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </td>
                 <td>@{{producto.prod_nombre}}</td>
-                <td>@{{producto.rc_nombre}} <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" > </td>
+                
+                <td>@{{producto.rc_nombre}} 
+                  <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" >
+                  <input v-model="producto.rc_id" type="hidden" size="3"name="rc_id[]" > 
+                 </td>
+
                 <td >@{{producto.cantidad}}
                     <input v-model="producto.cantidad" v-on:blur="modificarStock(producto)" v-on:keydown.enter.prevent="modificarStock(producto)" 
                      type="hidden" class="form-control"     size="3" placeholder="Cantidad"    
@@ -150,7 +157,7 @@
 
                 </td>
                 <td>@{{producto.rc_destino}}
-                  <input v-model="producto.rc_id" type="hidden" size="3"name="rc_id[]" > 
+                  <input v-model="producto.rc_id_destino" type="hidden" size="3"name="rc_id_destino[]" > 
                 </td>
 
               <td><button type="button" class="btn btn-default" @click="removeItem(producto)">Remove</button></td>  

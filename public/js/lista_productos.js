@@ -267,7 +267,7 @@ const app = new Vue({
 
                 if (existeProductoLote == false) {
                     this.productos_acta.push({
-                        prod_id: this.producto.prod_id, prod_nombre: this.producto.prod_nombre,
+                        prod_id: this.producto.prod_id, producto_nombre: this.producto.producto_nombre,
                         prod_lote: this.lote, stock_x_lote: this.totalProductos_x_Lotes, cantidad: this.v_cantidad,
                         total: this.producto.prod_stock + this.cantidad, rc_id: this.selected_casilla.rc_id,
                         rc_nombre: this.selected_casilla.rack_nombre +' - '+ this.selected_casilla.rc_nombre

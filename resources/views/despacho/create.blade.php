@@ -7,7 +7,7 @@
 @inject('presentaciones','App\Services\Presentaciones')
 @inject('racks','App\Services\Racks')
 
-<h2>[{{MiConstantes::NUEVO}}] </h2>
+<h2>Despacho [{{MiConstantes::NUEVO}}] </h2>
  
 
 <form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/despacho" >
@@ -149,6 +149,7 @@
           <table class="table table-hover"  >
             <thead>
               <tr>
+                <th>#</th>
                 <th scope="col">#ID</th>
                 <th scope="col">Producto</th>
                  <th scope="col">Stock</th>
@@ -159,11 +160,12 @@
             </thead>
 
             <tbody id="userList">
-              <tr v-for="producto in productos_acta"   >
+              <tr v-for="(producto, conta) in productos_acta"   >
+                <td>@{{conta+1}}</td>
                 <td class="item-{{$index}}" scope="row">@{{producto.prod_id}} 
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </td>
-                <td>@{{producto.prod_nombre}}</td>
+                <td>@{{producto.producto_nombre}}</td>
                 <td>@{{producto.stock_x_lote}} <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" > </td>
                 <td >@{{producto.cantidad}}
                     <input v-model="producto.cantidad" v-on:blur="modificarStock(producto)" v-on:keydown.enter.prevent="modificarStock(producto)" 

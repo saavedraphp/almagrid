@@ -121,7 +121,7 @@
     <tr v-for>
       <th scope="row"> {{ $acta->acta_id }} </th>
       <td>{{$acta->empr_nombre}}</td>
-      <td>{{$acta->tipo_movimiento_codigo}}</td>
+      <td>{{$acta->tm_nombre}}</td>
       <td>{{$acta->acta_sub_cliente}}</td>
        <td>{{ date('M d Y h:i:s', strtotime($acta->created_at)) }}</td>
 

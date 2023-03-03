@@ -163,7 +163,7 @@
                                     <a href="/admin/recepcion" class="{{ Request::path() === 'admin/recepcion' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <?php
-                                    $rack_count = Acta::where('tipo_movimiento_codigo','=', 'INGRESO')->count();?>
+                                    $rack_count = Acta::where('tm_codigo','=', 'RECEPCION')->count();?>
                                     <p>Recepcion </p>
                                     <span class="right badge badge-danger">{{ $rack_count ?? '0' }}</span>
                                     </a>
@@ -175,7 +175,7 @@
                                     <a href="/admin/despacho" class="{{ Request::path() === 'admin/despacho' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <?php
-                                    $cant_despacho = Acta::where('tipo_movimiento_codigo','=', 'DESPACHO')->count();?>
+                                    $cant_despacho = Acta::where('tm_codigo','=', 'DESPACHO')->count();?>
                                     <p>Despacho </p>
                                     <span class="right badge badge-danger">{{ $cant_despacho ?? '0' }}</span>
                                     </a>
@@ -186,8 +186,8 @@
                                     <a href="/admin/cambio-ubicacion" class="{{ Request::path() === 'admin/cambio-ubicacion' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <?php
-                                    $cant_cam_ubi = Acta::where('tipo_movimiento_codigo','=', 'CAMBIOUBICACION')->count();?>
-                                    <p>Movimiento de Ubicación </p>
+                                    $cant_cam_ubi = Acta::where('tm_codigo','=', 'CAMUBISALI')->orWhere('tm_codigo','CAMUBIINGR')->count();?>
+                                    <p>Cambio de Ubicación </p>
                                     <span class="right badge badge-danger">{{ $cant_cam_ubi ?? '0' }}</span>
                                     </a>
                                 </li>
