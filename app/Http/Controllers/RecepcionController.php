@@ -493,16 +493,16 @@ class RecepcionController extends Controller
         switch ($acta->tm_codigo) {
             case 'RECEPCION':
                 $array_titulos = [
-                    'CABECERA' => 'Registro de Recepcion',
-                    'TAB'   => 'Registro de Productos'
+                    'CABECERA' => 'REGISTRO DE RECEPCION',
+                    'TAB'   => 'REGISTRO DE PRODUCTOS'
                 ];
 
                 break;
 
             case 'DESPACHO':
                 $array_titulos = [
-                    'CABECERA' => 'Registro de Despacho',
-                    'TAB'   => 'Despacho de Productos'
+                    'CABECERA' => 'REGISTRO DE DESPACHO',
+                    'TAB'   => 'DESPACHO DE PRODUCTOS'
                 ];
 
                 break;
@@ -510,8 +510,8 @@ class RecepcionController extends Controller
 
             case 'CAMUBISALI':
                 $array_titulos = [
-                    'CABECERA' => 'Registro  Cambio Ubicación -  [ SALIDA ]',
-                    'TAB'   => 'Traslado de Productos'
+                    'CABECERA' => 'REGISTRO  CAMBIO DE UBICACION -  [ SALIDA ]',
+                    'TAB'   => 'TRASLADO DE PRODUCTOS'
                 ];
 
                 break;
@@ -519,8 +519,8 @@ class RecepcionController extends Controller
 
             case 'CAMUBIINGR':
                 $array_titulos = [
-                    'CABECERA' => 'Registro  Cambio Ubicación - [ INGRESO ]',
-                    'TAB'   => 'Ingreso de Productos'
+                    'CABECERA' => 'REGISTRO  CAMBIO DE UBICACION - [ INGRESO ]',
+                    'TAB'   => 'INGRESO DE PRODUCTOS'
                 ];
 
                 break;
@@ -528,7 +528,7 @@ class RecepcionController extends Controller
             default:
                 $array_titulos = [
                     'CABECERA' => 'No encontro el tipo de movimiento',
-                    'TAB'   => 'Registro de Productos'
+                    'TAB'   => 'REGISTRO DE PRODUCTOS'
                 ];
         }
 
@@ -561,32 +561,7 @@ class RecepcionController extends Controller
 
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-
-        $acta =                           Acta::findOrfail($id);
-
-        $acta->empr_id =                  $request->get('cbo_empresa');
-        //$acta->serv_id =                  $request->get('tipo_servicio');
-        $acta->acta_sub_cliente =              $request->get('sub_cliente');
-        $acta->tipo_docu_id =           $request->get('tipo_documento');
-        $acta->acta_numero_ingr_sali =         $request->get('nro_documento');
-        //        $acta->acta_encargado_id =        $request->get('cbo_empresa');
-        //      $acta->acta_supervisor_id =        $request->get('cbo_empresa');
-        $acta->acta_costo =        $request->get('precio');
-        $acta->acta_comentario =        $request->get('comentario');
-
-        $acta->update();
-
-        return redirect('admin/recepcion');
-    }
+ 
 
     /**
      * Remove the specified resource from storage.

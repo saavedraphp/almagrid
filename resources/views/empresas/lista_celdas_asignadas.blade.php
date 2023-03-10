@@ -7,9 +7,9 @@
 <div class="container">
 
 
-<h2>Lista de Casillas Asignadas: {{$empresa->empr_nombre}}
+<h2>Lista de Casillas Asignadas: {{$empresa->empr_id.' - '.$empresa->empr_nombre}}
 
-  <a href="{{route('elegir_celdas',$empresa->empr_id)}}"> <button type="button" class="btn btn-success float-right mr-3">Adicionar</button></a>  
+  <a href="{{route('elegir_celdas',$empresa->empr_id)}}"> <button type="button" class="btn btn-success float-right mr-3">{{MiConstantes::NUEVO}}</button></a>  
 
  </h2>
  

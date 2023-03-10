@@ -7,7 +7,7 @@
 @inject('presentaciones','App\Services\Presentaciones')
 @inject('racks','App\Services\Racks')
 
-<h2>Cambio de Ubicación - [{{MiConstantes::NUEVO}}] </h2>
+<h2>CAMBIO DE UBICACION - [{{MiConstantes::NUEVO}}] </h2>
  
 
 <form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/cambio-ubicacion" >
@@ -128,11 +128,11 @@
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">#ID</th>
-                <th scope="col">Producto</th>
-                 <th scope="col">Origen</th>
-                <th scope="col">Cant</th>
-                <th scope="col">Destino</th>
-                <th scope="col">Accion</th>
+                <th scope="col">PRODUCTO</th>
+                 <th scope="col">ORIGEN</th>
+                <th scope="col">CANT</th>
+                <th scope="col">DESTINO</th>
+                <th scope="col">ACCIONES</th>
               </tr>
             </thead>
 
@@ -186,8 +186,8 @@
     
 
 
-    <button type="button" @click="checkForm()"   class="btn btn-primary">Registrar</button>
-    <button type="reset" class="btn btn-danger">Cancelar</button>
+    <button type="button" @click="checkForm()"   class="btn btn-primary">{{MiConstantes::REGISTRAR}}</button>
+    <button type="reset" class="btn btn-danger">{{MiConstantes::CANCELAR}}</button>
     
 
   </div>

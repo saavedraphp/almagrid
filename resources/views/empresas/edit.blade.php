@@ -5,22 +5,12 @@
 
 
 <div class="container">
+  <div class="card">
+    <h5 class="card-header">EMPRESA [Editar]</h5>
+    <div class="card-body">
 
 <div class="row">
-<div class="col-md-8">
-    @if ($errors->any())
-    <div class="alert alert-danger">
-      <h4>Por Favor corriga los siguientes errores   </h4>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-   @endif
-
- 
-
+<div class="col-md-12">
 
    <form action="{{route('clientes.update',$empresa->empr_id)}}" id="frm_formulario"  name="frm_formulario"  method="POST">
     @method('PATCH')
@@ -35,7 +25,7 @@
 
     <div class="form-row">
       <div class="form-group col-md-6">
-        <label for="inputEmail4">Empresa</label>
+        <label for="inputEmail4">EMPRESA</label>
         <input type="text" class="form-control" name="nombre" v-model="nombre_id" id="nombre_id" placeholder="Nombre" value="{{$empresa->empr_nombre}}">
         <input type="hidden" class="form-control" name="empresa_id" v-model="empresa_id" id="empresa_id"  value="{{$empresa->empr_id}}">
         <input type="hidden" class="form-control" name="user_id" v-model="user_id" id="user_id"  value="{{$empresa->user_id}}">
@@ -49,21 +39,21 @@
 
 
     <div class="form-group">
-      <label for="inputAddress">Direccion</label>
+      <label for="inputAddress">DIRECCION</label>
       <input type="text" class="form-control" id="inputAddress" placeholder="Direccion" name="direccion" value="{{$empresa->empr_direccion}}">
     </div>
 
     <div class="form-row">
     
     <div class="form-group col-md-6">
-        <label for="inputPassword4">Celular</label>
+        <label for="inputPassword4">CELULAR</label>
         <input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==9) return false;" 
         class="form-control" v-model="celular_id" name="celular" id="celular_id" placeholder="Celular" value="{{$empresa->empr_celular}}">
       </div>
 
 
       <div class="form-group col-md-6">
-        <label for="inputEmail4">Telefono</label>
+        <label for="inputEmail4">TELEFONO</label>
         <input  type="number" maxlength="9"  class="form-control" name="telefono" id="inputEmail4" placeholder="Telefono" 
         value="{{$empresa->empr_telefono}}">
       </div>
@@ -72,7 +62,7 @@
     </div>
 
     <div class="form-group">
-      <label for="inputAddress">Correo Usuario</label>
+      <label for="inputAddress">CORREO DE USUARIO</label>
       <input   type="text" class="form-control"  readonly  v-model="correo_id"  id="correo_id" placeholder="Email" name="correo" 
       value="{{$empresa->email}}"     >
       <input   type="hidden"  name="correo_original"  value="{{$empresa->email}}"     >
@@ -84,17 +74,20 @@
 
 
 
-      <button type="button" v-on:click="checkForm" class="btn btn-primary">Actualizar</button>
-      <button type="reset" class="btn btn-danger">Cancelar</button>
+      <button type="button" v-on:click="checkForm" class="btn btn-primary">{{MiConstantes::ACTUALIZAR}}</button>
+      <button type="reset" class="btn btn-danger">{{MiConstantes::CANCELAR}}</button>
 
 
   
   
   </form>
+  </div>
+  </div>
 
+  </div>
+</div>
 
-
-<br>
+  <br>
 <br>
 <hr>
 

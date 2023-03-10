@@ -106,7 +106,9 @@ class ProductosController extends Controller
                             ->orWhere('empr_nombre', 'LIKE', '%' . $request->search . '%');
                     })
                     ->whereNull('p.deleted_at')
+                    ->whereNull('e.deleted_at')
                     ->orderBy('p.created_at', 'asc')->get()->toArray();
+                    //dd(DB::getQueryLog());
                 //->paginate(Constants::NRO_FILAS);                
             }
 
@@ -119,13 +121,28 @@ class ProductosController extends Controller
                 //echo $value->prod_id.'<br>';
 
                 if ($value->prod_stock > 0) {
-                    $qury_racks = DB::select(DB::raw("select k.prod_id, r.rack_id, r.rack_nombre, k.rc_id, rc.rc_nombre FROM kardex k
+                   /* $qury_racks = DB::select(DB::raw("select k.prod_id, r.rack_id, r.rack_nombre, k.rc_id, rc.rc_nombre FROM kardex k
                     inner join racks_casillas rc on k.rc_id = rc.rc_id
                     inner join racks r on rc.rack_id = r.rack_id
                     where prod_id = '$value->prod_id' and
                     k.deleted_at is  null
                     group by k.prod_id, r.rack_id, r.rack_nombre, k.rc_id, rc.rc_nombre"));
                     //dd($qury_racks);
+                    */
+
+                    $qury_racks = DB::table('casillas_empresas as ce')
+                    ->join('racks_casillas as rc', 'ce.rc_id', '=', 'rc.rc_id')
+                    ->join('racks as r', 'rc.rack_id', '=', 'r.rack_id')
+                    ->join('kardex as k', 'k.rc_id', '=', 'rc.rc_id')
+                    ->select('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre', \DB::raw('sum(kard_cantidad)as total'))
+                    ->where('k.prod_id', $value->prod_id)
+                    ->whereNull('k.deleted_at')
+                    ->groupBy('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre')
+                    ->having('total', '>', 0)
+                    ->get();
+
+
+
 
                     $coma = "";
                     foreach ($qury_racks as $key_r => $value_r) {

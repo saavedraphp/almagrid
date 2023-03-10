@@ -37,12 +37,15 @@ class InventarioController extends Controller
             
             $kardex = DB::table('kardex as k')
                     ->leftJoin('actas as a','k.acta_id','=','a.acta_id')
+                    ->leftJoin('tipo_movimiento as tm','a.tm_codigo','=','tm.tm_codigo')
                     ->leftJoin('racks_casillas as rc', 'rc.rc_id', '=', 'k.rc_id')
                     ->leftJoin('racks as r', 'rc.rack_id', '=', 'r.rack_id')
                     ->select(
                         'k.kard_id',
                         'k.created_at',
-                        'k.tipo_movimiento',
+                        'tm.tm_codigo',
+                        'tm.tm_nombre',
+                        'tm.tm_movimiento',
                         'k.kard_cantidad',
                         'a.acta_comentario',
                         'rc.rc_nombre',
@@ -68,8 +71,9 @@ class InventarioController extends Controller
             $empresa = Empresa::findOrFail($producto->empr_id);
             
             $kardex = DB::table('kardex as k')
-                    ->select('k.kard_id','k.tipo_movimiento','k.kard_cantidad',DB::raw("concat(rack_nombre,' - ',rc_nombre) AS ubicacion"),'k.created_at')
+                    ->select('k.kard_id','tm.tm_movimiento','k.kard_cantidad',DB::raw("concat(rack_nombre,' - ',rc_nombre) AS ubicacion"),'k.created_at')
                     ->leftJoin('actas as a','k.acta_id','=','a.acta_id')
+                    ->leftJoin('tipo_movimiento as tm','a.tm_codigo','=','tm.tm_codigo')
                     ->leftJoin('racks_casillas as rc', 'rc.rc_id', '=', 'k.rc_id')
                     ->leftJoin('racks as r', 'rc.rack_id', '=', 'r.rack_id')
                     ->where("prod_id",$producto->prod_id)

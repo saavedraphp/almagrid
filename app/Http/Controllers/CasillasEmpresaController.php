@@ -38,7 +38,7 @@ class CasillasEmpresaController extends Controller
             return redirect()->route('lista_casillas_asignadas', ['id' => $idCliente])->with('message', 'No se puede eliminar esta casilla por que tiene productos')->with('operacion', '0');;
         } else {
             //DB::table('casillas_empresas')->where('id',  $id)->update('');
-            $casillas_x_empresa->delete($id);
+            $casillas_x_empresa->forceDelete();
             return redirect()->route('lista_casillas_asignadas', ['id' => $idCliente])->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
         }
     }
@@ -91,6 +91,7 @@ class CasillasEmpresaController extends Controller
             ->where('k.prod_id', $request->prod_id)
             ->whereNull('k.deleted_at')
             ->groupBy('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre')
+            ->having('total', '>', 0)
             ->get();
 
 
@@ -123,7 +124,7 @@ class CasillasEmpresaController extends Controller
     {
 
         $empresa = Empresa::findOrFail($id);
-        $racks = DB::table('racks')->get();
+        $racks = Rack::get();
 
         return view('empresas.asignar_celdas', ['empresa' => $empresa, 'racks' => $racks]);
     }

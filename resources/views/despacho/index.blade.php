@@ -6,7 +6,7 @@
  
  
 
-<h2>Lista de Despacho
+<h2>LISTA DE DESPACHO
 @can('admin.despacho.create')
  <a href="despacho/create"> <button type="button" class="btn btn-success float-right mr-3">{{MiConstantes::NUEVO}}</button></a>  
 @endcan
@@ -108,11 +108,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Empresa</th>
-      <th scope="col">Tipo Movimiento</th>
-      <th scope="col">Nombre</th>
-       <th scope="col">Fecha de Creacion</th>      
-      <th scope="col">Acciones</th>
+      <th scope="col">EMPRESA</th>
+      <th scope="col">MOVIMIENTO</th>
+      <th scope="col">NOMBRE</th>
+       <th scope="col">FECHA</th>      
+      <th scope="col">ACCIONES</th>
     </tr>
   </thead>
   <tbody id="userList">

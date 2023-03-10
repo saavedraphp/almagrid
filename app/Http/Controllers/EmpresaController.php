@@ -237,8 +237,9 @@ class EmpresaController extends Controller
             ]);
 
               //  dd($request);
+ 
             $imagen = $request->file('img');
-            $nombre = $id.'-'.time().'.'.$imagen->getClientOriginalExtension();
+            $nombre = $id.'-'.time().'-'.$imagen->getClientOriginalName().'.'.$imagen->getClientOriginalExtension();
             $destino = ('img/cabecera_reporte');
             $request->img->move($destino, $nombre);
             

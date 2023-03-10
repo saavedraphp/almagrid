@@ -151,7 +151,7 @@ class RackCasillaController extends Controller
     }
 
     
-    public function obenerCasillasIdRack(Request $request)
+    public function obtenerCasillasIdRack(Request $request)
     {   //dd($request->rack_id);
         //$data = RackCasillas::where('rack_id', $request->rack_id)->orderBy('rc_nombre', 'asc')->get();
         $data = DB::table('racks_casillas as rc')

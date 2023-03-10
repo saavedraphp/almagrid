@@ -3,6 +3,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginUserController;
 use \App\Http\Controllers\InventarioController;
 use \App\Http\Controllers\CambioUbicacionController;
+use \App\Http\Controllers\RackCasillaController;
+use \App\Http\Controllers\EmpresaController;
+use \App\Http\Controllers\CasillasEmpresaController;
+
+
 
 
 
@@ -42,7 +47,7 @@ Route::get('existeSKU_Edit/', 'ProductosController@existeSKU_Edit');
 //RECEPCION - DESPACHO
 Route::resource('admin/recepcion', 'RecepcionController');
 Route::resource('admin/despacho', 'DespachoController');
-Route::get('adicionarCasillaIdEmpresaId/', 'CasillasEmpresaController@save_addCasillaIdEmpresaId');
+Route::get('adicionarCasillaIdEmpresaId/', [CasillasEmpresaController::class,'save_addCasillaIdEmpresaId']);
 
 Route::resource('admin/cambio-ubicacion', 'CambioUbicacionController');
 
@@ -102,14 +107,18 @@ Route::get('admin/inventario/producto/{id}', [InventarioController::class,'karde
 
 
 /******************  EMPRESAS **************** */
-Route::get('/admin/empresas/images/{id}', 'EmpresaController@images')->name('imagesHead');
+Route::get('/admin/empresas/images/{id}', [EmpresaController::class,'images'])->name('imagesHead');
+
+//Route::get('/admin/empresas/images/{id}', 'EmpresaController@images')->name('imagesHead');
+
 Route::post('/admin/empresas/images/{id}', 'EmpresaController@upload_mages')->name('upload_mages');
 Route::get('/admin/empresas/deleteImages/{id}', 'EmpresaController@eliminar_imagen')->name('dropImages');
 
-Route::get('/admin/empresas/casillas/{id}', 'CasillasEmpresaController@lista_casillas_asignadas')->name('lista_casillas_asignadas');
-Route::get('/admin/empresas/asignar_celda/create/{id}', 'CasillasEmpresaController@create_casillas_empresa')->name('elegir_celdas');
-Route::put('/admin/empresas/adicionar_casillas/{id}', 'CasillasEmpresaController@save_casillas_asignadas')->name('save_casillas_asignadas');
-Route::delete('/admin/empresas/eliminarCasillaEmpresaId/{idCliente}/{idCasilla}', 'CasillasEmpresaController@eliminarCasillaEmpresaId')->name('eliminarCasillaEmpresaId');
+
+Route::get('/admin/empresas/casillas/{id}', [CasillasEmpresaController::class,'lista_casillas_asignadas'])->name('lista_casillas_asignadas');
+Route::get('/admin/empresas/asignar_celda/create/{id}', [CasillasEmpresaController::class,'create_casillas_empresa'])->name('elegir_celdas');
+Route::put('/admin/empresas/adicionar_casillas/{id}', [CasillasEmpresaController::class,'save_casillas_asignadas'])->name('save_casillas_asignadas');
+Route::delete('/admin/empresas/eliminarCasillaEmpresaId/{idCliente}/{idCasilla}', [CasillasEmpresaController::class,'eliminarCasillaEmpresaId'])->name('eliminarCasillaEmpresaId');
 
 
 
@@ -130,7 +139,9 @@ Route::get('usuario/kardex/', 'KardexController@index');
 
 
 
-Route::get('racks/obtenerCasillas/', 'RackCasillaController@obenerCasillasIdRack');
+
+Route::get('racks/obtenerCasillas/', [RackCasillaController::class,'obtenerCasillasIdRack']);
+
 
 Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
 Route::get('listaProductoQuery/consulta/{search}/','ProductosController@pdfListaProducto')->name('pdfListaProducto.pdf');
@@ -141,8 +152,8 @@ Route::get('obtenerContactoId', 'ContactosEmpresaController@obtenerContactoId');
 Route::get('adicionarContacto', 'ContactosEmpresaController@adicionarContacto');
 Route::get('eliminar_contacto_id', 'ContactosEmpresaController@eliminar_contacto_id');
 Route::get('editarContactoId', 'ContactosEmpresaController@editarContactoId');
-Route::get('obtenerCasillasEmpresaId/', 'CasillasEmpresaController@obtenerCasillasEmpresaId');
-Route::get('obtenerUbicacionProductoId/', 'CasillasEmpresaController@obtenerUbicacionProductoId');
+Route::get('obtenerCasillasEmpresaId/', [CasillasEmpresaController::class,'obtenerCasillasEmpresaId']);
+Route::get('obtenerUbicacionProductoId/', [CasillasEmpresaController::class,'obtenerUbicacionProductoId']);
 
 
 

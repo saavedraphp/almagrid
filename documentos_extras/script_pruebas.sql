@@ -1,4 +1,4 @@
- 
+-- RP0213 -- 
 
 -- MOSTRAR LOS REPETIDOS--
 SELECT prod_sku,  count(*) FROM productos_x_empresa 
@@ -39,8 +39,10 @@ inner join kardex k on k.rc_id = rc.rc_id
 where ce.id = 28 
 and k.deleted_at IS NULL group by rc.rc_id, ce.id ;
 
+
+
 select rc_id, sum(kard_cantidad)as total from kardex 
-where rc_id = 20 and deleted_at is null
+where rc_id = 20 and deleted_at is null;
  
 -- update kardex set kard_cantidad = (kard_cantidad*-1) where tipo_movimiento='DESPACHO'
 
@@ -53,14 +55,14 @@ inner join racks as r on rc.rack_id = r.rack_id
 inner join kardex k on k.rc_id = rc.rc_id
 inner join productos_x_empresa pe on pe.prod_id= k.prod_id
 
-where pe.prod_sku = 'A102056'
+where pe.prod_sku = 'EADC28CL'
 and k.deleted_at IS NULL group by rc.rc_id,k.prod_id;
 
 -- BUSCAR PROD_SKU
 select * from productos_x_empresa where prod_stock =0;
 
 -- BUSCAR PROD_ID
-select * from kardex where prod_id = '58';
+select * from kardex where prod_id = '100';
 
 
 --  MOSTRAR CASILLAS POR EMPRESAS
@@ -79,5 +81,29 @@ where a.acta_id = 102;
 
 
  
+-- VALIDACION PARA CAMBIAR SIGNO NEGATIVO A DESPACHO--- 
+
+UPDATE  kardexxx--
+SET     kard_cantidad = IF(DELTE_tipo_movimiento = 'DESPACHO', kard_cantidad*-1, kard_cantidad)
+
+WHERE   kard_cantidad > 0;
+
+select sum(kard_cantidad) as total from kardex ;
+
+SELECT p.prod_id,p.prod_nombre, k.kard_cantidad, k.rc_id, k.deleted_at FROM productos_x_empresa p 
+left join kardex k on p.prod_id = k.prod_id
+where p.prod_id = 100;
+
+
+
+-- VERIFICACION DE DE STOCK  SUM(karde) == producto.producto_stock --
+select p.prod_id, p.prod_nombre, k.prod_id,  sum(kard_cantidad)as total, p.prod_stock 
+FROM productos_x_empresa p
+inner join kardex k on p.prod_id= k.prod_id
+
+where k.deleted_at IS NULL group by p.prod_id;
+
+
+
 
 

@@ -47,8 +47,7 @@ id="frm_formulario" enctype="multipart/form-data" @submit="checkForm">
     </ul>
   </p>
 
-
-  <div class="form-row">
+   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Empresa</label>
       {{$empresa->empr_nombre}}  -  {{$empresa->empr_ruc}}

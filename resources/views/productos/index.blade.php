@@ -3,14 +3,14 @@
 @section('content')
 
 <div class="container">
-<h2>Lista de Productos 
+<h3>LISTA DE PRODUCTOS 
 @can('admin.productos.create') 
 
   <a href="productos/create"> <button type="button" class="btn btn-success float-right" >{{MiConstantes::NUEVO}}</button></a>  
 @endcan  
   <a href="{{route('pdfListaProducto.pdf',($search?$search:'null'))}}"> <button type="button" class="btn btn-success float-right mr-2">Exportar Excel</button></a>
 
-</h2>
+</h3>
  
 
 @if($search)
@@ -63,10 +63,10 @@
     <tr>
       <th scope="col">ID</th>
       <th scope="col">SKU</th>
-      <th scope="col">Producto</th>
-      <th scope="col">Ubicación</th>
-      <th scope="col">Total</th>
-       <th scope="col">Empresa</th>
+      <th scope="col">PRODUCTO</th>
+      <th scope="col">UBICACION</th>
+      <th scope="col">TOTAL</th>
+       <th scope="col">EMPRESA</th>
     </tr>
   </thead>
   <tbody id="userList">

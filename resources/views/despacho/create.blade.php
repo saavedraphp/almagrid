@@ -7,7 +7,7 @@
 @inject('presentaciones','App\Services\Presentaciones')
 @inject('racks','App\Services\Racks')
 
-<h2>Despacho [{{MiConstantes::NUEVO}}] </h2>
+<h2>DESPACHO [{{MiConstantes::NUEVO}}] </h2>
  
 
 <form  method="POST" name="frm_formulario" id="frm_formulario" action="/admin/despacho" >
@@ -19,7 +19,7 @@
     </ul>
   </p>
 
-<div class="tab-content col-md-10" id="crud">
+<div class="tab-content col-md-12" id="crud">
 
 
   <div   id="home">
@@ -150,12 +150,11 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th scope="col">#ID</th>
-                <th scope="col">Producto</th>
-                 <th scope="col">Stock</th>
-                <th scope="col">Salida</th>
-                <th scope="col">Casilla</th>
-                <th scope="col">Accion</th>
+                <th scope="col">ID</th>
+                <th scope="col">PRODUCTO</th>
+                 <th scope="col">SALIDA</th>
+                <th scope="col">CASILLA</th>
+                <th scope="col">ACCION</th>
               </tr>
             </thead>
 
@@ -166,8 +165,8 @@
                 <input  type="hidden" class="form-control"     v-model="producto.prod_id"  size="3" name="prod_id[]" >
                 </td>
                 <td>@{{producto.producto_nombre}}</td>
-                <td>@{{producto.stock_x_lote}} <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" > </td>
                 <td >@{{producto.cantidad}}
+                  <input v-model="producto.prod_lote" type="hidden" size="3"name="lote[]" >
                     <input v-model="producto.cantidad" v-on:blur="modificarStock(producto)" v-on:keydown.enter.prevent="modificarStock(producto)" 
                      type="hidden" class="form-control"     size="3" placeholder="Cantidad"    
                           name="cantidad[]" value="0" maxlength="5"   >                
@@ -204,8 +203,8 @@
     
 
 
-    <button type="button" @click="checkForm()"   class="btn btn-primary">Registrar</button>
-    <button type="reset" class="btn btn-danger">Cancelar</button>
+    <button type="button" @click="checkForm()"   class="btn btn-primary">{{ MiConstantes::REGISTRAR }}</button>
+    <button type="reset" class="btn btn-danger">{{ MiConstantes::CANCELAR }}</button>
     
 
   </div>

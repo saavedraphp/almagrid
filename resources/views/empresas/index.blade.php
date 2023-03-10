@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="container">
-<h2>Lista de Clientes 
+<h2>LISTA DE CLIENTES 
 @can('admin.clientes.create')
-  <a href="clientes/create"> <button type="button" class="btn btn-success float-right">Adicionar</button></a>
+  <a href="clientes/create"> <button type="button" class="btn btn-success float-right">{{MiConstantes::NUEVO}}</button></a>
 @endcan  
 
 </h2>
@@ -59,11 +59,11 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Clientes</th>
-      <th scope="col">Ruc</th>      
-      <th scope="col">Email</th>
-      <th scope="col">Telefono</th>
-      <th scope="col">Opciones</th>
+      <th scope="col">CLIENTES</th>
+      <th scope="col">RUC</th>      
+      <th scope="col">EMAIL</th>
+      <th scope="col">TELEFONO</th>
+      <th scope="col">OPCIONES</th>
     </tr>
   </thead>
   <tbody id="userList">
