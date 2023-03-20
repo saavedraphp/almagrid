@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 
 use Maatwebsite\Excel\Facades\Excel;
-
+use Illuminate\Support\Str;
 use App\Exports\KardexExport;
 use Maatwebsite\Excel\Concerns\Exportable;
 
@@ -82,9 +82,9 @@ class InventarioController extends Controller
             
             
             //return (new KardexExport($kardex))->download('kardexProducto.tsv', \Maatwebsite\Excel\Excel::TSV);
+            $name_file = str_replace("/","-",($producto->prod_sku.'-'.$producto->prod_nombre));
 
-
-            return Excel::download(new KardexExport($kardex),'kardex - '.$producto->prod_sku.'-'.$producto->prod_nombre.'-'.date('Y-m-d').'.xlsx');
+            return Excel::download(new KardexExport($kardex),'kardex - '.$name_file.'-'.date('Y-m-d').'.xlsx');
  
 
  

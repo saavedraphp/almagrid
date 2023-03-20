@@ -142,7 +142,7 @@ class RecepcionController extends Controller
 
     public function index(Request $request)
     {
-
+       
 
         $busqueda = "";
         if ($request) {
@@ -180,7 +180,7 @@ class RecepcionController extends Controller
                 $busqueda = 'nombre';
 
             } else {
-
+                
                 $actas = DB::table('actas  as a')
                     ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                     ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
@@ -203,7 +203,6 @@ class RecepcionController extends Controller
                     ->whereNull('a.deleted_at')
                     ->orderBy('a.created_at', 'desc')->paginate(Constants::NRO_FILAS);
                      //dd(DB::getQueryLog());
-
 
                 switch ($request->get('rbo_lista')) {
                     case 'DESPAC':

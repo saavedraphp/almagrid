@@ -121,7 +121,7 @@ $col_large_l = "60%";
               <td align="center" width="{{$col_small}}">{{$producto->prod_id}}</td>
               <td width="{{$col_small_l}}" align="left">{{$producto->prod_sku}}</td>
               <td width="{{$col_large_l}}" align="left">{{$producto->prod_nombre}}<</td>
-               <td width="{{$col_small}}" align="center">{{$producto->prod_stock}}</td>
+               <td width="{{$col_small}}" align="center">{{(int)$producto->prod_stock}}</td>
               <td width="{{$col_large}}" align="center">{{$producto->empr_nombre}}</td>
     
    

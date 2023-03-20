@@ -34,7 +34,7 @@ class CasillasEmpresaController extends Controller
        //dd('valor'.$casillaID);
 
 
-        if ($this->existeProductosCasillaId($casillas_x_empresa->rc_id) > 0) {
+        if ($this->existeProductosCasillaIdEmpresaId($idCliente, $casillas_x_empresa->rc_id) > 0) {
             return redirect()->route('lista_casillas_asignadas', ['id' => $idCliente])->with('message', 'No se puede eliminar esta casilla por que tiene productos')->with('operacion', '0');;
         } else {
             //DB::table('casillas_empresas')->where('id',  $id)->update('');
@@ -64,12 +64,35 @@ class CasillasEmpresaController extends Controller
 
 
 
+
+    public function existeProductosCasillaIdEmpresaId(int $empresa_id, int $casilla_id)
+    {
+
+
+        $total_productos = DB::table('kardex as k')
+            ->select('k.rc_id',  DB::raw('sum(kard_cantidad)as total'))
+            ->leftJoin('actas as a','a.acta_id','=','k.acta_id')
+            ->where('a.empr_id', $empresa_id)
+            ->where('k.rc_id', $casilla_id)
+            ->whereNull('k.deleted_at')
+            ->groupBy('k.rc_id')
+            ->get();
+
+         return ($total_productos->count() > 0 ? $total_productos->count() : "0");
+    }
+
+
+
+
+
+
+
     public function existeProductosCasillaId(int $casilla_id)
     {
 
 
         $total_productos = DB::table('kardex as k')
-            ->select('k.rc_id',  \DB::raw('sum(kard_cantidad)as total'))
+            ->select('k.rc_id',  DB::raw('sum(kard_cantidad)as total'))
             ->where('k.rc_id', $casilla_id)
             ->whereNull('k.deleted_at')
             ->groupBy('k.rc_id')
@@ -87,7 +110,7 @@ class CasillasEmpresaController extends Controller
             ->join('racks_casillas as rc', 'ce.rc_id', '=', 'rc.rc_id')
             ->join('racks as r', 'rc.rack_id', '=', 'r.rack_id')
             ->join('kardex as k', 'k.rc_id', '=', 'rc.rc_id')
-            ->select('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre', \DB::raw('sum(kard_cantidad)as total'))
+            ->select('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre', DB::raw('sum(kard_cantidad)as total'))
             ->where('k.prod_id', $request->prod_id)
             ->whereNull('k.deleted_at')
             ->groupBy('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre')
@@ -183,7 +206,8 @@ class CasillasEmpresaController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
-            return response()->json(['errors' => $e->getMessage(), 'status' => 400], 400);
+            return response()->json(['errors' => $e, 'status' => 400], 400);
+            
         }
     }
 }

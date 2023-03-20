@@ -133,14 +133,16 @@ const app = new Vue({
                     
                     //this.buscarPersona();
                     console.log('agrego correctamente la casilla'+this.casilla_add);
-                    const elem = this.$refs.myBtn
-                    elem.click()
+                    //const elem = this.$refs.myBtn;
+                    //elem.click()
+                    document.getElementById('btnCasillaClose').click();
 
 
 
                 } catch (error) {
-                    alert(error.response.data.errors);
-                    console.log(error.response.data.errors);
+                    console.log(error);
+                    //alert(error.response.data.errors);
+                    //console.log(error.response.data.errors);
 
 
 

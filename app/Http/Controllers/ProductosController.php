@@ -370,6 +370,7 @@ class ProductosController extends Controller
 
         //$pdf = PDF::loadView('pdf.productos',['productos'=>$productos,'consulta'=>$request->search]);
         //return $pdf->download('Productos-'.rand(1,1000).'.pdf');
+        
 
         return Excel::download(new ProductosExportExcel($productos), 'Reporte-' . rand(1, 1000) . '.xlsx');
     }

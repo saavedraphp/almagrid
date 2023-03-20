@@ -17,14 +17,14 @@ left join  productos_x_empresa p on p.prod_id = k.prod_id
 where a.acta_id = 32 group by k.prod_id;
      
      
--- VALIDAR STOCK DE PRODUCTOS POR RACKS--     
+-- VALIDAR STOCK DE PRODUCTOS(prod_id = ) POR RACKS--     
 select rc.rc_id, k.prod_id, r.rack_nombre,rc.rc_nombre, sum(kard_cantidad)as total 
 FROM casillas_empresas ce
 inner join racks_casillas as rc on ce.rc_id=rc.rc_id
 inner join racks as r on rc.rack_id = r.rack_id
 inner join kardex k on k.rc_id = rc.rc_id
 
-where k.prod_id = 45 
+where k.prod_id = 3 
 and k.deleted_at IS NULL group by rc.rc_id ;
 
 
@@ -36,7 +36,7 @@ inner join racks_casillas as rc on ce.rc_id=rc.rc_id
 inner join racks as r on rc.rack_id = r.rack_id
 inner join kardex k on k.rc_id = rc.rc_id
 
-where ce.id = 28 
+where ce.id = 14 
 and k.deleted_at IS NULL group by rc.rc_id, ce.id ;
 
 
@@ -83,10 +83,13 @@ where a.acta_id = 102;
  
 -- VALIDACION PARA CAMBIAR SIGNO NEGATIVO A DESPACHO--- 
 
-UPDATE  kardexxx--
-SET     kard_cantidad = IF(DELTE_tipo_movimiento = 'DESPACHO', kard_cantidad*-1, kard_cantidad)
+-- UPDATE  kardexxx--
+-- SET     kard_cantidad = IF(DELTE_tipo_movimiento = 'DESPACHO', kard_cantidad*-1, kard_cantidad)
+-- WHERE   kard_cantidad > 0;
 
-WHERE   kard_cantidad > 0;
+-- UPDATE actas set tm_codigo = 'RECEPCION' WHERE tm_codigo = 'INGRESO';
+
+
 
 select sum(kard_cantidad) as total from kardex ;
 
@@ -103,6 +106,16 @@ inner join kardex k on p.prod_id= k.prod_id
 
 where k.deleted_at IS NULL group by p.prod_id;
 
+
+-- BUSCAR LAS CASILLAS DE LAS RECEPCIONES POR EMPRESA
+
+SELECT e.empr_id, e.empr_nombre, k.rc_id, CONCAT(r.rack_nombre,' - ', rc.rc_nombre) as casilla FROM almagri.empresas e
+left join actas a on a.empr_id = e.empr_id
+left join kardex k on a.acta_id = k.acta_id
+left join racks_casillas rc on k.rc_id= rc.rc_id
+left join racks  r on r.rack_id= rc.rack_id
+where e.deleted_at is null and a.deleted_at is null
+group by e.empr_id, e.empr_nombre, k.rc_id
 
 
 

@@ -314,7 +314,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                    v-on:click="close_modelPersona" ref="myBtnCasilla"
+                                                    v-on:click="close_modelPersona" ref="myBtn"
                                                     id="btnPersonaClose">Close</button>
                                                 <button type="button" class="btn btn-primary"
                                                     v-on:click="adicionar_persona">Grabar</button>
@@ -394,7 +394,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                    v-on:click="close" ref="myBtnCasilla">Close</button>
+                                                    v-on:click="close" ref="myBtnCasilla"  id="btnCasillaClose">Close</button>
                                                 <button type="button" class="btn btn-primary"
                                                     v-on:click="adicionar_casillaEmpresaId">Adicionar</button>
                                             </div>
