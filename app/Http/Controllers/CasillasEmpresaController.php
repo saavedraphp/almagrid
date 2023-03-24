@@ -103,7 +103,7 @@ class CasillasEmpresaController extends Controller
 
 
 
-    public function obtenerUbicacionProductoId(Request $request)
+    public function obtenerUbicacionProductoId(int $producto_id)
     {
 
         $casillas_x_empresa = DB::table('casillas_empresas as ce')
@@ -111,7 +111,7 @@ class CasillasEmpresaController extends Controller
             ->join('racks as r', 'rc.rack_id', '=', 'r.rack_id')
             ->join('kardex as k', 'k.rc_id', '=', 'rc.rc_id')
             ->select('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre', DB::raw('sum(kard_cantidad)as total'))
-            ->where('k.prod_id', $request->prod_id)
+            ->where('k.prod_id', $producto_id)
             ->whereNull('k.deleted_at')
             ->groupBy('rc.rc_id', 'k.prod_id', 'r.rack_nombre', 'rc.rc_nombre')
             ->having('total', '>', 0)

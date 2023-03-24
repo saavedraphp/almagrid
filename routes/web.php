@@ -5,6 +5,7 @@ use \App\Http\Controllers\InventarioController;
 use \App\Http\Controllers\CambioUbicacionController;
 use \App\Http\Controllers\RackCasillaController;
 use \App\Http\Controllers\EmpresaController;
+use \App\Http\Controllers\RecepcionController;
 use \App\Http\Controllers\CasillasEmpresaController;
 
 
@@ -50,6 +51,9 @@ Route::resource('admin/despacho', 'DespachoController');
 Route::get('adicionarCasillaIdEmpresaId/', [CasillasEmpresaController::class,'save_addCasillaIdEmpresaId']);
 
 Route::resource('admin/cambio-ubicacion', 'CambioUbicacionController');
+
+Route::get('admin/listaActasCasillasVacias/', [RecepcionController::class,'listaActasCasillasVacias']);
+
 
 
 
@@ -153,7 +157,7 @@ Route::get('adicionarContacto', 'ContactosEmpresaController@adicionarContacto');
 Route::get('eliminar_contacto_id', 'ContactosEmpresaController@eliminar_contacto_id');
 Route::get('editarContactoId', 'ContactosEmpresaController@editarContactoId');
 Route::get('obtenerCasillasEmpresaId/', [CasillasEmpresaController::class,'obtenerCasillasEmpresaId']);
-Route::get('obtenerUbicacionProductoId/', [CasillasEmpresaController::class,'obtenerUbicacionProductoId']);
+Route::get('obtenerUbicacionProductoId/{producto_id}/', [CasillasEmpresaController::class,'obtenerUbicacionProductoId']);
 
 
 

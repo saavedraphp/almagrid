@@ -12,7 +12,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
-
+use App\Http\Controllers\CasillasEmpresaController;
 
 class RecepcionController extends Controller
 {
@@ -26,6 +26,22 @@ class RecepcionController extends Controller
     }
 
 
+
+    public function listaActasCasillasVacias()
+    {
+
+        $actas = DB::select("select a.acta_id, e.empr_nombre, count(k.kard_id) as items, a.created_at
+        FROM almagri.empresas e
+        left join actas a on a.empr_id = e.empr_id
+        left join kardex k on a.acta_id = k.acta_id
+         where k.rc_id is null and e.deleted_at is null and a.deleted_at is null and k.rc_id is null  
+        group by a.acta_id, e.empr_nombre having items >0 order by items desc");
+
+ 
+        return view('actas.index_ajustes', ['actas' => $actas]);
+
+
+    }
 
     public function grabarAsignacionProductosCasillas(Request $request)
     {
@@ -54,11 +70,11 @@ class RecepcionController extends Controller
 
             DB::commit();
 
-            return redirect('admin/recepcion')->with('message', 'Datos cargados correctamente')->with('operacion', '1');
+            return redirect('admin/listaActasCasillasVacias')->with('message', 'Datos cargados correctamente')->with('operacion', '1');
         } catch (Exception $e) {
             DB::rollBack();
             report($e);
-            return redirect('admin/recepcion')->with('message', 'Se encontro un error inesperado en la operación<br>' . $e)->with('operacion', '0');
+            return redirect('admin/listaActasCasillasVacias')->with('message', 'Se encontro un error inesperado en la operación<br>' . $e)->with('operacion', '0');
         }
     }
 
@@ -88,14 +104,18 @@ class RecepcionController extends Controller
                 'rc_id'
             )
             ->where('k.acta_id', '=', $id)
+            ->whereNull('k.rc_id')
             ->orderBy('p.created_at', 'asc')->get();
+            
+            $productosByCasilla = new CasillasEmpresaController();
+ 
+            foreach($detalles as $detalle)
+            {
+                 $arrayProductosByCasilla[$detalle->prod_id] = $productosByCasilla->obtenerUbicacionProductoId($detalle->prod_id);
 
-        $casillas_x_empresa = DB::table('casillas_empresas as ce')
-            ->leftJoin('racks_casillas as rc', 'ce.rc_id', '=', 'rc.rc_id')
-            ->leftJoin('racks as r', 'rc.rack_id', '=', 'r.rack_id')
-            ->where('ce.empr_id', $acta->empr_id)->whereNull('ce.deleted_at')->get();
-
-
+            }
+ 
+            //dd($arrayProductosByCasilla);
 
         $empresa = Empresa::findOrFail($acta->empr_id);
 
@@ -112,7 +132,7 @@ class RecepcionController extends Controller
 
             case 'DESPACHO':
                 $array_titulos = [
-                    'CABECERA' => 'Registro de Despacho',
+                    'CABECERA' => 'Registro de Despacho ajustes',
                     'TAB'   => 'Despacho de Productos'
                 ];
 
@@ -125,7 +145,7 @@ class RecepcionController extends Controller
 
         return view('actas.asignacion_registros_actas',  [
             'acta' => $acta, 'detalles' => $detalles,
-            'array_titulos' => $array_titulos, 'empresa' => $empresa, 'casillas_x_empresa' => $casillas_x_empresa
+            'array_titulos' => $array_titulos, 'empresa' => $empresa, 'arrayProductosByCasilla' => $arrayProductosByCasilla
         ]);
     }
 

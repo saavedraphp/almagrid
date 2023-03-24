@@ -312,7 +312,7 @@ const app = new Vue({
         obtenerUbicacionProductoId() {
 
 
-            axios.get(url + `/obtenerUbicacionProductoId`, { params: { prod_id: this.producto.prod_id } }).then((response) => {
+            axios.get(url + `/obtenerUbicacionProductoId/`+this.producto.prod_id).then((response) => {
                 this.casillas = response.data;
                 console.log(this.casillas);
 

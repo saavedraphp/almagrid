@@ -1,5 +1,14 @@
 -- RP0213 -- 
 
+-- TOTAL DE PRODUCTOS POR EMPRESA
+SELECT   pe.empr_id, count(1) as total_productos FROM productos_x_empresa pe
+where pe.deleted_at is null
+group by  pe.empr_id
+ 
+having count(*)>1 ;
+
+
+
 -- MOSTRAR LOS REPETIDOS--
 SELECT prod_sku,  count(*) FROM productos_x_empresa 
      GROUP BY prod_sku
@@ -91,8 +100,7 @@ where a.acta_id = 102;
 
 
 
-select sum(kard_cantidad) as total from kardex ;
-
+ 
 SELECT p.prod_id,p.prod_nombre, k.kard_cantidad, k.rc_id, k.deleted_at FROM productos_x_empresa p 
 left join kardex k on p.prod_id = k.prod_id
 where p.prod_id = 100;
@@ -100,7 +108,7 @@ where p.prod_id = 100;
 
 
 -- VERIFICACION DE DE STOCK  SUM(karde) == producto.producto_stock --
-select p.prod_id, p.prod_nombre, k.prod_id,  sum(kard_cantidad)as total, p.prod_stock 
+select p.prod_id, p.prod_nombre, k.prod_id, p.prod_stock,sum(kard_cantidad)as total_kardex
 FROM productos_x_empresa p
 inner join kardex k on p.prod_id= k.prod_id
 
@@ -114,8 +122,50 @@ left join actas a on a.empr_id = e.empr_id
 left join kardex k on a.acta_id = k.acta_id
 left join racks_casillas rc on k.rc_id= rc.rc_id
 left join racks  r on r.rack_id= rc.rack_id
-where e.deleted_at is null and a.deleted_at is null
+where e.deleted_at is null and a.deleted_at is null and k.rc_id  is not null
 group by e.empr_id, e.empr_nombre, k.rc_id
+order by rc_id, empr_nombre;
+
+
+
+-- PRODUCTOS CON 1 SOLA casillas_empresas
+select p.empr_id, p.prod_id, count(k.rc_id) as nro_casillas, sum(k.kard_cantidad) as total from productos_x_empresa p
+left join kardex k on p.prod_id = k.prod_id
+where p.deleted_at is null and k.deleted_at is null
+ 
+group by p.empr_id, p.prod_id,k.rc_id
+having count(k.rc_id)=1;
+
+
+-- ACTUALIZAR LA LISTA SALIDAS CASILLA_ID(rc_id)
+select   p.empr_id, p.prod_id, k.rc_id, count(k.rc_id) as nro_casillas, sum(k.kard_cantidad) as total_stock, 
+(select sum(ks.kard_cantidad)  from kardex ks 
+where ks.prod_id = k.prod_id and ks.deleted_at is null and ks.kard_cantidad > 0 ) as total_entradas,
+ 
+(select sum(ks.kard_cantidad) as total_salida from kardex ks 
+where ks.prod_id = k.prod_id and ks.deleted_at is null and ks.kard_cantidad < 0 ) as total_salida
+
+
+from productos_x_empresa p
+left join kardex k on p.prod_id = k.prod_id
+left join actas a on a.acta_id= k.acta_id
+where p.deleted_at is null and k.deleted_at is null and a.deleted_at is null
+ 
+group by p.empr_id, p.prod_id,k.rc_id
+having count(k.rc_id)=1;
+
+
+-- ACTUALIZAR LAS SALIDAS rc_id QUE LOS PRODUCTOS SEAN DE UNA SOLA CASILLA
+
+select  k.prod_id,
+	(select count(distinct rc_id)  from kardex where prod_id = k.prod_id and kard_cantidad>0 and deleted_at is null) as nro_casillas
+from kardex k 
+  where k.rc_id is null and  k.deleted_at is null
+group by k.prod_id  having nro_casillas=2
+
+
+
+ 
 
 
 

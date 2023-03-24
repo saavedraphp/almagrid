@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-@inject('empresas','App\Services\Empresas')
-@inject('documentos','App\Services\Documentos') 
-@inject('servicios','App\Services\Servicios') 
-@inject('presentaciones','App\Services\Presentaciones')
-
+ 
 <h2>{{$array_titulos['CABECERA']}}</h2>
 <ul class="nav nav-tabs">
     <li class="nav-item">
@@ -68,12 +64,12 @@
                 <td align="center"> {{abs($item->kard_cantidad)}}</td>
                 <td>
 
-                  <select     name="casilla_id[]" class="form-control">
+                  <select name="casilla_id[]" class="form-control">
                    <option value="0">Selecciona una Casilla</option>
-                    @foreach($casillas_x_empresa as $casilla)
-                      <option value="{{ $casilla->rc_id }}"  @if($item->rc_id ==$casilla->rc_id) selected @endif>{{ $casilla->rack_nombre.' - '.$casilla->rc_nombre }}</option>                      
-                    @endforeach          
-                    </select>
+                      @foreach($arrayProductosByCasilla[$item->prod_id] as $casilla)
+                        <option value="{{ $casilla->rc_id }}" >{{ $casilla->rack_nombre.' - '.$casilla->rc_nombre.'  Unid ('.$casilla->total.')' }}</option>                      
+                      @endforeach
+                     </select>
                 </td>
               </tr>
             @endforeach  
