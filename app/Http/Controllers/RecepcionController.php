@@ -31,7 +31,7 @@ class RecepcionController extends Controller
     {
 
         $actas = DB::select("select a.acta_id, e.empr_nombre, count(k.kard_id) as items, a.created_at
-        FROM almagri.empresas e
+        FROM empresas e
         left join actas a on a.empr_id = e.empr_id
         left join kardex k on a.acta_id = k.acta_id
          where k.rc_id is null and e.deleted_at is null and a.deleted_at is null and k.rc_id is null  
