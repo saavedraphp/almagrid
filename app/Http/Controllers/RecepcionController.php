@@ -336,7 +336,7 @@ class RecepcionController extends Controller
                 }
             }
             //dd('aaaaaaaa'.$busqueda);
-            //echo $actas;  
+           // echo $actas;  
 
 
             //dd($actas);

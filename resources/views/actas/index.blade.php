@@ -1,11 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-
- 
- 
-
 <h2>LISTA DE RECEPCION
 @can('admin.recepcion.create')
  <a href="recepcion/create"> <button type="button" class="btn btn-success float-right mr-3">{{MiConstantes::NUEVO}}</button></a>  

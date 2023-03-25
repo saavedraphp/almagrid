@@ -225,7 +225,7 @@ const app = new Vue({
                 this.producto = 0;
                 this.selected_casilla = 0;
                 this.selected_casilla_destino = 0;
-
+                this.casillas= [];
                 //console.log(this.productos_acta);
                 /*
                 this.calcularTotal();
