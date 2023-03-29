@@ -1,4 +1,3 @@
--- RP0213 -- 
 
 -- TOTAL DE PRODUCTOS POR EMPRESA
 SELECT   pe.empr_id, count(1) as total_productos FROM productos_x_empresa pe
@@ -116,8 +115,7 @@ where k.deleted_at IS NULL group by p.prod_id;
 
 
 -- BUSCAR LAS CASILLAS DE LAS RECEPCIONES POR EMPRESA
-
-SELECT e.empr_id, e.empr_nombre, k.rc_id, CONCAT(r.rack_nombre,' - ', rc.rc_nombre) as casilla FROM almagri.empresas e
+SELECT k.rc_id , e.empr_id, e.empr_nombre,  CONCAT(r.rack_nombre,' - ', rc.rc_nombre) as casilla FROM almagri.empresas e
 left join actas a on a.empr_id = e.empr_id
 left join kardex k on a.acta_id = k.acta_id
 left join racks_casillas rc on k.rc_id= rc.rc_id
@@ -155,14 +153,28 @@ group by p.empr_id, p.prod_id,k.rc_id
 having count(k.rc_id)=1;
 
 
--- ACTUALIZAR LAS SALIDAS rc_id QUE LOS PRODUCTOS SEAN DE UNA SOLA CASILLA
-
-select  k.prod_id,
-	(select count(distinct rc_id)  from kardex where prod_id = k.prod_id and kard_cantidad>0 and deleted_at is null) as nro_casillas
+ 
+-- ULTIMA VALIDACION PARA LA ACTUALIZACION RC_ID DE  RACK  CONSULTA LAS ENTRADAS > 0 ALMACENADAS EN 1 SOLA CASILLA--
+select  k.prod_id, count( distinct k.rc_id)as nro_casillas,
+	(select rc_id  from kardex where prod_id = k.prod_id and kard_cantidad>0 and deleted_at is null group by  rc_id) as casilla
 from kardex k 
-  where k.rc_id is null and  k.deleted_at is null
-group by k.prod_id  having nro_casillas=2
+  where k.rc_id is not null and  k.deleted_at is null and k.kard_cantidad >0
+group by k.prod_id  having nro_casillas=1;
 
+
+-- LISTA DE LAS SALIDAS CON PRODUCTOS EN MAS D E1 CASILLA
+SELECT a.acta_id, e.empr_nombre, count(k.kard_id) as items, a.created_at
+FROM almagri.empresas e
+left join actas a on a.empr_id = e.empr_id
+left join kardex k on a.acta_id = k.acta_id
+ where k.rc_id is null and e.deleted_at is null and a.deleted_at is null and k.rc_id is null  
+group by a.acta_id, e.empr_nombre having items >0 order by items desc;
+
+-- DETALLE DEL ACTA_ID
+SELECT k.kard_id,k.rc_id, k.prod_id, p.prod_nombre, k.deleted_at, k.updated_at
+FROM kardex k
+left join productos_x_empresa p  on p.prod_id = k.prod_id
+where k.acta_id = 160;
 
 
  

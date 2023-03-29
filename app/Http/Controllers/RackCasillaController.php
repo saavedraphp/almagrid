@@ -162,7 +162,7 @@ class RackCasillaController extends Controller
         ->where('rc.rack_id',$request->rack_id)
         ->whereNull('rc.deleted_at')
         ->select('r.rack_nombre','rc.rc_id','rc.rc_nombre','ce.empr_id', 'ce.deleted_at','e.empr_nombre')
-        ->orderBy('r.rack_nombre','asc')->get();  
+        ->orderBy('rc.rc_nombre','asc')->get();  
         //dd(DB::getQueryLog());
 
         return $data;

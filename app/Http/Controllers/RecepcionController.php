@@ -35,7 +35,7 @@ class RecepcionController extends Controller
         left join actas a on a.empr_id = e.empr_id
         left join kardex k on a.acta_id = k.acta_id
          where k.rc_id is null and e.deleted_at is null and a.deleted_at is null and k.rc_id is null  
-        group by a.acta_id, e.empr_nombre having items >0 order by items desc");
+        group by a.acta_id, e.empr_nombre,a.created_at having items >0 order by items desc");
 
  
         return view('actas.index_ajustes', ['actas' => $actas]);
@@ -200,7 +200,6 @@ class RecepcionController extends Controller
                 $busqueda = 'nombre';
 
             } else {
-                
                 $actas = DB::table('actas  as a')
                     ->leftJoin('tipo_documentos as td', 'a.tipo_docu_id', '=', 'td.tipo_docu_id')
                     ->leftJoin('empresas as e', 'a.empr_id', '=', 'e.empr_id')
