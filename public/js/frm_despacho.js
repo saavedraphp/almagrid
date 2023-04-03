@@ -1,5 +1,9 @@
+Vue.component('v-select', VueSelect.VueSelect)
+
 const app = new Vue({
     el: '#frm_formulario',
+ 
+
 
     data: {
         producto: document.getElementById("producto_id").value,
@@ -34,11 +38,7 @@ const app = new Vue({
 
     methods: {
 
-
-
-
-
-
+ 
 
 
         async getCantidadPoductoPorLote(producto_id, lote_id) {
@@ -63,6 +63,7 @@ const app = new Vue({
         removeItem: function (element) {
             this.productos_acta.splice(this.productos_acta.indexOf(element), 1);
             console.log(element);
+            this.producto ="";
         },
 
 
@@ -81,7 +82,7 @@ const app = new Vue({
 
             if (this.producto == "") {
                 alert("Seleccione un producto");
-                this.$refs.r_producto.focus();
+                //this.$refs.r_producto.focus();
                 return;
 
             }
@@ -204,9 +205,9 @@ const app = new Vue({
                 }
 
 
-                this.$refs.r_producto.focus();
+                //this.$refs.r_producto.focus();
                 this.v_cantidad = "";
-                this.producto = 0;
+                this.producto = "";
                 
                 this.casillas = [];
                 this.selected_casilla = 0;
@@ -287,7 +288,7 @@ const app = new Vue({
             this.data = [];
             this.casillas = [];
             
-            this.producto = 0;
+            this.producto = "";
             this.selected_casilla = 0;
 
 

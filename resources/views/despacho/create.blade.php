@@ -92,10 +92,10 @@
       <div class="form-group col-md-6">
       <label for="Productos">Productos</label>
 
-       <select v-model="producto" id="producto_id"  ref="r_producto"   name="producto" class="form-control" v-on:change="obtenerUbicacionProductoId()">
-        <option value="0">Selecciona un producto</option>
-        <option v-for="producto  in data" v-bind:value="producto" >@{{producto.prod_sku+' - '+producto.prod_nombre+' - '+producto.prod_stock}}</option>
-        </select>
+
+        <v-select :options="data" label="nombre_producto_stock"  v-model="producto" id="producto_id" 
+        ref="r_producto" name="producto" @input="obtenerUbicacionProductoId">
+        </v-select>
      </div>
 
 
@@ -236,6 +236,12 @@
 <script>
   const url = '{{ env("MY_URL") }}';
  </script>
+
+<script src="https://unpkg.com/vue@2"></script>
+
+ <!-- use the latest vue-select release -->
+ <script src="https://unpkg.com/vue-select@latest"></script>
+ <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
 
 <script src="{{ asset('js/frm_despacho.js') }}" ></script>
 

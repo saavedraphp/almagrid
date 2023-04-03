@@ -198,7 +198,7 @@
                                     <a href="/admin/listaActasCasillasVacias" class="{{ Request::path() === 'admin/listaActasCasillasVacias' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Lista de Despacho sin Asignar</p>
-                                    <span class="right badge badge-danger">{{ $cant_cam_ubi ?? '0' }}</span>
+                                    
                                     </a>
                                 </li>
 

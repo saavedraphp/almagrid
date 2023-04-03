@@ -281,6 +281,7 @@ class ProductosController extends Controller
 
             ->select(
                 DB::raw("CONCAT(prod_sku,' - ',prod_nombre ) as producto_nombre"),
+                DB::raw("CONCAT(prod_sku,' - ',prod_nombre,' (', prod_stock,')' ) as nombre_producto_stock"),
                 'p.prod_sku',
                 'p.prod_id',
                 'p.unidad_id',

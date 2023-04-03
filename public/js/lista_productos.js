@@ -1,3 +1,5 @@
+Vue.component('v-select', VueSelect.VueSelect)
+
 const app = new Vue({
     el: '#frm_formulario',
 
@@ -176,6 +178,8 @@ const app = new Vue({
 
         removeItem: function (element) {
             this.productos_acta.splice(this.productos_acta.indexOf(element), 1);
+            this.producto ="";
+
             console.log(element);
         },
 
@@ -195,7 +199,7 @@ const app = new Vue({
 
             if (this.producto == "") {
                 alert("Seleccione un producto");
-                this.$refs.r_producto.focus();
+                //this.$refs.r_producto.focus();
                 return;
 
             }
@@ -276,11 +280,12 @@ const app = new Vue({
                     });
                 }
 
-                this.$refs.r_producto.focus();
+                
+ 
                 this.v_cantidad = "";
-                this.producto = 0;
+                this.producto = "";
                 this.selected_casilla = 0;
-
+                this.$emit("producto:focus");
 
                 //console.log(this.productos_acta);
                 /*
@@ -348,7 +353,7 @@ const app = new Vue({
             this.acta_sub_cliente_id = "";
             this.tipo_documento_id = "";
             this.nro_documento_frm = "";
-
+            this.producto = "";
             this.productos_acta = [];
 
             axios.get(url + `/productos/empresa`, { params: { empresa_id: this.selected_empresa } }).then((response) => {

@@ -6,6 +6,7 @@ use \App\Http\Controllers\CambioUbicacionController;
 use \App\Http\Controllers\RackCasillaController;
 use \App\Http\Controllers\EmpresaController;
 use \App\Http\Controllers\RecepcionController;
+use \App\Http\Controllers\ProductosController;
 use \App\Http\Controllers\CasillasEmpresaController;
 
 
@@ -147,7 +148,7 @@ Route::get('usuario/kardex/', 'KardexController@index');
 Route::get('racks/obtenerCasillas/', [RackCasillaController::class,'obtenerCasillasIdRack']);
 
 
-Route::get('productos/empresa/', 'ProductosController@ObtenerProductosEmpresa');
+Route::get('productos/empresa/', [ProductosController::class,'ObtenerProductosEmpresa']);
 Route::get('listaProductoQuery/consulta/{search}/','ProductosController@pdfListaProducto')->name('pdfListaProducto.pdf');
 
 Route::get('getTotalProductosLotes/', 'ProductosController@getTotalProductosLotes');
@@ -203,7 +204,7 @@ Route::get('admin/tasks',function(){
 
 
 Route::get('admin/ejemplos',function(){
-    return view('pruebas.lista');
+    return view('pruebas.select_vue');
     });
 
         
