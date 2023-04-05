@@ -80,7 +80,7 @@ const app = new Vue({
             }
 
 
-            if (this.producto == "") {
+            if (this.producto == "" || this.producto==null) {
                 alert("Seleccione un producto");
                 //this.$refs.r_producto.focus();
                 return;
@@ -298,18 +298,20 @@ const app = new Vue({
 
         obtenerUbicacionProductoId() {
 
-
-            axios.get(url + `/obtenerUbicacionProductoId/`+this.producto.prod_id).then((response) => {
+            if (!this.producto == "") 
+            {
+                
+                axios.get(url + `/obtenerUbicacionProductoId/`+this.producto.prod_id).then((response) => {
                 this.casillas = response.data;
                 console.log(this.casillas);
 
-            });
+                });
 
-            this.v_cantidad = "";
+                this.v_cantidad = "";
 
-            this.casillas = [];
-            this.selected_casilla = 0;
-
+                this.casillas = [];
+                this.selected_casilla = 0;
+            }
 
         },
 

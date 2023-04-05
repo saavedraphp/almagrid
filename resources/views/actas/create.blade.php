@@ -21,12 +21,12 @@
 
                             <form method="POST" name="frm_formulario" id="frm_formulario" action="/admin/recepcion">
 
-                                <p v-if="errors.length">
+                                <div v-cloak v-if="errors.length" >
                                     <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
                                 <ul>
-                                    <li v-for="error in errors">@{{ error }}</li>
+                                    <li   v-for="error in errors">@{{ error }}</li>
                                 </ul>
-                                </p>
+                            </div>
 
 
 
