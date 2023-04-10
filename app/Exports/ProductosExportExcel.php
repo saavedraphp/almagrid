@@ -49,6 +49,7 @@ class ProductosExportExcel implements FromCollection,WithHeadings, WithStyles,Wi
             'SKU',
             'PRODUCTOS',
             'STOCK',
+            'UBICACION',
             'EMPRESA'
             
         ];
