@@ -14,6 +14,7 @@ use \App\Http\Controllers\CasillasEmpresaController;
 
 Auth::routes();
 
+
 Route::post('login',[LoginUserController::class,'authentication']);
 
  
@@ -190,6 +191,9 @@ route::get('user-list-pdf','UsuarioController@exportarPdf')->name('users.pdf');
 
 
 
+
+/***************************PRODUCTOS WEB ELIZA */
+Route::resource('/admin/productosweb', 'ProductoWebController');
 
 
 
