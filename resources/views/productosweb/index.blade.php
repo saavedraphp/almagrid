@@ -1,7 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
+<ul class="nav">
+  <li class="nav-item">
+      <a class="nav-link active" aria-current="page" href="/admin/productosweb">Gestion Productos</a>
+  </li>
 
+ 
+  <li class="nav-item">
+      <a href="/admin/catalogo"  class="nav-link">Catálogo WEB</a>
+  </li>
+</ul>
 <div class="container">
 <h2>LISTA DE PRODUCTOS 
 

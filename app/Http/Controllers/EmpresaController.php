@@ -238,10 +238,13 @@ class EmpresaController extends Controller
 
               //  dd($request);
  
+            // ADD IMAGEN
             $imagen = $request->file('img');
             $nombre = $id.'-'.time().'-'.$imagen->getClientOriginalName().'.'.$imagen->getClientOriginalExtension();
             $destino = ('img/cabecera_reporte');
             $request->img->move($destino, $nombre);
+            // FIN ADD IMAGEN
+
             
             $empresa = Empresa::findOrFail($id);
 

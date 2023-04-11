@@ -194,7 +194,9 @@ route::get('user-list-pdf','UsuarioController@exportarPdf')->name('users.pdf');
 
 
 /***************************PRODUCTOS WEB ELIZA */
+Route::get('/admin/catalogo', 'ProductoWebController@catalogo');
 Route::resource('/admin/productosweb', 'ProductoWebController');
+
 
 
 

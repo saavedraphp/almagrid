@@ -3,6 +3,21 @@
 @section('content')
 
 <div class="container">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin/productosweb">Gestion Productos</a>
+        </li>
+      
+       
+        <li class="nav-item">
+            <a href="/admin/catalogo"  class="nav-link">Catálogo WEB</a>
+        </li>
+      </ul>
+          
+    @if (session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
+
 
     <div class="card">
         <h5 class="card-header">Producto [{{MiConstantes::EDITAR}}]</h5>
@@ -12,7 +27,8 @@
                 <div class="col-md-12">
 
 
-                <form action="{{route('productosweb.update',$producto->id)}}" id="frm_formulario"  name="frm_formulario"  method="POST">
+                <form action="{{route('productosweb.update',$producto->id)}}" id="frm_formulario"  
+                    enctype="multipart/form-data" name="frm_formulario"  method="POST">
                     @method('PATCH')
                     @csrf
 
@@ -36,8 +52,8 @@
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">CATEGORIA</label>
                                 <select class="form-control" aria-label="Default select example" name="categoria" id="categoria" >
-                                    <option value="COSMETICOS" >COSMETICOS</option>
-                                    <option value="OTROS">OTROS</option>
+                                    <option value="COSMETICOS"  @if($producto->categoria =='COSMETICOS') selected @endif>COSMETICOS</option>
+                                    <option value="OTROS" @if($producto->categoria =='OTROS') selected @endif>OTROS</option>
                                 </select>
                             </div>
                         </div>
@@ -67,7 +83,8 @@
                                 <select class="form-control" aria-label="Default select example" name="orden" id="orden"  >
                                     <?php for($conta=1;$conta<100;$conta++)
                                     {?>
-                                    <option value="<?php echo $conta?>"><?php echo $conta?></option>
+                                    <option value="<?php echo $conta?>" 
+                                        @if($producto->orden ==$conta) selected @endif><?php echo $conta?></option>
                                     <?php
                                     }
                                     ?>
@@ -79,17 +96,40 @@
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">ESTADO</label>
                                 <select class="form-control" aria-label="Default select example" name="estado" id="estado" >
-                                    <option value="ACTIVO">ACTIVO</option>
-                                    <option value="DESACTIVO">DESACTIVO</option>
-                                    <option value="AGOTADO">AGOTADO</option>
+                                    <option value="ACTIVO"  @if($producto->estado =='ACTIVO') selected @endif>ACTIVO</option>
+                                    <option value="DESACTIVO"  @if($producto->estado =='DESACTIVO') selected @endif>DESACTIVO</option>
+                                    <option value="AGOTADO"  @if($producto->estado =='AGOTADO') selected @endif>AGOTADO</option>
                                 </select>
                             </div>
 
                         </div>
 
 
+                        <div class="form-group">
+                     
+                            <label for="inputAddress">Seleccione un Archivo</label>
+                            <div class="input-group mb-3">
+                    
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Upload</span>
+                                </div>
+                    
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="imagen"   ref="imagen" name="imagen">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+                    
+                            </div>
+                        </div>
 
+                        <div class="form-row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-8"><img  src="{{asset('img/productosweb/'.(empty($producto->ruta_imagen)?'sinimagen.jpg':$producto->ruta_imagen))}}" class="img-fluid"> </div>
+                            <div class="col-md-2"></div>
+                        </div>
 
+                        <div class="form-row" style="margin-bottom: 1em">
+                        </div>
 
                         <button type="button" class="btn btn-primary" v-on:click="checkForm">{{MiConstantes::ACTUALIZAR}}</button>
                         <button type="reset" class="btn btn-danger">{{MiConstantes::CANCELAR}}</button>

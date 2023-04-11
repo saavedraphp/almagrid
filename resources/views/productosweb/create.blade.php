@@ -1,9 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+@if (session('error'))
+<div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+
 
 <div class="container">
-
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/admin/productosweb">Gestion Productos</a>
+        </li>
+      
+       
+        <li class="nav-item">
+            <a href="/admin/catalogo"  class="nav-link">Catálogo WEB</a>
+        </li>
+      </ul>
     <div class="card">
         <h5 class="card-header">Producto [{{MiConstantes::NUEVO}}]</h5>
         <div class="card-body">
@@ -12,7 +35,8 @@
                 <div class="col-md-12">
 
 
-                    <form action="/admin/productosweb" method="POST" id="frm_formulario" name="frm_formulario">
+                    <form action="/admin/productosweb" method="POST" id="frm_formulario" name="frm_formulario"
+                    enctype="multipart/form-data">
 
                         @csrf
 
@@ -86,7 +110,22 @@
                         </div>
 
 
-
+                        <div class="form-group">
+                     
+                            <label for="inputAddress">Seleccione un Archivo</label>
+                            <div class="input-group mb-3">
+                    
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Upload</span>
+                                </div>
+                    
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="imagen"   ref="imagen" name="imagen">
+                                    <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                </div>
+                    
+                            </div>
+                        </div>
 
 
                         <button type="button" class="btn btn-primary" v-on:click="checkForm">{{MiConstantes::REGISTRAR}}</button>
