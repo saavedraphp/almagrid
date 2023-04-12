@@ -17,6 +17,7 @@ class ProductoWebController extends Controller
     public function index()
     {
         $productos = ProductoWeb::orderBy('id', 'desc')->paginate(50);
+        
         return view('productosweb.index', ['productos' => $productos]);
     }
 
@@ -38,43 +39,53 @@ class ProductoWebController extends Controller
      */
     public function store(Request $request)
     {
-
-        if (!$request->hasFile('imagen')) 
-            throw new Exception('La imagen es un campo requerido');
- 
-
-        $request->validate(
-            [
-                'imagen' => 'required'
-
-            ],
-            [
-                'imagen.max' => 'El archivo no puede ser mayor 2MB',
-                'imagen.required' => 'tiene que seleccionar un archivo por favor',
-
-            ]
-        );
+        try {
+            if (!$request->hasFile('imagen'))
+                throw new Exception('La imagen es un campo requerido');
 
 
-        $producto                 = new ProductoWeb();
-        $producto->nombre    = $request->get('nombre');
-        $producto->categoria  = $request->get('categoria');
-        $producto->precio       = (float)$request->get('precio');
-        $producto->oferta = (float) $request->get('oferta');
+            $request->validate(
+                [
+                    'imagen' => 'required'
 
-        $producto->estado = $request->get('estado');
-        $producto->orden = $request->get('orden');
+                ],
+                [
+                    'imagen.max' => 'El archivo no puede ser mayor 2MB',
+                    'imagen.required' => 'tiene que seleccionar un archivo por favor',
 
-        // ADD IMAGEN
-        $imagen = $request->file('imagen');
-        $nombre = time() . '-' . $imagen->getClientOriginalName() . '.' . $imagen->getClientOriginalExtension();
-        $destino = ('img/productosweb');
-        $request->imagen->move($destino, $nombre);
-        // FIN ADD IMAGEN
-        $producto->ruta_imagen = (is_null($request->get('imagen')) ? '' : $nombre);
+                ]
+            );
 
-        $producto->save();
-        return redirect('admin/productosweb')->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
+
+            $producto                 = new ProductoWeb();
+            $producto->nombre    = $request->get('nombre');
+            $producto->categoria  = $request->get('categoria');
+            $producto->precio       = (float)$request->get('precio');
+            $producto->oferta = (float) $request->get('oferta');
+
+            $producto->precio_compra       = (float)$request->get('precio_compra');
+            $producto->cantidad       = (float)$request->get('cantidad');
+
+
+            $producto->estado = $request->get('estado');
+            $producto->orden = $request->get('orden');
+
+            // ADD IMAGEN
+            $imagen = $request->file('imagen');
+            $nombre = time() . '-' . $imagen->getClientOriginalName() . '.' . $imagen->getClientOriginalExtension();
+            $destino = ('img/productosweb');
+            $request->imagen->move($destino, $nombre);
+            // FIN ADD IMAGEN
+            $producto->ruta_imagen = (is_null($nombre) ? '' : $nombre);
+
+            $producto->save();
+
+            return redirect('admin/productosweb')->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
+        } catch (Exception $e) {
+            report($e);
+            //return redirect('admin/productosweb')->with('message', 'Se encontro un error inesperado en la operación<br>' . $e)->with('operacion', '0');
+            return back()->withError($e->getMessage());
+        }
     }
 
     /**
@@ -174,7 +185,7 @@ class ProductoWebController extends Controller
     }
 
 
-    
+
     public function catalogo()
     {
         $productos = ProductoWeb::get();

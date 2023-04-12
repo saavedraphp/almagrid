@@ -27,7 +27,7 @@
 
         #precio_producto {
 
-            font-size: 25px;
+            font-size: 20px;
             font-weight: bold;
             text-align: center;
             background-color: yellowgreen;
@@ -74,7 +74,7 @@
         .precio_oferta {
             font-style: normal;
             font-weight: 300;
-            font-size: 18px;
+            font-size: 16px;
             align-items: center;
             text-align: center;
             text-decoration-line: line-through;
@@ -95,7 +95,7 @@
       
        
         <li class="nav-item">
-            <a href="/admin/catalogo"  class="nav-link">Catálogo WEB</a>
+            <a href="/catalogo"  class="nav-link">Catálogo WEB</a>
         </li>
       </ul>
 
@@ -105,22 +105,25 @@
         <?php
         $conta = 0;
         
-        $conta++;
+     
         ?>
   
         @foreach($productos as $producto)
+        <?php
+        $conta++;
+        ?>
             <div id="element">
                 <div id="div_image"><img src="{{asset('img/productosweb/'.$producto->ruta_imagen)}}" alt="" id="imagen">
                 </div>
-                <div id="title">{{ $producto->nombre }}<p style="font-weight:600;">SKU: P<?php echo str_pad($conta, 3, '0', STR_PAD_LEFT); ?></p>
+                <div id="title">{{ $producto->nombre.' Unid ('.((int)$producto->cantidad>0?$producto->cantidad:1).')' }}<p style="font-weight:600;">SKU: P<?php echo str_pad($conta, 3, '0', STR_PAD_LEFT); ?></p>
                 </div>
                 <div id="precio_producto">
                     @if ($producto->oferta > 0)
 
-                        <span class=precio_oferta>S/. <?php echo number_format($producto->oferta, 2); ?></span> ';
-                    @else
-                        {{ 'S/. ' . number_format($producto->precio, 2) }}
+                        <span class=precio_oferta>S/. <?php echo number_format($producto->precio, 2); ?></span>
                     @endif
+                    {{ 'S/. ' . number_format($producto->oferta, 2) }}
+                    
                 </div>
 
 

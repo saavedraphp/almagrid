@@ -8,7 +8,7 @@
 
  
   <li class="nav-item">
-      <a href="/admin/catalogo"  class="nav-link">Catálogo WEB</a>
+      <a href="/catalogo"  class="nav-link">Catálogo WEB</a>
   </li>
 </ul>
 <div class="container">
@@ -46,8 +46,10 @@
       <th scope="col">#</th>
       <th scope="col">PRODUCTO</th>
       <th scope="col">CATEGORIA</th>      
-      <th scope="col">PRECIO</th>
-      <th scope="col">OFERTA</th>
+      <th scope="col">P.COMPRA</th>
+      <th scope="col">P.VENTA</th>
+      <th scope="col">P.OFERTA</th>
+      <th scope="col">CANT</th>
       <th scope="col">ESTADO</th>
     </tr>
   </thead>
@@ -58,8 +60,10 @@
       <th scope="row"> {{ $producto->id }} </th>
       <td>{{$producto->nombre}}</td>
       <td>{{$producto->categoria}}</td>
+      <td>{{$producto->precio_compra}}</td>
       <td>{{$producto->precio}}</td>
       <td>{{$producto->oferta}}</td>
+      <td>{{$producto->cantidad}}</td>
       <td>{{$producto->estado}}</td>
 
       <td>

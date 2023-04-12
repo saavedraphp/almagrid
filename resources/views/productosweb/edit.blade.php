@@ -10,7 +10,7 @@
       
        
         <li class="nav-item">
-            <a href="/admin/catalogo"  class="nav-link">Catálogo WEB</a>
+            <a href="/catalogo"  class="nav-link">Catálogo WEB</a>
         </li>
       </ul>
           
@@ -45,6 +45,8 @@
                                 <label for="inputEmail4">Producto</label>
                                 <input type="text" class="form-control" v-model="nombre" name="nombre" id="nombre" placeholder="Nombre" value="{{$producto->nombre}}">
                                 <input type="hidden" class="form-control" name="id"  id="id"  value="{{$producto->id}}">
+                                <input type="hidden" class="form-control" name="ruta_imagenDB"  id="ruta_imagenDB"  value="{{$producto->ruta_imagen}}">
+                                
 
                                 
 
@@ -63,17 +65,39 @@
                         <div class="form-row">
 
                             <div class="form-group col-md-6">
-                                <label for="inputPassword4">PRECIO</label>
-                                <input type="text"   class="form-control" v-model="precio" name="precio" value="{{$producto->precio}}" id="precio" placeholder="0.00">
+                                <label for="inputPassword4">PRECIO COMPRA</label>
+                                <input type="text"   class="form-control" v-model="precio_compra" name="precio_compra" 
+                                id="precio_compra" placeholder="0.00" value="{{$producto->precio_compra}}">
                             </div>
 
 
                             <div class="form-group col-md-6">
-                                <label for="inputEmail4">OFERTA</label>
-                                <input type="text"  class="form-control" name="oferta" value="{{$producto->oferta}}" id="oferta" placeholder="0.00">
+                                <label for="inputEmail4">CANTIDAD</label>
+                                <input type="text"  class="form-control" name="cantidad" id="cantidad" placeholder="0"
+                                value="{{$producto->cantidad}}">
                             </div>
 
                         </div>
+                                                
+
+
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">PRECIO VENTA</label>
+                                <input type="text"   class="form-control" v-model="precio" name="precio" id="precio" placeholder="0.00" 
+                                value="{{$producto->precio}}">
+                            </div>
+
+
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">PRECIO DE OFERTA</label>
+                                <input type="text"  class="form-control" name="oferta" id="oferta" placeholder="0.00"
+                                value="{{$producto->oferta}}">
+                            </div>
+
+                        </div>
+
 
 
                         <div class="form-row">
@@ -115,7 +139,7 @@
                                 </div>
                     
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="imagen"   ref="imagen" name="imagen">
+                                    <input type="file" class="custom-file-input" id="imagen"  accept="image/*"  ref="imagen" name="imagen">
                                     <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
                                 </div>
                     
