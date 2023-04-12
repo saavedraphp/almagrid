@@ -88,16 +88,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
-    <ul class="nav">
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/admin/productosweb">Gestion Productos</a>
-        </li>
-      
-       
-        <li class="nav-item">
-            <a href="/catalogo"  class="nav-link">Catálogo WEB</a>
-        </li>
-      </ul>
+ 
 
     
     <div id="contenido">
@@ -119,8 +110,7 @@
                 </div>
                 <div id="precio_producto">
                     @if ((int)$producto->oferta > 1)
-
-                        <span class=precio_oferta>S/. <?php echo number_format($producto->precio, 2); ?></span>
+                        <span class=precio_oferta>S/. <?php echo number_format($producto->precio, 2);?></span>
                         {{ 'S/. ' . number_format($producto->oferta, 2) }}
                     @else
                         {{ 'S/. ' . number_format($producto->precio, 2) }}
