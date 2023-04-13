@@ -10,7 +10,7 @@
       
        
         <li class="nav-item">
-            <a href="/catalogo"  class="nav-link">Catálogo WEB</a>
+            <a href="/catalogo/cosmeticos"  class="nav-link">Catálogo WEB</a>
         </li>
       </ul>
           
@@ -55,6 +55,7 @@
                                 <label for="inputPassword4">CATEGORIA</label>
                                 <select class="form-control" aria-label="Default select example" name="categoria" id="categoria" >
                                     <option value="COSMETICOS"  @if($producto->categoria =='COSMETICOS') selected @endif>COSMETICOS</option>
+                                    <option value="CAMAS" @if($producto->categoria =='CAMAS') selected @endif>CAMAS</option>
                                     <option value="OTROS" @if($producto->categoria =='OTROS') selected @endif>OTROS</option>
                                 </select>
                             </div>

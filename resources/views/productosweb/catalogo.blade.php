@@ -109,11 +109,11 @@
                 <div id="title">{{ $producto->nombre.' Unid ('.((int)$producto->cantidad>0?$producto->cantidad:1).')' }}<p style="font-weight:600;">SKU: P<?php echo str_pad($conta, 3, '0', STR_PAD_LEFT); ?></p>
                 </div>
                 <div id="precio_producto">
-                    @if ((int)$producto->oferta > 1)
-                        <span class=precio_oferta>S/. <?php echo number_format($producto->precio, 2);?></span>
-                        {{ 'S/. ' . number_format($producto->oferta, 2) }}
+                    @if ((int)$producto->descuento > 1)
+                        <span class=precio_oferta>S/. <?php echo number_format($producto->precio_final, 2);?></span>
+                        {{ 'S/. ' . number_format($producto->precio_final, 2) }}
                     @else
-                        {{ 'S/. ' . number_format($producto->precio, 2) }}
+                        {{ 'S/. ' . number_format($producto->precio_final, 2) }}
                     @endif
                     
                 </div>

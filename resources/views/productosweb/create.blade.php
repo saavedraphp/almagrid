@@ -24,7 +24,7 @@
       
        
         <li class="nav-item">
-            <a href="/catalogo"  class="nav-link">Catálogo WEB</a>
+            <a href="/catalogo/cosmeticos"  class="nav-link">Catálogo WEB</a>
         </li>
       </ul>
     <div class="card">
@@ -59,6 +59,7 @@
                                 <label for="inputPassword4">CATEGORIA</label>
                                 <select class="form-control" aria-label="Default select example" name="categoria" id="categoria" >
                                     <option value="COSMETICOS">COSMETICOS</option>
+                                    <option value="CAMAS">CAMAS</option>
                                     <option value="OTROS">OTROS</option>
                                 </select>
                             </div>

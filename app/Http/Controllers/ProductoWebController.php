@@ -19,15 +19,14 @@ class ProductoWebController extends Controller
     public function index()
     {
         $totales = DB::select("select  id, sum(precio_compra * cantidad) as inversion, 
-        sum(precio_final * cantidad) as total_venta from productos_web where cantidad >0
+        sum(precio_final * cantidad) as total_venta from productos_web where categoria !='CAMAS'
         group by id");
 
         //dd($totales);
         //$resultado = [];
-        $resultado['inversion'] =0;
-        $resultado['total_venta'] =0;
-        foreach($totales as $total)
-        {
+        $resultado['inversion'] = 0;
+        $resultado['total_venta'] = 0;
+        foreach ($totales as $total) {
             $resultado['inversion'] += $total->inversion;
             $resultado['total_venta'] += $total->total_venta;
         }
@@ -37,7 +36,7 @@ class ProductoWebController extends Controller
 
         $productos = ProductoWeb::orderBy('id', 'desc')->paginate(50);
 
-        return view('productosweb.index', ['productos' => $productos,"resultado" => $resultado]);
+        return view('productosweb.index', ['productos' => $productos, "resultado" => $resultado]);
     }
 
     /**
@@ -210,9 +209,14 @@ class ProductoWebController extends Controller
 
 
 
-    public function catalogo()
+    public function catalogo($categoria = 'COSMETICOS')
     {
-        $productos = ProductoWeb::get();
+
+        if ($categoria == 'TODOS')
+            $productos = ProductoWeb::where('categoria')->get();
+        else
+            $productos = ProductoWeb::where('categoria', $categoria)->get();
+
         return view('productosweb.catalogo', ['productos' => $productos]);
     }
 }

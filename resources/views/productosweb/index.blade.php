@@ -8,7 +8,7 @@
 
  
   <li class="nav-item">
-      <a href="/catalogo"  class="nav-link">Catálogo WEB</a>
+      <a href="/catalogo/cosmeticos"  class="nav-link">Catálogo WEB</a>
   </li>
 </ul>
 <div class="container">
