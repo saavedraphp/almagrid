@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\ProductoWeb;
+use Illuminate\Support\Facades\DB;
+
 use Exception;
 
 
@@ -16,9 +18,26 @@ class ProductoWebController extends Controller
      */
     public function index()
     {
+        $totales = DB::select("select  id, sum(precio_compra * cantidad) as inversion, 
+        sum(precio_final * cantidad) as total_venta from productos_web where cantidad >0
+        group by id");
+
+        //dd($totales);
+        //$resultado = [];
+        $resultado['inversion'] =0;
+        $resultado['total_venta'] =0;
+        foreach($totales as $total)
+        {
+            $resultado['inversion'] += $total->inversion;
+            $resultado['total_venta'] += $total->total_venta;
+        }
+
+        $resultado['ganancia'] = $resultado['total_venta'] - $resultado['inversion'];
+
+
         $productos = ProductoWeb::orderBy('id', 'desc')->paginate(50);
-        
-        return view('productosweb.index', ['productos' => $productos]);
+
+        return view('productosweb.index', ['productos' => $productos,"resultado" => $resultado]);
     }
 
     /**
@@ -61,8 +80,8 @@ class ProductoWebController extends Controller
             $producto->nombre    = $request->get('nombre');
             $producto->categoria  = $request->get('categoria');
             $producto->precio       = (float)$request->get('precio');
-            $producto->oferta = (float) $request->get('oferta');
-
+            $producto->descuento       = (float)($request->get('precio') - $request->get('precio_final'));
+            $producto->precio_final = (float) $request->get('precio_final');
             $producto->precio_compra       = (float)$request->get('precio_compra');
             $producto->cantidad       = (float)$request->get('cantidad');
 
@@ -72,7 +91,7 @@ class ProductoWebController extends Controller
 
             // ADD IMAGEN
             $imagen = $request->file('imagen');
-            $nombre = time() . '-' . $imagen->getClientOriginalName() . '.' . $imagen->getClientOriginalExtension();
+            $nombre = time() . '-' . $imagen->getClientOriginalName();
             $destino = ('img/productosweb');
             $request->imagen->move($destino, $nombre);
             // FIN ADD IMAGEN
@@ -128,8 +147,13 @@ class ProductoWebController extends Controller
             $producto                 = ProductoWeb::findOrFail($request->get("id"));
             $producto->nombre    = $request->get('nombre');
             $producto->categoria  = $request->get('categoria');
+
             $producto->precio       = (float)$request->get('precio');
-            $producto->oferta = (float) $request->get('oferta');
+            $producto->descuento       = (float)($request->get('precio') - $request->get('precio_final'));
+            $producto->precio_final = (float) $request->get('precio_final');
+            $producto->precio_compra       = (float)$request->get('precio_compra');
+            $producto->cantidad       = (float)$request->get('cantidad');
+
             $producto->estado = $request->get('estado');
             $producto->orden = $request->get('orden');
 
@@ -146,7 +170,7 @@ class ProductoWebController extends Controller
                 }
 
                 $imagen = $request->file('imagen');
-                $nombre = time() . '-' . $imagen->getClientOriginalName() . '.' . $imagen->getClientOriginalExtension();
+                $nombre = time() . '-' . $imagen->getClientOriginalName();
                 $destino = ('img/productosweb');
                 $request->imagen->move($destino, $nombre);
                 $producto->ruta_imagen = $nombre;
@@ -157,8 +181,8 @@ class ProductoWebController extends Controller
             return redirect('admin/productosweb')->with('message', 'La operacion se realizo con Exito')->with('operacion', '1');
         } catch (Exception $e) {
             report($e);
-            //return redirect('admin/productosweb')->with('message', 'Se encontro un error inesperado en la operación<br>' . $e)->with('operacion', '0');
-            return back()->withError($e->getMessage());
+            return redirect('admin/productosweb')->with('message', 'Se encontro un error inesperado en la operación<br>')->with('operacion', '0');
+            //return back()->withError($e->getMessage());
         }
     }
 

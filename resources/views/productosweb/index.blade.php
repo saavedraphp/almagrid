@@ -12,16 +12,17 @@
   </li>
 </ul>
 <div class="container">
-<h2>LISTA DE PRODUCTOS 
+<h2 style="padding-bottom: 1em">LISTA DE PRODUCTOS 
 
   <a href="productosweb/create"> <button type="button" class="btn btn-success float-right">{{MiConstantes::NUEVO}}</button></a>
 
 
 </h2>
-
- 
-
-
+<div style="font-size: 18px;font-weight:bold">
+<span style="padding: 0.5em;background-color:rgb(215, 147, 147)">INVERSION:S/ {{number_format($resultado['inversion'],2)}}</span>
+<span style="padding: 0.5em;background-color:greenyellow">GANANCIA:S/ {{number_format($resultado['ganancia'],2)}}</span>
+<span style="padding: 0.5em;background-color:yellow">TOTAL:S/ {{number_format($resultado['total_venta'],2)}}</span>
+</div>
 @if(Session::get('operacion')=='1')
 <div class="alert alert-success alert-dismissible" role="alert">
   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -48,7 +49,8 @@
       <th scope="col">CATEGORIA</th>      
       <th scope="col">P.COMPRA</th>
       <th scope="col">P.VENTA</th>
-      <th scope="col">P.OFERTA</th>
+      <th scope="col">DESCUENTO</th>
+      <th scope="col">P.FINAL</th>
       <th scope="col">CANT</th>
       <th scope="col">ESTADO</th>
     </tr>
@@ -60,9 +62,10 @@
       <th scope="row"> {{ $producto->id }} </th>
       <td>{{$producto->nombre}}</td>
       <td>{{$producto->categoria}}</td>
-      <td>{{$producto->precio_compra}}</td>
-      <td>{{$producto->precio}}</td>
-      <td>{{$producto->oferta}}</td>
+      <td>{{ number_format($producto->precio_compra,2)}}</td>
+      <td>{{number_format($producto->precio,2)}}</td>
+      <td>{{number_format($producto->descuento,2)}}</td>
+      <td>{{number_format($producto->precio_final,2)}}</td>
       <td>{{$producto->cantidad}}</td>
       <td>{{$producto->estado}}</td>
 

@@ -73,27 +73,32 @@
 
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">CANTIDAD</label>
-                                <input type="text"  class="form-control" name="cantidad" id="cantidad" placeholder="0"
-                                value="{{$producto->cantidad}}">
+                                <input type="number"  class="form-control" name="cantidad" id="cantidad" placeholder="0"
+                                value="{{$producto->cantidad}}" v-model="cantidad">
                             </div>
 
                         </div>
                                                 
 
-
                         <div class="form-row">
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-4">
                                 <label for="inputPassword4">PRECIO VENTA</label>
-                                <input type="text"   class="form-control" v-model="precio" name="precio" id="precio" placeholder="0.00" 
-                                value="{{$producto->precio}}">
+                                <input type="number"   class="form-control" v-model="precio" name="precio" id="precio" 
+                                placeholder="0.00" value="{{$producto->precio}}">
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label for="inputPassword4">DESCUENTO</label>
+                                <input type="number"  v-on:keyup="calculo_descuento" class="form-control" 
+                                v-model="descuento" name="descuento" id="descuento" placeholder="0.00" value="{{$producto->descuento}}">
                             </div>
 
 
-                            <div class="form-group col-md-6">
-                                <label for="inputEmail4">PRECIO DE OFERTA</label>
-                                <input type="text"  class="form-control" name="oferta" id="oferta" placeholder="0.00"
-                                value="{{$producto->oferta}}">
+                            <div class="form-group col-md-4">
+                                <label for="inputEmail4">PRECIO FINAL</label>
+                                <input type="number"  v-on:keyup="calculo_precioFinal"  class="form-control" name="precio_final" 
+                                id="precio_final" placeholder="0.00" v-model="precio_final" value="{{$producto->precio_final}}">
                             </div>
 
                         </div>
