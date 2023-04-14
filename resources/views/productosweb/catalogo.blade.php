@@ -118,7 +118,7 @@
                 </div>
                 <div id="precio_producto">
                     @if ((int)$producto->descuento > 1)
-                        <span class=precio_oferta>S/. <?php echo number_format($producto->precio_final, 2);?></span>
+                        <span class=precio_oferta>S/. <?php echo number_format($producto->precio, 2);?></span>
                         {{ 'S/. ' . number_format($producto->precio_final, 2) }}
                     @else
                         {{ 'S/. ' . number_format($producto->precio_final, 2) }}
