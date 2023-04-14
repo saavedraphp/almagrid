@@ -93,6 +93,14 @@
     
     <div id="contenido">
         <h2>Catalogo de Productos</h2>
+
+        <div  style="font-size: 18px;font-weight:bold;padding-bottom: 0.5em;display: {{Request::path() === 'catalogo/camas'?'':'none'}}">
+            <span style="padding: 0.5em;background-color:rgb(215, 147, 147)">Talla L: . 1metro x 70cm S/ 70.00</span>
+            <span style="padding: 0.5em;background-color:greenyellow">Talla M.  80 x 70cm S/ 55.00</span>
+            <span style="padding: 0.5em;background-color:yellow">Talla S.   50x70 cm S/ 40.00</span>
+            </div>
+
+
         <?php
         $conta = 0;
         
@@ -106,7 +114,7 @@
             <div id="element">
                 <div id="div_image"><img src="{{asset('img/productosweb/'.$producto->ruta_imagen)}}" alt="" id="imagen">
                 </div>
-                <div id="title">{{ $producto->nombre.' Unid ('.((int)$producto->cantidad>0?$producto->cantidad:1).')' }}<p style="font-weight:600;">SKU: P<?php echo str_pad($conta, 3, '0', STR_PAD_LEFT); ?></p>
+                <div id="title">{{ $producto->nombre}}<p style="font-weight:600;">SKU: P<?php echo str_pad($conta, 3, '0', STR_PAD_LEFT); ?></p>
                 </div>
                 <div id="precio_producto">
                     @if ((int)$producto->descuento > 1)
