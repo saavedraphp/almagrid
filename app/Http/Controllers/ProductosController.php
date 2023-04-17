@@ -152,6 +152,8 @@ class ProductosController extends Controller
                     // dd($value->prod_id.' - '.$racks_x_producto);
                     //echo $value->prod_id.' - '.$racks_x_producto."<br>";
                     $value->racks_casillas = $racks_x_producto;
+                    DB::update(DB::raw('update productos_x_empresa set ubicaciones = "'.$value->racks_casillas.'"
+                     where prod_id ='.$value->prod_id ));
                 } else
                     //echo $value->prod_id.' racks= '.$racks_x_producto."<br>";
                     $value->racks_casillas = "";
@@ -344,7 +346,7 @@ class ProductosController extends Controller
             $productos = DB::table('productos_x_empresa  as p')
                 ->join('empresas as e', 'p.empr_id', '=', 'e.empr_id')
                 ->leftJoin('unidad_medida as m', 'p.unidad_id', '=', 'm.id')
-                ->select('p.prod_id', 'p.prod_sku', 'p.prod_nombre', DB::raw('IFNULL(p.prod_stock,0) AS prod_stock'), 'e.empr_nombre')
+                ->select('p.prod_id', 'p.prod_sku', 'p.prod_nombre', DB::raw('IFNULL(p.prod_stock,0) AS prod_stock') ,'p.ubicaciones', 'e.empr_nombre')
                 ->where(function ($consulta) use ($request) {
                     $consulta->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')
@@ -357,7 +359,7 @@ class ProductosController extends Controller
             $productos = DB::table('productos_x_empresa  as p')
                 ->join('empresas as e', 'p.empr_id', '=', 'e.empr_id')
                 ->leftJoin('unidad_medida as m', 'p.unidad_id', '=', 'm.id')
-                ->select('p.prod_id', 'p.prod_sku', 'p.prod_nombre', DB::raw('IFNULL(p.prod_stock,0) AS prod_stock'), 'e.empr_nombre')
+                ->select('p.prod_id', 'p.prod_sku', 'p.prod_nombre', DB::raw('IFNULL(p.prod_stock,0) AS prod_stock') ,'p.ubicaciones', 'e.empr_nombre')
                 ->where(function ($consulta) use ($request) {
                     $consulta->where('prod_nombre', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('prod_sku', 'LIKE', '%' . $request->search . '%')

@@ -253,6 +253,19 @@
                             @endcan
                             
                             
+                            <li class="nav-item">
+                                <a href="/admin/productosweb"
+                                    class="{{ Request::path() === 'productosweb' ? 'nav-link active' : 'nav-link' }}">
+                                    
+                                    <i class="nav-icon fas fa-cubes"></i>
+                                    <p>
+                                        Productos WEB
+
+                                        <span class="right badge badge-danger"></span>
+                                    </p>
+                                </a>
+                            </li>
+
  
 
                             <?php use App\RackCasillas;
