@@ -1,5 +1,4 @@
-
-select a.acta_id as acta, k.kard_id as kardex,e.empr_nombre as emrpresa,tm_codigo as movimiento,p.prod_sku as sku,p.prod_nombre as producto, k.kard_cantidad as cantidad, CONCAT(r.rack_nombre,' - ', rc.rc_nombre) as casilla,
+select a.acta_id as acta, k.kard_id as kardex,e.empr_nombre as emrepresa,tm_codigo as movimiento,p.prod_sku as sku,p.prod_nombre as producto, k.kard_cantidad as cantidad, CONCAT(r.rack_nombre,' - ', rc.rc_nombre) as casilla,
 date_format(a.created_at,'%d/%m/%Y') as fecha_registro, a.acta_comentario from empresas e
 left join actas a on e.empr_id = a.empr_id
 left join kardex k on a.acta_id = k.acta_id

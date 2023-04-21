@@ -190,6 +190,11 @@ Route::get('buscarPersona', 'EntidadController@buscarPersona');
 
 route::get('user-list-pdf','UsuarioController@exportarPdf')->name('users.pdf');
 
+route::get('admin/reportes','ReporteController@index');
+route::get('admin/reporteProducto','ReporteController@indexReporteProducto');
+route::get('buscarProductoIdEmpresaId','ReporteController@buscarProductoIdEmpresaId');
+route::get('exportarProductosExcel','ReporteController@exportarProductosExcel')->name('exportarProductosExcel');
+
 
 
 

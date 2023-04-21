@@ -253,18 +253,24 @@
                             @endcan
                             
                             
+
+
+                     
+                            
                             <li class="nav-item">
-                                <a href="/admin/productosweb"
-                                    class="{{ Request::path() === 'productosweb' ? 'nav-link active' : 'nav-link' }}">
+                                <a href="/admin/reportes"
+                                    class="{{ Request::path() === 'reportes' ? 'nav-link active' : 'nav-link' }}">
                                     
                                     <i class="nav-icon fas fa-cubes"></i>
                                     <p>
-                                        Productos WEB
+                                        Reportes
 
                                         <span class="right badge badge-danger"></span>
                                     </p>
                                 </a>
                             </li>
+                            
+                            
 
  
 

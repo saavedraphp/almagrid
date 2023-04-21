@@ -21,12 +21,12 @@
 
                             <form method="POST" name="frm_formulario" id="frm_formulario" action="/admin/recepcion">
 
-                                <div v-cloak v-if="errors.length" >
+                                <div v-cloak v-if="errors.length">
                                     <b style="color: red;">Por favor, corrija el(los) siguiente(s) error(es):</b>
-                                <ul>
-                                    <li   v-for="error in errors">@{{ error }}</li>
-                                </ul>
-                            </div>
+                                    <ul>
+                                        <li v-for="error in errors">@{{ error }}</li>
+                                    </ul>
+                                </div>
 
 
 
@@ -97,7 +97,8 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="Productos">Productos</label>
-                                        <v-select :options="data" label="producto_nombre"  v-model="producto" id="producto_id" ref="r_producto" name="producto">
+                                        <v-select :options="data" label="producto_nombre" v-model="producto"
+                                            id="producto_id" ref="r_producto" name="producto">
                                         </v-select>
                                     </div>
 
@@ -135,7 +136,7 @@
 
                                 </div>
 
- 
+
 
 
                                 <select v-model="lote" id="lote" data-old="{{ old('lote') }}" name="lote_id"
@@ -222,10 +223,11 @@
                                 </div>
 
 
-                                <button type="button" @click="checkForm()" class="btn btn-primary ">{{ MiConstantes::REGISTRAR }}</button>
+                                <button type="button" @click="checkForm()"
+                                    class="btn btn-primary ">{{ MiConstantes::REGISTRAR }}</button>
                                 <button type="reset" class="btn btn-danger">{{ MiConstantes::CANCELAR }}</button>
 
-                      
+
 
 
 
@@ -387,7 +389,8 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                                                    v-on:click="close" ref="myBtnCasilla"  id="btnCasillaClose">Close</button>
+                                                    v-on:click="close" ref="myBtnCasilla"
+                                                    id="btnCasillaClose">Close</button>
                                                 <button type="button" class="btn btn-primary"
                                                     v-on:click="adicionar_casillaEmpresaId">Adicionar</button>
                                             </div>
@@ -405,11 +408,11 @@
                         const url = '{{ env('MY_URL') }}';
                     </script>
                     <!-- include VueJS first -->
- <script src="https://unpkg.com/vue@2"></script>
+                    <script src="https://unpkg.com/vue@2"></script>
 
- <!-- use the latest vue-select release -->
- <script src="https://unpkg.com/vue-select@latest"></script>
- <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+                    <!-- use the latest vue-select release -->
+                    <script src="https://unpkg.com/vue-select@latest"></script>
+                    <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
 
                     <script src="{{ asset('js/lista_productos.js') }}"></script>
                 @endsection

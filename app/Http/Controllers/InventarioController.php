@@ -2,8 +2,9 @@
 namespace App\Http\Controllers;
 
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Str;
 use App\Exports\KardexExport;
+
+use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\Exportable;
 
 use App\Empresa;

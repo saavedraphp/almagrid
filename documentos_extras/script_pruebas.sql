@@ -114,7 +114,7 @@ inner join kardex k on p.prod_id= k.prod_id
 where k.deleted_at IS NULL group by p.prod_id;
 
 
--- BUSCAR LAS CASILLAS DE LAS RECEPCIONES POR EMPRESA
+-- IMPORTAR CASILLA_EMPRESA BUSCAR LAS CASILLAS DE LAS RECEPCIONES POR EMPRESA
 SELECT k.rc_id , e.empr_id, e.empr_nombre,  CONCAT(r.rack_nombre,' - ', rc.rc_nombre) as casilla FROM almagri.empresas e
 left join actas a on a.empr_id = e.empr_id
 left join kardex k on a.acta_id = k.acta_id
@@ -154,7 +154,7 @@ having count(k.rc_id)=1;
 
 
  
--- ULTIMA VALIDACION PARA LA ACTUALIZACION RC_ID DE  RACK  CONSULTA LAS ENTRADAS > 0 ALMACENADAS EN 1 SOLA CASILLA--
+-- IMPORTAR ULTIMA VALIDACION PARA LA ACTUALIZACION RC_ID DE  RACK  CONSULTA LAS ENTRADAS > 0 ALMACENADAS EN 1 SOLA CASILLA--
 select  k.prod_id, count( distinct k.rc_id)as nro_casillas,
 	(select rc_id  from kardex where prod_id = k.prod_id and kard_cantidad>0 and deleted_at is null group by  rc_id) as casilla
 from kardex k 
