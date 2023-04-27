@@ -35,8 +35,19 @@ Route::resource('/admin/configuracion', 'ConfiguracionController');
 Route::resource('/admin/usuarios', 'UserController');
 
 // ROLES
-Route::resource('/admin/roles', 'RoleController');                  
+Route::resource('/admin/roles', 'RoleController');     
 
+
+//BACKUP BD            
+route::get('admin/backupDB','backupBDController@index');
+
+
+
+Route::get('backupDB', function() {
+
+    Artisan::call('database:backup');
+     return "Cleared!";
+    });
 
 
 
@@ -194,6 +205,7 @@ route::get('admin/reportes','ReporteController@index');
 route::get('admin/reporteProducto','ReporteController@indexReporteProducto');
 route::get('buscarProductoIdEmpresaId','ReporteController@buscarProductoIdEmpresaId');
 route::get('exportarProductosExcel','ReporteController@exportarProductosExcel')->name('exportarProductosExcel');
+
 
 
 

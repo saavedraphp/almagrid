@@ -354,6 +354,16 @@
                                     </li>
 
 
+
+                                    <li class="nav-item">
+                                        <a href="/admin/backupDB" class="{{ Request::path() === 'admin/backupbd' ? 'nav-link active' : 'nav-link' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+             
+                                        <p>Backup de Base de Datos </p>
+                                        <span class="right badge badge-danger"></span>
+                                        </a>
+                                    </li>
+
  
                                 </ul>
                             </li>                            
